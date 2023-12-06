@@ -1,0 +1,4 @@
+/snap/clion/250/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S "/media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator" -B "/media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/cmake-build-debug"
+-- Configuring done (1.1s)
+-- Generating done (0.4s)
+-- Build files have been written to: /media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/cmake-build-debug
