@@ -1,25 +1,25 @@
 #include "NFA_Generator.h"
 #include "helper.h"
 #include "State.h"
-NFA* NFA_Generator::total_NFA=new NFA(new State(),vector<State*>{});
-void NFA_Generator::generate_all_NFAs(vector<pair<string,string>>RE_expression_pairs,map<string,vector<char>>raw_RE_definitions){
+NFA* NFA_Generator::combinedNFA=new NFA(new State(), vector<State*>{});
+void NFA_Generator::generateNfAs(vector<pair<string,string>>RE_expression_pairs, map<string,vector<char>>RE_definition){
     for(pair<string,string> p:RE_expression_pairs){
-        NFA* result= generate_NFA(p,raw_RE_definitions);
+        NFA* result= generateNfa(p, RE_definition);
         this->NFAs.push_back(result);
     }
-    combine_NFAs();
+    combineNfAs();
     cout<<"Done"<<endl;
 }
-NFA* NFA_Generator::generate_NFA(pair<string,string> RE_expression_pair,map<string,vector<char>>raw_RE_definitions) {
+NFA* NFA_Generator::generateNfa(pair<string,string> RE_expression_pair, map<string,vector<char>>RE_definitions) {
     string LHS=RE_expression_pair.first;
     string RHS=RE_expression_pair.second;
     vector<string>tokens=split_on_spacial_chars(RHS);
     vector<string>v=generate_infix(tokens);
     v= infixToPostfix(v);
-    NFA* result= postfix_eval(v,raw_RE_definitions, LHS);
+    NFA* result= postfixEval(v, RE_definitions, LHS);
     return result;
 }
-NFA* NFA_Generator::postfix_eval(vector<string>postfix,map<string,vector<char>>RE_definitions,string accepted_type){
+NFA* NFA_Generator::postfixEval(vector<string>postfix, map<string,vector<char>>RE_definitions, string accepted_type){
     stack<NFA*>st;
      for(int i=0;i<postfix.size();i++){
          string s=postfix.at(i);
@@ -68,15 +68,15 @@ NFA* NFA_Generator::postfix_eval(vector<string>postfix,map<string,vector<char>>R
      }
      NFA* accepted_NFA=st.top();
      State* accpeting_state=new State();
-     accpeting_state->accepted = true;
+     accpeting_state->isAccepted = true;
      accpeting_state->tokenType= accepted_type;
      accepted_NFA->combine_end_states(accpeting_state);
      return accepted_NFA;
 }
-void NFA_Generator::combine_NFAs(){
+void NFA_Generator::combineNfAs(){
     for(NFA* nfa:NFAs){
-        total_NFA->start_state->addNextState(nfa->start_state,vector<char>{'\0'});
-        total_NFA->transitions.insert(nfa->transitions.begin(), nfa->transitions.end());
-        total_NFA->end_states.push_back(nfa->end_states[0]);
+        combinedNFA->start_state->addNextState(nfa->start_state, vector<char>{'\0'});
+        combinedNFA->transitions.insert(nfa->transitions.begin(), nfa->transitions.end());
+        combinedNFA->end_states.push_back(nfa->end_states[0]);
     }
 }

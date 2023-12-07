@@ -22,7 +22,7 @@ int main(){
     State* state8 = new State();
     State* state9 = new State();
     State* state10 = new State();
-    state10->accepted = true ;
+    state10->isAccepted = true ;
 
 
     state0->nextStates.insert({'\0',vector<State*>{state1,state7}});
@@ -37,7 +37,7 @@ int main(){
     state9->nextStates.insert({'b',vector<State*>{state10}});
 
     SetStates s = SetStates(set<State*>{state0,state3});
-    s.Eclosure();
+    s.epsilonClosure();
     SetStates t = s.moveTo('a');
     cout << t.getStatesIds();
 
@@ -76,10 +76,10 @@ int main(){
     RulesReader p;
     p.readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/grammar.txt)");
     NFA_Generator g;
-    g.generate_all_NFAs(RulesReader::regularDefinitions, p.rawRegularExpressions);
+    g.generateNfAs(RulesReader::regularDefinitions, p.rawRegularExpressions);
     InputReader i;
     i.readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)");
-    // write the accepted tokens to the output file
+    // write the isAccepted tokens to the output file
     fstream outfile;
     outfile.open(R"(/media/gamal/New Volume/semester/compilers/project/compiler/output.txt)",ios::out);
     for(pair<string,string> pair:i.acceptedTokens){
@@ -91,8 +91,8 @@ int main(){
 
     DFA* DFAfinal = new DFA();
     NFA* NFAfinal = new NFA();
-    NFAfinal = NFA_Generator::total_NFA ;
-    DFAfinal->generateDFA(NFA_Generator::total_NFA);
+    NFAfinal = NFA_Generator::combinedNFA ;
+    DFAfinal->generateDFA(NFA_Generator::combinedNFA);
 
     vector<vector<SetStates*>> groups = minimizeDFA(DFAfinal->remainingStates(),DFAfinal->acceptingStates());
 

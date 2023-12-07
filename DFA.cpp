@@ -15,7 +15,7 @@ void DFA::generateDFA(NFA *NFAfinal){
     SetStates* start = new SetStates();
     *start = SetStates(set<State*>{NFAfinal->start_state});
 
-    start->Eclosure();
+    start->epsilonClosure();
     this->startingState = start;
 
     queue<SetStates*> Dstates ;
@@ -50,7 +50,7 @@ void DFA::generateDFA(NFA *NFAfinal){
 
 //            cout << "input : " << input << "\n" ;
 //            cout << output->getStatesIds() << "\n";
-//            cout << output->accepted << "\n" ;
+//            cout << output->isAccepted << "\n" ;
             Dstates.push(output);
             T->nextStates.insert(pair<char,SetStates*>(input,output));
         }
@@ -64,7 +64,7 @@ vector<SetStates*> DFA::remainingStates() {
     vector<SetStates*> answer ;
 
     for (pair<string,SetStates*> a : this->transitions){
-        if (!a.second->accepted) {
+        if (!a.second->isAccepted) {
             answer.push_back(a.second);
             //cout << a.first << "\n";
         }
@@ -76,7 +76,7 @@ vector<SetStates*> DFA::acceptingStates() {
     vector<SetStates*> answer ;
 
     for (pair<string,SetStates*> a  : this->transitions){
-        if (a.second->accepted) {
+        if (a.second->isAccepted) {
             answer.push_back(a.second);
             //cout << a.first << "\n";
         }

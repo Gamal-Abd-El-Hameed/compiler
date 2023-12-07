@@ -21,7 +21,7 @@ void InputReader::readFile(const string& filepath) {
 int InputReader::readSingleToken(string input) {
     int accepted_index = -1;
     string accepted_token, acceptedString, res;
-    NFA *totalNFA = NFA_Generator::total_NFA;
+    NFA *totalNFA = NFA_Generator::combinedNFA;
     vector<State *> currentStates = epsilonClosure(totalNFA->start_state);
     for (int i = 0; i < input.size(); i++) {
         char currentChar = input[i];
@@ -31,7 +31,7 @@ int InputReader::readSingleToken(string input) {
         vector<State *> comingStates = nextAndEpsilonClosures(currentStates, currentChar);
         int accepted_priority = INT_MAX;
         for (State *comingState: comingStates) {
-            if (comingState->accepted) {
+            if (comingState->isAccepted) {
                 if (accepted_priority > RulesReader::tokens.at(comingState->tokenType).first) {
                     accepted_priority = RulesReader::tokens.at(comingState->tokenType).first;
                     accepted_index = i;

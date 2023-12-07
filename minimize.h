@@ -146,7 +146,7 @@ void patternMatching(const string& sourceFile, DFA* minimizedDFA) {
         SetStates* transitionState = minimizedDFA->transitions[currentState->nextStates[currentChar]->getStatesIds()];
 
         // if this transitionState is accepting state
-        if (transitionState->accepted) {
+        if (transitionState->isAccepted) {
             finalLexeme = currentLexeme ;
             acceptingType = transitionState->tokenType ;
         }

@@ -1,110 +1,107 @@
 #include "SetStates.h"
+
+#include <utility>
 #include "State.h"
 #include "RulesReader.h"
 
 SetStates::SetStates(set<State*> states) {
-    this->states = states;
-    this->accepted = false ;
+    this->states = std::move(states);
+    this->isAccepted = false ;
     this->tokenType = ""  ;
 }
 
 SetStates::SetStates() {
-    this->accepted = false;
+    this->isAccepted = false;
     this->tokenType = "" ;
 }
 
-void SetStates::Eclosure(){
-    //get the epslon of this Setstates
+void SetStates::epsilonClosure() {
     stack<State*> stateStack ;
 
-    for (State* a : this->states){
-        stateStack.push(a);
-        if (a->accepted){
-            this->accepted = true ;
-            if (this->tokenType.empty() || (RulesReader::tokens[a->tokenType].first < RulesReader::tokens[this->tokenType].first))
-                this->tokenType = a->tokenType ;
+    for (State* state : this->states) {
+        stateStack.push(state);
+        if (state->isAccepted) {
+            this->isAccepted = true;
+            // if the token type is empty or the current token type has higher priority
+            if (this->tokenType.empty() ||
+            (RulesReader::tokens[state->tokenType].first <
+             RulesReader::tokens[this->tokenType].first))
+                this->tokenType = state->tokenType ;
         }
     }
 
-    while (!stateStack.empty()){
-        State* s = stateStack.top();
-        stateStack.pop();
-        this->states.insert(s);
+    while (!stateStack.empty()) {
+        State* state = stateStack.top(); stateStack.pop();
+        this->states.insert(state);
 
-        //check if that state has epslon closure add them to the stack
-        if(s->nextStates.find('\0')!=s->nextStates.end()){
-            vector<State*> epslonStates = s->nextStates['\0'];
-            for (State* s : epslonStates){
-                if (s->accepted) {
-                    this->accepted = true ;
-                    if (this->tokenType.empty() || (RulesReader::tokens[s->tokenType].first < RulesReader::tokens[this->tokenType].first))
-                        this->tokenType = s->tokenType ;
+        // if the state has epsilon transition, push it to the stack
+        if(state->nextStates.find('\0') != state->nextStates.end()) {
+            vector<State*> epsilonStates = state->nextStates['\0'];
+            for (State* epsilonState : epsilonStates) {
+                if (epsilonState->isAccepted) {
+                    this->isAccepted = true;
+                    if (this->tokenType.empty() ||
+                    (RulesReader::tokens[epsilonState->tokenType].first <
+                     RulesReader::tokens[this->tokenType].first))
+                        this->tokenType = epsilonState->tokenType ;
                 }
-                stateStack.push(s);
+                stateStack.push(epsilonState);
             }
         }
     }
 }
 
-SetStates* SetStates::moveTo(char input) {
-    //get the output of the input for each state
-    //and fill this output into the nextstates attribute
-    SetStates* output = new SetStates();
 
-    for (State* s : states){
-        if(s->nextStates.find(input)!=s->nextStates.end()){
-            output->insertStates(s->nextStates[input]);
+SetStates* SetStates::moveTo(char input) {
+    auto* res = new SetStates();
+
+    for (State* state : states) {
+        if(state->nextStates.find(input) != state->nextStates.end()){
+            res->insertStates(state->nextStates[input]);
         }
     }
-
-    output->Eclosure();
-
-    return output;
+    res->epsilonClosure();
+    return res;
 }
+
 
 string SetStates::getStatesIds() {
-    vector<int> Ids ;
-    string answer ;
-    for (State* s : states){
-        Ids.push_back(s->id);
+    vector<int> ids;
+    string stateIds;
+    ids.reserve(states.size());
+    for (State* s : states) {
+        ids.push_back(s->id);
     }
 
-    sort(Ids.begin(),Ids.end());
-    for (int Id : Ids){
-        answer += to_string(Id) + "," ;
+    sort(ids.begin(), ids.end());
+    for (int Id : ids) {
+        stateIds += to_string(Id) + "," ;
     }
-    //sort states ids then convert them to string
-    return answer;
+    return stateIds;
 }
 
 
-void SetStates::insertStates(vector<State*> vector) {
-    for (State* s : vector){
-        if (s->accepted){
-            this->accepted = true ;
-            if (this->tokenType.empty() || (RulesReader::tokens[s->tokenType].first < RulesReader::tokens[this->tokenType].first))
-                this->tokenType = s->tokenType ;
-        }
-        this->states.insert(s);
+void SetStates::insertStates(const vector<State*>& vector) {
+    for (State* state : vector) {
+        insertState(state);
     }
 }
 
-void SetStates::insertState(State* s) {
-    this->states.insert(s);
-    if (s->accepted){
-        this->accepted = true ;
-        if (this->tokenType.empty() || (RulesReader::tokens[s->tokenType].first < RulesReader::tokens[this->tokenType].first))
-            this->tokenType = s->tokenType ;
+
+void SetStates::insertState(State* state) {
+    this->states.insert(state);
+    if (state->isAccepted) {
+        this->isAccepted = true;
+        if (this->tokenType.empty() ||
+        (RulesReader::tokens[state->tokenType].first <
+         RulesReader::tokens[this->tokenType].first))
+            this->tokenType = state->tokenType ;
     }
 }
 
-void SetStates::insertSet(set<State *> states) {
-    for (State* s : states){
-        if (s->accepted){
-            this->accepted = true ;
-            if (this->tokenType.empty() || (RulesReader::tokens[s->tokenType].first < RulesReader::tokens[this->tokenType].first))
-                this->tokenType = s->tokenType ;
-        }
-        this->states.insert(s);
+
+void SetStates::insertSet(const set<State *>& statesSet) {
+    for (State* state : statesSet) {
+        insertState(state);
     }
 }

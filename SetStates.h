@@ -5,21 +5,21 @@
 #include "State.h"
 using namespace std;
 
-class SetStates{
+class SetStates {
 public:
-    bool accepted;
+    bool isAccepted;
     set<State*> states ;
-    map<char,SetStates*> nextStates;
+    map<char, SetStates*> nextStates;
     string tokenType;
 
-    SetStates(set<State*> states);
+    explicit SetStates(set<State*> states);
     SetStates();
-    void Eclosure();
+    void epsilonClosure();
     SetStates* moveTo(char input);
     string getStatesIds();
-    void insertStates(vector<State*> vector);
-    void insertState(State* s);
-    void insertSet(set<State*> states);
+    void insertStates(const vector<State*>& vector);
+    void insertSet(const set<State*>& statesSet);
+    void insertState(State* state);
 };
 
 #endif //DFA_SETSTATES_H
