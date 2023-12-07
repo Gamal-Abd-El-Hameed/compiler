@@ -12,7 +12,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/media/gamal/New Volume/semester/compilers/project/compiler/Identifier.cpp" "CMakeFiles/compiler.dir/Identifier.cpp.o" "gcc" "CMakeFiles/compiler.dir/Identifier.cpp.o.d"
   "/media/gamal/New Volume/semester/compilers/project/compiler/NFA.cpp" "CMakeFiles/compiler.dir/NFA.cpp.o" "gcc" "CMakeFiles/compiler.dir/NFA.cpp.o.d"
   "/media/gamal/New Volume/semester/compilers/project/compiler/NFA_Generator.cpp" "CMakeFiles/compiler.dir/NFA_Generator.cpp.o" "gcc" "CMakeFiles/compiler.dir/NFA_Generator.cpp.o.d"
-  "/media/gamal/New Volume/semester/compilers/project/compiler/Parser.cpp" "CMakeFiles/compiler.dir/Parser.cpp.o" "gcc" "CMakeFiles/compiler.dir/Parser.cpp.o.d"
+  "/media/gamal/New Volume/semester/compilers/project/compiler/RulesReader.cpp" "CMakeFiles/compiler.dir/RulesReader.cpp.o" "gcc" "CMakeFiles/compiler.dir/RulesReader.cpp.o.d"
   "/media/gamal/New Volume/semester/compilers/project/compiler/SetStates.cpp" "CMakeFiles/compiler.dir/SetStates.cpp.o" "gcc" "CMakeFiles/compiler.dir/SetStates.cpp.o.d"
   "/media/gamal/New Volume/semester/compilers/project/compiler/State.cpp" "CMakeFiles/compiler.dir/State.cpp.o" "gcc" "CMakeFiles/compiler.dir/State.cpp.o.d"
   "/media/gamal/New Volume/semester/compilers/project/compiler/main.cpp" "CMakeFiles/compiler.dir/main.cpp.o" "gcc" "CMakeFiles/compiler.dir/main.cpp.o.d"

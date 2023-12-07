@@ -1,6 +1,6 @@
 #include <iostream>
 #include <utility>
-#include "Parser.h"
+#include "RulesReader.h"
 #include "State.h"
 #include "helper.h"
 #include "NFA.h"

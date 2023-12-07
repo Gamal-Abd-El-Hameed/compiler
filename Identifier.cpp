@@ -1,7 +1,7 @@
 #include "Identifier.h"
 #include "NFA.h"
 #include "NFA_Generator.h"
-#include "Parser.h"
+#include "RulesReader.h"
 void Identifier::parse_string(string filepath){
     ifstream inFile;
     inFile.open(filepath);
@@ -28,8 +28,8 @@ int Identifier::parsing_single_token(string input) {
         int accepted_priority = INT16_MAX;
         for (State *s: comming_states) {
             if (s->accepted) {
-                if (accepted_priority > Parser::tokens.at(s->tokenType).first) {
-                    accepted_priority = Parser::tokens.at(s->tokenType).first;
+                if (accepted_priority > RulesReader::tokens.at(s->tokenType).first) {
+                    accepted_priority = RulesReader::tokens.at(s->tokenType).first;
                     accepted_index = i;
                     accepted_token = s->tokenType;
                     acceptedString = accu;

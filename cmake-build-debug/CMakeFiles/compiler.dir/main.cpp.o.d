@@ -144,7 +144,7 @@ CMakeFiles/compiler.dir/main.cpp.o: \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc \
- /media/gamal/New\ Volume/semester/compilers/project/compiler/Parser.h \
+ /media/gamal/New\ Volume/semester/compilers/project/compiler/RulesReader.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h \
  /usr/include/c++/11/cassert /usr/include/assert.h \
  /usr/include/c++/11/cfloat \

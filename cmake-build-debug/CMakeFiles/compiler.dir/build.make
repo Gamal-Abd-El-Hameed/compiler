@@ -139,19 +139,19 @@ CMakeFiles/compiler.dir/NFA_Generator.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/NFA_Generator.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/media/gamal/New Volume/semester/compilers/project/compiler/NFA_Generator.cpp" -o CMakeFiles/compiler.dir/NFA_Generator.cpp.s
 
-CMakeFiles/compiler.dir/Parser.cpp.o: CMakeFiles/compiler.dir/flags.make
-CMakeFiles/compiler.dir/Parser.cpp.o: /media/gamal/New\ Volume/semester/compilers/project/compiler/Parser.cpp
-CMakeFiles/compiler.dir/Parser.cpp.o: CMakeFiles/compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/compiler.dir/Parser.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/Parser.cpp.o -MF CMakeFiles/compiler.dir/Parser.cpp.o.d -o CMakeFiles/compiler.dir/Parser.cpp.o -c "/media/gamal/New Volume/semester/compilers/project/compiler/Parser.cpp"
+CMakeFiles/compiler.dir/RulesReader.cpp.o: CMakeFiles/compiler.dir/flags.make
+CMakeFiles/compiler.dir/RulesReader.cpp.o: /media/gamal/New\ Volume/semester/compilers/project/compiler/RulesReader.cpp
+CMakeFiles/compiler.dir/RulesReader.cpp.o: CMakeFiles/compiler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/compiler.dir/RulesReader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/RulesReader.cpp.o -MF CMakeFiles/compiler.dir/RulesReader.cpp.o.d -o CMakeFiles/compiler.dir/RulesReader.cpp.o -c "/media/gamal/New Volume/semester/compilers/project/compiler/RulesReader.cpp"
 
-CMakeFiles/compiler.dir/Parser.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/compiler.dir/Parser.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/media/gamal/New Volume/semester/compilers/project/compiler/Parser.cpp" > CMakeFiles/compiler.dir/Parser.cpp.i
+CMakeFiles/compiler.dir/RulesReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/compiler.dir/RulesReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/media/gamal/New Volume/semester/compilers/project/compiler/RulesReader.cpp" > CMakeFiles/compiler.dir/RulesReader.cpp.i
 
-CMakeFiles/compiler.dir/Parser.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/Parser.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/media/gamal/New Volume/semester/compilers/project/compiler/Parser.cpp" -o CMakeFiles/compiler.dir/Parser.cpp.s
+CMakeFiles/compiler.dir/RulesReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/RulesReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/media/gamal/New Volume/semester/compilers/project/compiler/RulesReader.cpp" -o CMakeFiles/compiler.dir/RulesReader.cpp.s
 
 CMakeFiles/compiler.dir/SetStates.cpp.o: CMakeFiles/compiler.dir/flags.make
 CMakeFiles/compiler.dir/SetStates.cpp.o: /media/gamal/New\ Volume/semester/compilers/project/compiler/SetStates.cpp
@@ -188,7 +188,7 @@ compiler_OBJECTS = \
 "CMakeFiles/compiler.dir/main.cpp.o" \
 "CMakeFiles/compiler.dir/NFA.cpp.o" \
 "CMakeFiles/compiler.dir/NFA_Generator.cpp.o" \
-"CMakeFiles/compiler.dir/Parser.cpp.o" \
+"CMakeFiles/compiler.dir/RulesReader.cpp.o" \
 "CMakeFiles/compiler.dir/SetStates.cpp.o" \
 "CMakeFiles/compiler.dir/State.cpp.o"
 
@@ -200,7 +200,7 @@ compiler: CMakeFiles/compiler.dir/Identifier.cpp.o
 compiler: CMakeFiles/compiler.dir/main.cpp.o
 compiler: CMakeFiles/compiler.dir/NFA.cpp.o
 compiler: CMakeFiles/compiler.dir/NFA_Generator.cpp.o
-compiler: CMakeFiles/compiler.dir/Parser.cpp.o
+compiler: CMakeFiles/compiler.dir/RulesReader.cpp.o
 compiler: CMakeFiles/compiler.dir/SetStates.cpp.o
 compiler: CMakeFiles/compiler.dir/State.cpp.o
 compiler: CMakeFiles/compiler.dir/build.make

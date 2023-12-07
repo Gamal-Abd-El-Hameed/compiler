@@ -108,10 +108,10 @@
 		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/NFA_Generator.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/Parser.cpp">
+		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/RulesReader.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/Parser.h">
+		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/RulesReader.h">
 			<Option target="compiler"/>
 		</Unit>
 		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/SetStates.cpp">

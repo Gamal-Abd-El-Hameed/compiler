@@ -17,8 +17,8 @@ add_executable(compiler
         NFA.h
         NFA_Generator.cpp
         NFA_Generator.h
-        Parser.cpp
-        Parser.h
+        RulesReader.cpp
+        RulesReader.h
         SetStates.cpp
         SetStates.h
         State.cpp

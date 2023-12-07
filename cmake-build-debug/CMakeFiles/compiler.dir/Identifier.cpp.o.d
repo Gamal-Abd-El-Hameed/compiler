@@ -308,4 +308,4 @@ CMakeFiles/compiler.dir/Identifier.cpp.o: \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/State.h \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/NFA.h \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/NFA_Generator.h \
- /media/gamal/New\ Volume/semester/compilers/project/compiler/Parser.h
+ /media/gamal/New\ Volume/semester/compilers/project/compiler/RulesReader.h

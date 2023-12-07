@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Parser.h"
+#include "RulesReader.h"
 #include "State.h"
 #include "helper.h"
 #include "NFA.h"
@@ -73,10 +73,10 @@ int main(){
     generateMinDFA(groups);
 
 */
-    Parser p;
-    p.parseFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/grammar.txt)");
+    RulesReader p;
+    p.readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/grammar.txt)");
     NFA_Generator g;
-    g.generate_all_NFAs(Parser::RE_expressions,p.raw_RE_definitions);
+    g.generate_all_NFAs(RulesReader::regularDefinitions, p.rawRegularExpressions);
     Identifier i;
     i.parse_string(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)");
     // write the accepted tokens to the output file
@@ -87,7 +87,7 @@ int main(){
         cout<<pair.first<<" --> "<<pair.second<<endl;
     }
 
-//    cout << Parser::tokens["if"].first << Parser::tokens["id"].first;
+//    cout << RulesReader::tokens["if"].first << RulesReader::tokens["id"].first;
 
     DFA* DFAfinal = new DFA();
     NFA* NFAfinal = new NFA();

@@ -306,5 +306,5 @@ CMakeFiles/compiler.dir/SetStates.cpp.o: \
  /usr/include/c++/11/bits/unordered_set.h \
  /usr/include/c++/11/shared_mutex \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/State.h \
- /media/gamal/New\ Volume/semester/compilers/project/compiler/Parser.h \
+ /media/gamal/New\ Volume/semester/compilers/project/compiler/RulesReader.h \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/NFA.h

@@ -1,6 +1,6 @@
 #include "SetStates.h"
 #include "State.h"
-#include "Parser.h"
+#include "RulesReader.h"
 
 SetStates::SetStates(set<State*> states) {
     this->states = states;
@@ -21,7 +21,7 @@ void SetStates::Eclosure(){
         stateStack.push(a);
         if (a->accepted){
             this->accepted = true ;
-            if (this->tokenType.empty() || (Parser::tokens[a->tokenType].first < Parser::tokens[this->tokenType].first))
+            if (this->tokenType.empty() || (RulesReader::tokens[a->tokenType].first < RulesReader::tokens[this->tokenType].first))
                 this->tokenType = a->tokenType ;
         }
     }
@@ -37,7 +37,7 @@ void SetStates::Eclosure(){
             for (State* s : epslonStates){
                 if (s->accepted) {
                     this->accepted = true ;
-                    if (this->tokenType.empty() || (Parser::tokens[s->tokenType].first < Parser::tokens[this->tokenType].first))
+                    if (this->tokenType.empty() || (RulesReader::tokens[s->tokenType].first < RulesReader::tokens[this->tokenType].first))
                         this->tokenType = s->tokenType ;
                 }
                 stateStack.push(s);
@@ -82,7 +82,7 @@ void SetStates::insertStates(vector<State*> vector) {
     for (State* s : vector){
         if (s->accepted){
             this->accepted = true ;
-            if (this->tokenType.empty() || (Parser::tokens[s->tokenType].first < Parser::tokens[this->tokenType].first))
+            if (this->tokenType.empty() || (RulesReader::tokens[s->tokenType].first < RulesReader::tokens[this->tokenType].first))
                 this->tokenType = s->tokenType ;
         }
         this->states.insert(s);
@@ -93,7 +93,7 @@ void SetStates::insertState(State* s) {
     this->states.insert(s);
     if (s->accepted){
         this->accepted = true ;
-        if (this->tokenType.empty() || (Parser::tokens[s->tokenType].first < Parser::tokens[this->tokenType].first))
+        if (this->tokenType.empty() || (RulesReader::tokens[s->tokenType].first < RulesReader::tokens[this->tokenType].first))
             this->tokenType = s->tokenType ;
     }
 }
@@ -102,7 +102,7 @@ void SetStates::insertSet(set<State *> states) {
     for (State* s : states){
         if (s->accepted){
             this->accepted = true ;
-            if (this->tokenType.empty() || (Parser::tokens[s->tokenType].first < Parser::tokens[this->tokenType].first))
+            if (this->tokenType.empty() || (RulesReader::tokens[s->tokenType].first < RulesReader::tokens[this->tokenType].first))
                 this->tokenType = s->tokenType ;
         }
         this->states.insert(s);

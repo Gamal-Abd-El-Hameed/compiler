@@ -225,29 +225,29 @@ NFA_Generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/NFA_Generator.cpp.s
 .PHONY : NFA_Generator.cpp.s
 
-Parser.o: Parser.cpp.o
-.PHONY : Parser.o
+RulesReader.o: RulesReader.cpp.o
+.PHONY : RulesReader.o
 
 # target to build an object file
-Parser.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Parser.cpp.o
-.PHONY : Parser.cpp.o
+RulesReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/RulesReader.cpp.o
+.PHONY : RulesReader.cpp.o
 
-Parser.i: Parser.cpp.i
-.PHONY : Parser.i
+RulesReader.i: RulesReader.cpp.i
+.PHONY : RulesReader.i
 
 # target to preprocess a source file
-Parser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Parser.cpp.i
-.PHONY : Parser.cpp.i
+RulesReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/RulesReader.cpp.i
+.PHONY : RulesReader.cpp.i
 
-Parser.s: Parser.cpp.s
-.PHONY : Parser.s
+RulesReader.s: RulesReader.cpp.s
+.PHONY : RulesReader.s
 
 # target to generate assembly for a file
-Parser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Parser.cpp.s
-.PHONY : Parser.cpp.s
+RulesReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/RulesReader.cpp.s
+.PHONY : RulesReader.cpp.s
 
 SetStates.o: SetStates.cpp.o
 .PHONY : SetStates.o
@@ -342,9 +342,9 @@ help:
 	@echo "... NFA_Generator.o"
 	@echo "... NFA_Generator.i"
 	@echo "... NFA_Generator.s"
-	@echo "... Parser.o"
-	@echo "... Parser.i"
-	@echo "... Parser.s"
+	@echo "... RulesReader.o"
+	@echo "... RulesReader.i"
+	@echo "... RulesReader.s"
 	@echo "... SetStates.o"
 	@echo "... SetStates.i"
 	@echo "... SetStates.s"
