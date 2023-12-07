@@ -33,10 +33,14 @@ static vector<string> split_on_spacial_chars(const string& str) {
     if(!currentString.empty())result.push_back(currentString);
     return result;
 }
+
+
 static bool is_spacial_character(string c) {
     regex rgx(R"([+()*\|\?\s\\]+)"); // {+, *, (, ), |, \, ?}
     return regex_match(c,rgx);
 }
+
+
 static vector<string> generate_infix(vector<string>RE_expression_tokens) {
     for (int i = 1; i < RE_expression_tokens.size(); i++) {
         if(RE_expression_tokens.at(i)=="\\"){
@@ -53,6 +57,8 @@ static vector<string> generate_infix(vector<string>RE_expression_tokens) {
     }
     return RE_expression_tokens;
 }
+
+
 static string surround_parentheses(string input){
     if(is_spacial_character(input)) return input;
     for(int i = 0; i < input.size(); i++) {
@@ -64,9 +70,8 @@ static string surround_parentheses(string input){
 }
 
 //return precedence of operators
-static int prec(string c)
-{
-    if (c == "*"|| c=="+")
+static int prec(string c) {
+    if (c == "*" || c == "+")
         return 3;
     else if (c == "`" )
         return 2;
@@ -77,8 +82,7 @@ static int prec(string c)
 }
 
 //convert infix expression to postfix expression
-static vector<string> infixToPostfix(vector<string>RE_expression_tokens)
-{
+static vector<string> infixToPostfix(vector<string>RE_expression_tokens) {
     stack<string> st;
     vector<string>postfix;
 
