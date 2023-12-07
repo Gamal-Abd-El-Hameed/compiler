@@ -8,6 +8,6 @@ CMake Deprecation Warning:
   use the cmake-file-api(7) to view CMake-generated project build trees.
 
 
--- Configuring done (0.0s)
--- Generating done (0.0s)
+-- Configuring done (3.2s)
+-- Generating done (0.7s)
 -- Build files have been written to: /media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug

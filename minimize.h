@@ -112,46 +112,9 @@ DFA* generateMinDFA(vector<vector<SetStates*>> finalGroups) {
     DFA* minimizedDFA = new DFA();
     minimizedDFA->startingState = minimizedStates[0];
     for (SetStates* states:minimizedStates) {
-        minimizedDFA->transitions.insert({states->getStatesIds(),states});
+        minimizedDFA->stateIdToSetStatesMap.insert({states->getStatesIds(), states});
     }
     return minimizedDFA;
 }
-
-/**
- * @brief this function takes the source file and the minimized DFA
- * and print the lexemes and their types
- */
-void patternMatching(const string& sourceFile, DFA* minimizedDFA) {
-    SetStates* currentState = minimizedDFA->startingState;
-    string currentLexeme, finalLexeme, acceptingType;
-    vector<pair<string,string>> matches;
-
-    for (int i = 0; i < sourceFile.size(); i++){
-        char currentChar = sourceFile[i];
-        currentLexeme += currentChar;
-
-        // if this char is not in the alphabet
-        if (currentState->nextStates.find(currentChar) == currentState->nextStates.end()) {
-            if (!finalLexeme.empty()) {
-                matches.emplace_back(finalLexeme, acceptingType);
-                i--;
-            }
-            currentLexeme.clear();
-            finalLexeme.clear();
-            acceptingType.clear();
-            currentState = minimizedDFA->startingState ;
-            continue;
-        }
-
-        SetStates* transitionState = minimizedDFA->transitions[currentState->nextStates[currentChar]->getStatesIds()];
-
-        // if this transitionState is accepting state
-        if (transitionState->isAccepted) {
-            finalLexeme = currentLexeme ;
-            acceptingType = transitionState->tokenType ;
-        }
-    }
-}
-
 
 #endif //DFA_DFAMINIMIZED_H

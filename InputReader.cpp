@@ -22,7 +22,7 @@ int InputReader::readSingleToken(string input) {
     int accepted_index = -1;
     string accepted_token, acceptedString, res;
     NFA *totalNFA = NFA_Generator::combinedNFA;
-    vector<State *> currentStates = epsilonClosure(totalNFA->start_state);
+    vector<State *> currentStates = epsilonClosure(totalNFA->startState);
     for (int i = 0; i < input.size(); i++) {
         char currentChar = input[i];
         res += currentChar;

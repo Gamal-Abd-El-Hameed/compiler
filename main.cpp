@@ -2,122 +2,33 @@
 #include "RulesReader.h"
 #include "State.h"
 #include "helper.h"
-#include "NFA.h"
 #include "NFA_Generator.h"
 #include "InputReader.h"
 #include "SetStates.h"
 #include "DFA.h"
 #include "minimize.h"
 
-int main(){
-    /*
-    State* state0 = new State();
-    State* state1 = new State();
-    State* state2 = new State();
-    State* state3 = new State();
-    State* state4 = new State();
-    State* state5 = new State();
-    State* state6 = new State();
-    State* state7 = new State();
-    State* state8 = new State();
-    State* state9 = new State();
-    State* state10 = new State();
-    state10->isAccepted = true ;
+int main() {
+    RulesReader::readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/grammar.txt)");
+    NFA_Generator NFAGenerator;
+    NFAGenerator.generateNfAs(RulesReader::regularDefinitions, RulesReader::rawRegularExpressions);
 
+    InputReader inputReader;
+    inputReader.readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)");
 
-    state0->nextStates.insert({'\0',vector<State*>{state1,state7}});
-    state1->nextStates.insert({'\0',vector<State*>{state4,state2}});
-    state2->nextStates.insert({'a',vector<State*>{state3}});
-    state3->nextStates.insert({'\0',vector<State*>{state6}});
-    state4->nextStates.insert({'b',vector<State*>{state5}});
-    state5->nextStates.insert({'\0',vector<State*>{state6}});
-    state6->nextStates.insert({'\0',vector<State*>{state1,state7}});
-    state7->nextStates.insert({'a',vector<State*>{state8}});
-    state8->nextStates.insert({'b',vector<State*>{state9}});
-    state9->nextStates.insert({'b',vector<State*>{state10}});
-
-    SetStates s = SetStates(set<State*>{state0,state3});
-    s.epsilonClosure();
-    SetStates t = s.moveTo('a');
-    cout << t.getStatesIds();
-
-
-    NFA NFAfinal = NFA(state0,vector<State*>{state10});
-
-    DFA DFAfinal = DFA();
-
-
-    DFAfinal.generateDFA(&NFAfinal);
-    cout<<"transition : "<<DFAfinal.transitions.size() << "\n" ;
-
-
-    /*
-    cout << "remaining states :\n\n";
-    DFAfinal.remainingStates();
-
-    cout << "fianl states :\n\n";
-    DFAfinal.acceptingStates();
-
-
-    vector<vector<SetStates*>> groups = minimizeDFA(DFAfinal.remainingStates(),DFAfinal.acceptingStates());
-
-    cout << "-----------------------------------------\n\n" ;
-    for (vector<SetStates*> group : groups){
-        cout << "group\n" ;
-        for (SetStates* ss : group)
-            cout << ss->getStatesIds() << " ";
-        cout << "\n--------------------\n\n";
-    }
-
-
-    generateMinDFA(groups);
-
-*/
-    RulesReader p;
-    p.readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/grammar.txt)");
-    NFA_Generator g;
-    g.generateNfAs(RulesReader::regularDefinitions, p.rawRegularExpressions);
-    InputReader i;
-    i.readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)");
-    // write the isAccepted tokens to the output file
     fstream outfile;
     outfile.open(R"(/media/gamal/New Volume/semester/compilers/project/compiler/output.txt)",ios::out);
-    for(pair<string,string> pair:i.acceptedTokens){
-        outfile<<pair.second<<endl;
-        cout<<pair.first<<" --> "<<pair.second<<endl;
+    for (const pair<string,string>& pair:inputReader.acceptedTokens) {
+        outfile << pair.second << endl;
+        cout << pair.first << " --> " << pair.second << endl;
     }
 
-//    cout << RulesReader::tokens["if"].first << RulesReader::tokens["id"].first;
-
-    DFA* DFAfinal = new DFA();
-    NFA* NFAfinal = new NFA();
-    NFAfinal = NFA_Generator::combinedNFA ;
-    DFAfinal->generateDFA(NFA_Generator::combinedNFA);
-
-    vector<vector<SetStates*>> groups = minimizeDFA(DFAfinal->remainingStates(),DFAfinal->acceptingStates());
-
-    DFA* minimizeDFA = new DFA();
-
-    minimizeDFA = generateMinDFA(groups);
-
-    fstream newfile;
-    string sourceinput ;
-    newfile.open(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)",ios::in); //open a file to perform read operation using file object
-
-    if (newfile.is_open()){
-        string tp;
-        while(getline(newfile, tp)){
-            sourceinput += ' ' + tp ;
-        }
-        newfile.close();
-    }
-
-    patternMatching(sourceinput,DFAfinal);
-
-
-    cout << "\nThe DFA has : " << DFAfinal->transitions.size() << " states.\n";
-    cout << "\nThe minimized DFA has : " << minimizeDFA->transitions.size() << " states.\n";
-
+    DFA* finalDFA = new DFA();
+    finalDFA->generateDFA(NFA_Generator::combinedNFA);
+    vector<vector<SetStates*>> groups = minimizeDFA(finalDFA->remainingStates(), finalDFA->acceptingStates());
+    DFA* minimizeDFA = generateMinDFA(groups);
+    cout << "\nThe DFA has : " << finalDFA->stateIdToSetStatesMap.size() << " states.\n";
+    cout << "The minimized DFA has : " << minimizeDFA->stateIdToSetStatesMap.size() << " states.\n";
     minimizeDFA->writeToFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/minimizedDFA.txt)");
     return 0 ;
 }

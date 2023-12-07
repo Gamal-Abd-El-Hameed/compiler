@@ -5,90 +5,67 @@
 #include "helper.h"
 
 string inputs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&',.:;<=>?@~(){}[]*/+-|";
-DFA::DFA() {
+DFA::DFA() = default;
 
-}
-
-void DFA::generateDFA(NFA *NFAfinal){
-
-    //first get the starting state of the NFA to be the starting state of the DFA
-    SetStates* start = new SetStates();
-    *start = SetStates(set<State*>{NFAfinal->start_state});
-
+void DFA::generateDFA(NFA *finalNFA) {
+    // get the starting state of the NFA to be the starting state of the DFA
+    auto* start = new SetStates(set<State*>{finalNFA->startState});
     start->epsilonClosure();
     this->startingState = start;
 
-    queue<SetStates*> Dstates ;
-    Dstates.push(this->startingState);
+    queue<SetStates*> statesQueue;
+    statesQueue.push(this->startingState);
 
-    int lvl= 0 ;
+    while (!statesQueue.empty()) {
+        SetStates* currentSetStates = statesQueue.front(); statesQueue.pop();
+        string ids = currentSetStates->getStatesIds();
+        this->stateIdToSetStatesMap.insert(
+                pair<string,SetStates*>(ids, currentSetStates));
 
-    while (!Dstates.empty()){
-//        cout << lvl++ << "\n";
+        // for each input get the next state of the current state
+        for (char input  : inputs) {
+            auto* nextStates = new SetStates();
+            nextStates = currentSetStates->moveTo(input);
 
-        SetStates* T = Dstates.front();
-        Dstates.pop();
-
-        string Ids = T->getStatesIds();
-//        cout << Ids << "\n" ;
-        this->transitions.insert(pair<string,SetStates*>(Ids,T));
-
-
-        //for each input get the output of T
-        for (char input  : inputs){
-            SetStates* output = new SetStates();
-            output = T->moveTo(input);
-
-            //check if we have this state before in the transition table or U is empty
-            if (output->states.empty()){
+            // if the next state is empty, don't add it to the queue
+            if (nextStates->states.empty()) {
                 continue;
             }
-            if (this->transitions.find(output->getStatesIds())!=this->transitions.end()){
-                T->nextStates.insert(pair<char,SetStates*>(input,output));
+            // if the next state is already in the map, don't add it to the queue
+            if (this->stateIdToSetStatesMap.find(nextStates->getStatesIds()) != this->stateIdToSetStatesMap.end()) {
+                currentSetStates->nextStates.insert(pair<char,SetStates*>(input, nextStates));
                 continue ;
             }
-
-//            cout << "input : " << input << "\n" ;
-//            cout << output->getStatesIds() << "\n";
-//            cout << output->isAccepted << "\n" ;
-            Dstates.push(output);
-            T->nextStates.insert(pair<char,SetStates*>(input,output));
+            // if the next state is not in the map, add it to the queue
+            statesQueue.push(nextStates);
+            currentSetStates->nextStates.insert(pair<char,SetStates*>(input, nextStates));
         }
-
     }
+}
 
-
+vector<SetStates*> DFA::getStates(bool isAccepted) {
+    vector<SetStates*> states;
+    for (pair<string,SetStates*> pair : this->stateIdToSetStatesMap){
+        if (pair.second->isAccepted == isAccepted) {
+            states.push_back(pair.second);
+        }
+    }
+    return states;
 }
 
 vector<SetStates*> DFA::remainingStates() {
-    vector<SetStates*> answer ;
-
-    for (pair<string,SetStates*> a : this->transitions){
-        if (!a.second->isAccepted) {
-            answer.push_back(a.second);
-            //cout << a.first << "\n";
-        }
-    }
-    return answer ;
+    return getStates(false);
 }
 
 vector<SetStates*> DFA::acceptingStates() {
-    vector<SetStates*> answer ;
-
-    for (pair<string,SetStates*> a  : this->transitions){
-        if (a.second->isAccepted) {
-            answer.push_back(a.second);
-            //cout << a.first << "\n";
-        }
-    }
-    return answer ;
+    return getStates(true);
 }
 
 void DFA::writeToFile(const string& fileName) {
     ofstream file;
     file.open(fileName);
-    // write the transitions to the file
-    for (pair<string,SetStates*> a : this->transitions){
+    // write the stateIdToSetStatesMap to the file
+    for (pair<string,SetStates*> a : this->stateIdToSetStatesMap){
         for (pair<char,SetStates*> b : a.second->nextStates){
             // {a.first is the id of the state, b.first is the input, b.second is the output}
             file << a.first << " --> " << b.first << " --> " << b.second->getStatesIds() << "\n";

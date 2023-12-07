@@ -10,13 +10,14 @@ using namespace std;
 
 class DFA {
 public:
-    SetStates *startingState;
-    map<string ,SetStates*> transitions;
+    SetStates *startingState{};
+    map<string, SetStates*> stateIdToSetStatesMap;
 
     DFA();
-    void generateDFA(NFA* NFAfinal);
+    void generateDFA(NFA* finalNFA);
     vector<SetStates*> remainingStates();
     vector<SetStates*> acceptingStates();
+    vector<SetStates*> getStates(bool isAccepted);
     void writeToFile(const string& filename);
 };
 

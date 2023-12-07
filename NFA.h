@@ -1,22 +1,22 @@
-#ifndef PHASE_1__NFA_H
-#define PHASE_1__NFA_H
+#ifndef PHASE_1_NFA_H
+#define PHASE_1_NFA_H
 
 
 #include "State.h"
 
 class NFA {
 public:
-    State* start_state;
-    vector<State*>end_states;
-    map<int,State*>transitions;
-    NFA(State* s,vector<State*> v);
+    State* startState{};
+    vector<State*> endStates;
+    map<int,State*> stateIdToStateMap;
+    NFA(State* state, const vector<State*>& endStates);
     NFA();
     void closureNFA();
     void concatenateNFA(NFA* concatenatedNFA);
     void ORNFA(NFA* paralleledNFA);
-    void positive_closureNFA();
-    void combine_end_states(State* combined_state);
+    void positiveClosureNfa();
+    void combineEndStates(State* combined_end_state);
 };
 
 
-#endif //PHASE_1__NFA_H
+#endif //PHASE_1_NFA_H

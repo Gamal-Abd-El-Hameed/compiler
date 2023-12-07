@@ -1,33 +1,39 @@
 #include <bits/stdc++.h>
-#ifndef PHASE_1__HELPER_H
-#define PHASE_1__HELPER_H
+#ifndef PHASE_1_HELPER_H
+#define PHASE_1_HELPER_H
+
+
 static int id_generator=-1;
-static string remove_spaces(string input){
+
+
+static string remove_spaces(string input) {
     input.erase(remove(input.begin(), input.end(), ' '), input.end());
     return input;
 }
-static vector<string> split_on_spacial_chars(string str) {
+
+
+static vector<string> split_on_spacial_chars(const string& str) {
     vector<string> result;
     regex rgx(R"([+()*\|\-,:?\s\\]+)"); // {+, *, (, ), |, \, ?}
-    string current_string="";
-    for(char c:str){
-        if(regex_match(string(1,c),rgx)){
-            if(!current_string.empty()){
-                result.push_back(current_string);
+    string currentString;
+    for(char currentChar:str) {
+        if(regex_match(string(1, currentChar), rgx)) {
+            if(!currentString.empty()) {
+                result.push_back(currentString);
             }
-            if(c!=' '){
-                result.push_back(string(1, c));
+            if(currentChar != ' ') {
+                result.emplace_back(1, currentChar);
             }
-           current_string="";
+            currentString = "";
         }
-        else{
-            current_string.append(string(1,c));
+        else {
+            currentString.append(string(1, currentChar));
         }
     }
-    if(!current_string.empty())result.push_back(current_string);
+    if(!currentString.empty())result.push_back(currentString);
     return result;
 }
-static bool is_spacial_character(string c){
+static bool is_spacial_character(string c) {
     regex rgx(R"([+()*\|\?\s\\]+)"); // {+, *, (, ), |, \, ?}
     return regex_match(c,rgx);
 }
@@ -133,4 +139,4 @@ static vector<char> get_ranges(string range) {
     }
     return result;
 }
-#endif //PHASE_1__HELPER_H
+#endif //PHASE_1_HELPER_H
