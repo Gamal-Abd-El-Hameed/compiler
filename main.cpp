@@ -74,14 +74,14 @@ int main(){
 
 */
     Parser p;
-    p.parseFile(R"(/media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/grammar.txt)");
+    p.parseFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/grammar.txt)");
     NFA_Generator g;
     g.generate_all_NFAs(Parser::RE_expressions,p.raw_RE_definitions);
     Identifier i;
-    i.parse_string(R"(/media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/input.txt)");
+    i.parse_string(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)");
     // write the accepted tokens to the output file
     fstream outfile;
-    outfile.open(R"(/media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/output.txt)",ios::out);
+    outfile.open(R"(/media/gamal/New Volume/semester/compilers/project/compiler/output.txt)",ios::out);
     for(pair<string,string> pair:i.acceptedTokens){
         outfile<<pair.second<<endl;
         cout<<pair.first<<" --> "<<pair.second<<endl;
@@ -102,7 +102,7 @@ int main(){
 
     fstream newfile;
     string sourceinput ;
-    newfile.open(R"(/media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/input.txt)",ios::in); //open a file to perform read operation using file object
+    newfile.open(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)",ios::in); //open a file to perform read operation using file object
 
     if (newfile.is_open()){
         string tp;
@@ -118,6 +118,6 @@ int main(){
     cout << "\nThe DFA has : " << DFAfinal->transitions.size() << " states.\n";
     cout << "\nThe minimized DFA has : " << minimizeDFA->transitions.size() << " states.\n";
 
-    minimizeDFA->writeToFile(R"(/media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/minimizedDFA.txt)");
+    minimizeDFA->writeToFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/minimizedDFA.txt)");
     return 0 ;
 }

@@ -1,6 +1,3 @@
-//
-// Created by ahmed on 12/10/2022.
-//
 #include <iostream>
 #include <utility>
 #include "Parser.h"
@@ -17,164 +14,143 @@
 #define DFA_DFAMINIMIZED_H
 
 
-map<string, int> statesChecker ;
+map<string, int> stateToGroupMap;
 
-void fillTheMap(vector<vector<SetStates*>> groups){
-    statesChecker.clear();
-    for (int i = 0; i < groups.size(); ++i) {
-        for(int j = 0; j < groups[i].size(); j++)
-            statesChecker.insert({groups[i][j]->getStatesIds(), i});
+/**
+ * loop on the groups and fill the map
+*/
+void updateStateToGroupMap(vector<vector<SetStates*>> groups) {
+    stateToGroupMap.clear();
+    for (int groupNumber = 0; groupNumber < groups.size(); ++groupNumber) {
+        for (const auto &state : groups[groupNumber]) {
+            stateToGroupMap[state->getStatesIds()] = groupNumber;
+        }
     }
 }
 
 
 vector<vector<SetStates*>> minimizeDFA (vector<SetStates*> remStates, vector<SetStates*> finalStates){
-
-    string inputs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&',.:;<=>?@~(){}[]*/+-|";
-
-
-    int sizeOfGroups = 0 ;
+    const string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&',.:;<=>?@~(){}[]*/+-|";
+    int previousGroupCount = 0 ;
     vector<vector<SetStates*>> groups {std::move(remStates),std::move(finalStates)};
+    updateStateToGroupMap(groups);
 
-    fillTheMap(groups);
-
-    while(sizeOfGroups != groups.size()){
+    while(previousGroupCount != groups.size()) {
         //get the number of partitions in this iteration
-        sizeOfGroups = groups.size();
-        vector<vector<SetStates*>> newGroups ;
-        for(vector<SetStates*> group : groups){
+        previousGroupCount = (int)groups.size();
+        vector<vector<SetStates*>> newGroups;
+        for (const auto& group : groups) {
             // base case if this group is only one element
-            if (group.size() < 2){
+            if (group.size() == 1) {
                 newGroups.push_back(group);
                 continue;
             }
-            vector<SetStates*> identical , remaining ;
-            identical.push_back(group[0]);
-            //for loop to fill identical and remaining vectors
-            for (int i = 1 ; i < group.size() ; i++){
-                bool added = false;
-                for(char input : inputs){
-                    bool check1 = false, check2 = false;
-                    if(group[0]->nextStates.find(input) != group[0]->nextStates.end())
-                        check1 = true;
-                    if(group[i]->nextStates.find(input) != group[i]->nextStates.end())
-                        check2 = true;
-                    // if one of them are not taking the input and the other is
-                    // or if both of them lead to different group in the output
-                    if (check1 != check2 || ((check1 && check2) && (statesChecker[group[0]->nextStates[input]->getStatesIds()] != statesChecker[group[i]->nextStates[input]->getStatesIds()] ))) {
-                        remaining.push_back(group[i]);
-                        added = true;
+            vector<SetStates*> identicalStates, remainingStates;
+            auto firstState = group[0];
+            identicalStates.push_back(firstState);
+            // loop to fill identicalStates and remainingStates vectors
+            for (int i = 1 ; i < group.size() ; i++) {
+                // currentState is the state that we are comparing with firstState
+                auto currentState = group[i];
+                bool isDifferent = false;
+                for (char input : alphabet) {
+                    bool hasTransition1 = (firstState->nextStates.find(input) != firstState->nextStates.end());
+                    bool hasTransition2 = (currentState->nextStates.find(input) != currentState->nextStates.end());
+                    // if the 2 states are different
+                    // or if the 2 states have transition but to different groups
+                    if (hasTransition1 != hasTransition2 ||
+                        (hasTransition1 &&
+                         (stateToGroupMap[firstState->nextStates[input]->getStatesIds()] !=
+                          stateToGroupMap[currentState->nextStates[input]->getStatesIds()]))) {
+                        remainingStates.push_back(currentState);
+                        isDifferent = true;
                         break;
                     }
                 }
-                //if the 2 states are identical
-                if(!added)
-                    identical.push_back(group[i]);
+                //if the 2 states are identicalStates
+                if(!isDifferent)
+                    identicalStates.push_back(currentState);
             }
-            //create the new partition
-            newGroups.push_back(identical);
-            if(!remaining.empty())
-                newGroups.push_back(remaining);
+            newGroups.push_back(identicalStates);
+            if(!remainingStates.empty())
+                newGroups.push_back(remainingStates);
         }
         groups = newGroups;
-        fillTheMap(groups);
+        updateStateToGroupMap(groups);
     }
     return groups;
 }
 
 
-DFA* generateMinDFA(vector<vector<SetStates*>> finalGroups){
+DFA* generateMinDFA(vector<vector<SetStates*>> finalGroups) {
+    const string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&',.:;<=>?@~(){}[]*/+-|";
+    vector<SetStates*> minimizedStates;
 
-    string inputs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&',.:;<=>?@~(){}[]*/+-|";
-
-    vector<SetStates*> newStates ;
-
-    //Concatenate the groups together.
-    for (vector<SetStates*> group : finalGroups){
-
-        SetStates* newState = new SetStates();
-
-        for (SetStates* setState : group){
-            newState->insertSet(setState->states);
+    // Concatenate the groups together.
+    // loop on the groups
+    for (const auto& group : finalGroups) {
+        auto* setStates = new SetStates();
+        // loop on the states in the group
+        for (SetStates* setState : group) {
+            setStates->insertSet(setState->states);
         }
-
-        //cout << newState->getStatesIds() << "\n\n" ;
-
-        newStates.push_back(newState) ;
+        minimizedStates.push_back(setStates) ;
     }
 
-    //get the next state for each state
-    for (int i = 0 ; i < finalGroups.size() ; i++){
-        SetStates* firstOne  = finalGroups[i][0];
-
-        for(char input : inputs){
-            if (firstOne->nextStates.find(input) != firstOne->nextStates.end()) {
-                string output = firstOne->nextStates[input]->getStatesIds();
-                newStates[i]->nextStates.insert({input, newStates[statesChecker[output]]});
+    // get the next state for each state
+    for (int i = 0; i < finalGroups.size(); i++) {
+        SetStates* representativeState = finalGroups[i][0];
+        for(char input:alphabet) {
+            // if the representativeState has transition with this input
+            if (representativeState->nextStates.find(input) != representativeState->nextStates.end()) {
+                string outputStateId = representativeState->nextStates[input]->getStatesIds();
+                minimizedStates[i]->nextStates.insert({input, minimizedStates[stateToGroupMap[outputStateId]]});
             }
         }
     }
 
-    //create the new minimized DFA
     DFA* minimizedDFA = new DFA();
-
-    minimizedDFA->startingState = newStates[0];
-    for (SetStates* states : newStates){
+    minimizedDFA->startingState = minimizedStates[0];
+    for (SetStates* states:minimizedStates) {
         minimizedDFA->transitions.insert({states->getStatesIds(),states});
     }
-
-    return minimizedDFA ;
-
+    return minimizedDFA;
 }
 
+/**
+ * @brief this function takes the source file and the minimized DFA
+ * and print the lexemes and their types
+ */
+void patternMatching(const string& sourceFile, DFA* minimizedDFA) {
+    SetStates* currentState = minimizedDFA->startingState;
+    string currentLexeme, finalLexeme, acceptingType;
+    vector<pair<string,string>> matches;
 
-void patternMatching(const string& sourceFile,DFA* minimizedDFA){
+    for (int i = 0; i < sourceFile.size(); i++){
+        char currentChar = sourceFile[i];
+        currentLexeme += currentChar;
 
-    //initialize temp variables
-    SetStates* s = new SetStates();
-    s = minimizedDFA->startingState ;
-    string currLexeme , finLexeme , acceptingType ;
-    vector<pair<string,string>> answer ;
-
-    for (int i = 0 ; i < sourceFile.size() ; i++){
-        char c = sourceFile[i] ;
-
-        currLexeme += c ;
-
-        //s has no output with that input
-        if (s->nextStates.find(c) == s->nextStates.end()){
-            if (!finLexeme.empty()){
-                //push in the answer
-                answer.emplace_back(finLexeme,acceptingType);
-                //cout << finLexeme << " : " << acceptingType << "\n" ;
+        // if this char is not in the alphabet
+        if (currentState->nextStates.find(currentChar) == currentState->nextStates.end()) {
+            if (!finalLexeme.empty()) {
+                matches.emplace_back(finalLexeme, acceptingType);
                 i--;
             }
-
-            //reset
-            currLexeme.clear();
-            finLexeme.clear();
+            currentLexeme.clear();
+            finalLexeme.clear();
             acceptingType.clear();
-            s = minimizedDFA->startingState ;
-
+            currentState = minimizedDFA->startingState ;
             continue;
         }
 
-        SetStates* output = new SetStates();
-        output = minimizedDFA->transitions[s->nextStates[c]->getStatesIds()];
+        SetStates* transitionState = minimizedDFA->transitions[currentState->nextStates[currentChar]->getStatesIds()];
 
-        //if this output is accepting state
-        if (output->accepted){
-            //append and update finalLexeme
-            //currLexeme += c ;
-            finLexeme = currLexeme ;
-            acceptingType = output->tokenType ;
+        // if this transitionState is accepting state
+        if (transitionState->accepted) {
+            finalLexeme = currentLexeme ;
+            acceptingType = transitionState->tokenType ;
         }
-
-        //else this output is normal state
-        //append
-
     }
-
 }
 
 

@@ -7,6 +7,10 @@ map<string,vector<char>>Parser::raw_RE_definitions=map<string ,vector<char>>{};
 map<string,string>Parser::RE_definitions=map<string,string>{};
 map<string,pair<int,NFA*>>Parser::tokens=map<string,pair<int,NFA*>>{};
 vector<pair<string,string>>Parser::RE_expressions=vector<pair<string,string>>{};
+/**
+ * @brief parse the file and fill the RE_definitions and RE_expressions vectors
+ * @param filepath
+ */
 void Parser::parseFile(string filepath){
     ifstream inFile;
     inFile.open(filepath);
