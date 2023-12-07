@@ -83,19 +83,19 @@ CMakeFiles/compiler.dir/DFA.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/DFA.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/media/gamal/New Volume/semester/compilers/project/compiler/DFA.cpp" -o CMakeFiles/compiler.dir/DFA.cpp.s
 
-CMakeFiles/compiler.dir/Identifier.cpp.o: CMakeFiles/compiler.dir/flags.make
-CMakeFiles/compiler.dir/Identifier.cpp.o: /media/gamal/New\ Volume/semester/compilers/project/compiler/Identifier.cpp
-CMakeFiles/compiler.dir/Identifier.cpp.o: CMakeFiles/compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/compiler.dir/Identifier.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/Identifier.cpp.o -MF CMakeFiles/compiler.dir/Identifier.cpp.o.d -o CMakeFiles/compiler.dir/Identifier.cpp.o -c "/media/gamal/New Volume/semester/compilers/project/compiler/Identifier.cpp"
+CMakeFiles/compiler.dir/InputReader.cpp.o: CMakeFiles/compiler.dir/flags.make
+CMakeFiles/compiler.dir/InputReader.cpp.o: /media/gamal/New\ Volume/semester/compilers/project/compiler/InputReader.cpp
+CMakeFiles/compiler.dir/InputReader.cpp.o: CMakeFiles/compiler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/compiler.dir/InputReader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compiler.dir/InputReader.cpp.o -MF CMakeFiles/compiler.dir/InputReader.cpp.o.d -o CMakeFiles/compiler.dir/InputReader.cpp.o -c "/media/gamal/New Volume/semester/compilers/project/compiler/InputReader.cpp"
 
-CMakeFiles/compiler.dir/Identifier.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/compiler.dir/Identifier.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/media/gamal/New Volume/semester/compilers/project/compiler/Identifier.cpp" > CMakeFiles/compiler.dir/Identifier.cpp.i
+CMakeFiles/compiler.dir/InputReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/compiler.dir/InputReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/media/gamal/New Volume/semester/compilers/project/compiler/InputReader.cpp" > CMakeFiles/compiler.dir/InputReader.cpp.i
 
-CMakeFiles/compiler.dir/Identifier.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/Identifier.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/media/gamal/New Volume/semester/compilers/project/compiler/Identifier.cpp" -o CMakeFiles/compiler.dir/Identifier.cpp.s
+CMakeFiles/compiler.dir/InputReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/compiler.dir/InputReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/media/gamal/New Volume/semester/compilers/project/compiler/InputReader.cpp" -o CMakeFiles/compiler.dir/InputReader.cpp.s
 
 CMakeFiles/compiler.dir/main.cpp.o: CMakeFiles/compiler.dir/flags.make
 CMakeFiles/compiler.dir/main.cpp.o: /media/gamal/New\ Volume/semester/compilers/project/compiler/main.cpp
@@ -184,7 +184,7 @@ CMakeFiles/compiler.dir/State.cpp.s: cmake_force
 # Object files for target compiler
 compiler_OBJECTS = \
 "CMakeFiles/compiler.dir/DFA.cpp.o" \
-"CMakeFiles/compiler.dir/Identifier.cpp.o" \
+"CMakeFiles/compiler.dir/InputReader.cpp.o" \
 "CMakeFiles/compiler.dir/main.cpp.o" \
 "CMakeFiles/compiler.dir/NFA.cpp.o" \
 "CMakeFiles/compiler.dir/NFA_Generator.cpp.o" \
@@ -196,7 +196,7 @@ compiler_OBJECTS = \
 compiler_EXTERNAL_OBJECTS =
 
 compiler: CMakeFiles/compiler.dir/DFA.cpp.o
-compiler: CMakeFiles/compiler.dir/Identifier.cpp.o
+compiler: CMakeFiles/compiler.dir/InputReader.cpp.o
 compiler: CMakeFiles/compiler.dir/main.cpp.o
 compiler: CMakeFiles/compiler.dir/NFA.cpp.o
 compiler: CMakeFiles/compiler.dir/NFA_Generator.cpp.o

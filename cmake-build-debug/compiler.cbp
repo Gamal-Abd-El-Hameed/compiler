@@ -90,10 +90,10 @@
 		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/DFA.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/Identifier.cpp">
+		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/InputReader.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/Identifier.h">
+		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/InputReader.h">
 			<Option target="compiler"/>
 		</Unit>
 		<Unit filename="/media/gamal/New Volume/semester/compilers/project/compiler/NFA.cpp">

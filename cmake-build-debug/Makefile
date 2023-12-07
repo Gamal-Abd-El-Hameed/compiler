@@ -153,29 +153,29 @@ DFA.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/DFA.cpp.s
 .PHONY : DFA.cpp.s
 
-Identifier.o: Identifier.cpp.o
-.PHONY : Identifier.o
+InputReader.o: InputReader.cpp.o
+.PHONY : InputReader.o
 
 # target to build an object file
-Identifier.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Identifier.cpp.o
-.PHONY : Identifier.cpp.o
+InputReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/InputReader.cpp.o
+.PHONY : InputReader.cpp.o
 
-Identifier.i: Identifier.cpp.i
-.PHONY : Identifier.i
+InputReader.i: InputReader.cpp.i
+.PHONY : InputReader.i
 
 # target to preprocess a source file
-Identifier.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Identifier.cpp.i
-.PHONY : Identifier.cpp.i
+InputReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/InputReader.cpp.i
+.PHONY : InputReader.cpp.i
 
-Identifier.s: Identifier.cpp.s
-.PHONY : Identifier.s
+InputReader.s: InputReader.cpp.s
+.PHONY : InputReader.s
 
 # target to generate assembly for a file
-Identifier.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Identifier.cpp.s
-.PHONY : Identifier.cpp.s
+InputReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/InputReader.cpp.s
+.PHONY : InputReader.cpp.s
 
 NFA.o: NFA.cpp.o
 .PHONY : NFA.o
@@ -333,9 +333,9 @@ help:
 	@echo "... DFA.o"
 	@echo "... DFA.i"
 	@echo "... DFA.s"
-	@echo "... Identifier.o"
-	@echo "... Identifier.i"
-	@echo "... Identifier.s"
+	@echo "... InputReader.o"
+	@echo "... InputReader.i"
+	@echo "... InputReader.s"
 	@echo "... NFA.o"
 	@echo "... NFA.i"
 	@echo "... NFA.s"

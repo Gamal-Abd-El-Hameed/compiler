@@ -9,8 +9,8 @@ add_executable(compiler
         DFA.cpp
         DFA.h
         helper.h
-        Identifier.cpp
-        Identifier.h
+        InputReader.cpp
+        InputReader.h
         main.cpp
         minimize.h
         NFA.cpp

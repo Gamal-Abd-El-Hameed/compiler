@@ -4,7 +4,7 @@
 #include "helper.h"
 #include "NFA.h"
 #include "NFA_Generator.h"
-#include "Identifier.h"
+#include "InputReader.h"
 #include "SetStates.h"
 #include "DFA.h"
 #include "minimize.h"
@@ -77,8 +77,8 @@ int main(){
     p.readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/grammar.txt)");
     NFA_Generator g;
     g.generate_all_NFAs(RulesReader::regularDefinitions, p.rawRegularExpressions);
-    Identifier i;
-    i.parse_string(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)");
+    InputReader i;
+    i.readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)");
     // write the accepted tokens to the output file
     fstream outfile;
     outfile.open(R"(/media/gamal/New Volume/semester/compilers/project/compiler/output.txt)",ios::out);

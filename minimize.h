@@ -5,7 +5,7 @@
 #include "helper.h"
 #include "NFA.h"
 #include "NFA_Generator.h"
-#include "Identifier.h"
+#include "InputReader.h"
 #include "SetStates.h"
 #include "DFA.h"
 

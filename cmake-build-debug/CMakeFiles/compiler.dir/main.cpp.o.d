@@ -304,7 +304,7 @@ CMakeFiles/compiler.dir/main.cpp.o: \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/State.h \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/helper.h \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/NFA_Generator.h \
- /media/gamal/New\ Volume/semester/compilers/project/compiler/Identifier.h \
+ /media/gamal/New\ Volume/semester/compilers/project/compiler/InputReader.h \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/SetStates.h \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/DFA.h \
  /media/gamal/New\ Volume/semester/compilers/project/compiler/minimize.h
