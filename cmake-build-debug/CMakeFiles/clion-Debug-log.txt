@@ -1,3 +1,13 @@
-/snap/clion/259/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/259/bin/ninja/linux/x64/ninja -G Ninja -S "/media/gamal/New Volume/semester/compilers/project/compiler" -B "/media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug"
-CMake Error: The current CMakeCache.txt directory /media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug/CMakeCache.txt is different than the directory /media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/cmake-build-debug where CMakeCache.txt was created. This may result in binaries being created in the wrong place. If you are not sure, reedit the CMakeCache.txt
-CMake Error: The source "/media/gamal/New Volume/semester/compilers/project/compiler/CMakeLists.txt" does not match the source "/media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/CMakeLists.txt" used to generate cache.  Re-run cmake with a different source directory.
+/snap/clion/259/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S "/media/gamal/New Volume/semester/compilers/project/compiler" -B "/media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug"
+CMake Deprecation Warning:
+  Support for "Extra Generators" like
+
+    CodeBlocks
+
+  is deprecated and will be removed from a future version of CMake.  IDEs may
+  use the cmake-file-api(7) to view CMake-generated project build trees.
+
+
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: /media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug

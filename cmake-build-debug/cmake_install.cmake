@@ -1,4 +1,4 @@
-# Install script for directory: /media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator
+# Install script for directory: /media/gamal/New Volume/semester/compilers/project/compiler
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/media/gamal/New Volume/semester/compilers/project/LexicalAnalyzerGenerator/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/media/gamal/New Volume/semester/compilers/project/compiler/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

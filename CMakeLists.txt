@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.23)
-project(LexicalAnalyzerGenerator)
+project(compiler)
 
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(.)
 
-add_executable(LexicalAnalyzerGenerator
+add_executable(compiler
         DFA.cpp
         DFA.h
         helper.h

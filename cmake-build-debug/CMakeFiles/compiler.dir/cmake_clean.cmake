@@ -1,0 +1,25 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/compiler.dir/DFA.cpp.o"
+  "CMakeFiles/compiler.dir/DFA.cpp.o.d"
+  "CMakeFiles/compiler.dir/Identifier.cpp.o"
+  "CMakeFiles/compiler.dir/Identifier.cpp.o.d"
+  "CMakeFiles/compiler.dir/NFA.cpp.o"
+  "CMakeFiles/compiler.dir/NFA.cpp.o.d"
+  "CMakeFiles/compiler.dir/NFA_Generator.cpp.o"
+  "CMakeFiles/compiler.dir/NFA_Generator.cpp.o.d"
+  "CMakeFiles/compiler.dir/Parser.cpp.o"
+  "CMakeFiles/compiler.dir/Parser.cpp.o.d"
+  "CMakeFiles/compiler.dir/SetStates.cpp.o"
+  "CMakeFiles/compiler.dir/SetStates.cpp.o.d"
+  "CMakeFiles/compiler.dir/State.cpp.o"
+  "CMakeFiles/compiler.dir/State.cpp.o.d"
+  "CMakeFiles/compiler.dir/main.cpp.o"
+  "CMakeFiles/compiler.dir/main.cpp.o.d"
+  "compiler"
+  "compiler.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/compiler.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
