@@ -279,4 +279,4 @@ CMakeFiles/compiler.dir/RulesReader.cpp.o: \
  /usr/include/c++/9/bits/unordered_set.h /usr/include/c++/9/shared_mutex \
  /home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA.h \
  /home/mahmoud/MyComputer/compiler-lastnight/compiler/State.h \
- /home/mahmoud/MyComputer/compiler-lastnight/compiler/helper.h
+ /home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h

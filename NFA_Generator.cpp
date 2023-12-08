@@ -1,7 +1,7 @@
 #include "NFA_Generator.h"
 
 #include <utility>
-#include "helper.h"
+#include "utility.h"
 #include "State.h"
 
 

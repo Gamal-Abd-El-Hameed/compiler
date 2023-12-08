@@ -372,7 +372,7 @@ CMakeFiles/compiler.dir/DFA.cpp.o: /home/mahmoud/MyComputer/compiler-lastnight/c
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/SetStates.h \
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/State.h \
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA.h \
-  /home/mahmoud/MyComputer/compiler-lastnight/compiler/helper.h
+  /home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h
 
 CMakeFiles/compiler.dir/InputReader.cpp.o: /home/mahmoud/MyComputer/compiler-lastnight/compiler/InputReader.cpp \
   /usr/include/stdc-predef.h \
@@ -1487,7 +1487,7 @@ CMakeFiles/compiler.dir/NFA_Generator.cpp.o: /home/mahmoud/MyComputer/compiler-l
   /usr/include/c++/9/unordered_set \
   /usr/include/c++/9/bits/unordered_set.h \
   /usr/include/c++/9/shared_mutex \
-  /home/mahmoud/MyComputer/compiler-lastnight/compiler/helper.h
+  /home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h
 
 CMakeFiles/compiler.dir/RulesReader.cpp.o: /home/mahmoud/MyComputer/compiler-lastnight/compiler/RulesReader.cpp \
   /usr/include/stdc-predef.h \
@@ -1859,7 +1859,7 @@ CMakeFiles/compiler.dir/RulesReader.cpp.o: /home/mahmoud/MyComputer/compiler-las
   /usr/include/c++/9/shared_mutex \
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA.h \
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/State.h \
-  /home/mahmoud/MyComputer/compiler-lastnight/compiler/helper.h
+  /home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h
 
 CMakeFiles/compiler.dir/SetStates.cpp.o: /home/mahmoud/MyComputer/compiler-lastnight/compiler/SetStates.cpp \
   /usr/include/stdc-predef.h \
@@ -2601,7 +2601,7 @@ CMakeFiles/compiler.dir/State.cpp.o: /home/mahmoud/MyComputer/compiler-lastnight
   /usr/include/c++/9/unordered_set \
   /usr/include/c++/9/bits/unordered_set.h \
   /usr/include/c++/9/shared_mutex \
-  /home/mahmoud/MyComputer/compiler-lastnight/compiler/helper.h
+  /home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h
 
 CMakeFiles/compiler.dir/main.cpp.o: /home/mahmoud/MyComputer/compiler-lastnight/compiler/main.cpp \
   /usr/include/stdc-predef.h \
@@ -2973,7 +2973,7 @@ CMakeFiles/compiler.dir/main.cpp.o: /home/mahmoud/MyComputer/compiler-lastnight/
   /usr/include/c++/9/shared_mutex \
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA.h \
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/State.h \
-  /home/mahmoud/MyComputer/compiler-lastnight/compiler/helper.h \
+  /home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h \
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA_Generator.h \
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/InputReader.h \
   /home/mahmoud/MyComputer/compiler-lastnight/compiler/SetStates.h \
@@ -2991,7 +2991,7 @@ CMakeFiles/compiler.dir/main.cpp.o: /home/mahmoud/MyComputer/compiler-lastnight/
 
 /home/mahmoud/MyComputer/compiler-lastnight/compiler/InputReader.cpp:
 
-/home/mahmoud/MyComputer/compiler-lastnight/compiler/helper.h:
+/home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h:
 
 /usr/include/c++/9/shared_mutex:
 

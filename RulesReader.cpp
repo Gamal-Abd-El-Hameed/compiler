@@ -1,6 +1,6 @@
 #include "RulesReader.h"
 #include <bits/stdc++.h>
-#include "helper.h"
+#include "utility.h"
 using namespace std;
 
 map<string, vector<char>>RulesReader::rawRegularExpressions = {};

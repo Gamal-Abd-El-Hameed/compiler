@@ -2,7 +2,7 @@
 #include "SetStates.h"
 #include "State.h"
 #include "NFA.h"
-#include "helper.h"
+#include "utility.h"
 
 string inputs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&',.:;<=>?@~(){}[]*/+-|";
 DFA::DFA() = default;

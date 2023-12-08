@@ -1,7 +1,7 @@
 #include <iostream>
 #include "RulesReader.h"
 #include "State.h"
-#include "helper.h"
+#include "utility.h"
 #include "NFA_Generator.h"
 #include "InputReader.h"
 #include "SetStates.h"
@@ -14,10 +14,10 @@ int main() {
     NFAGenerator.generateNfAs(RulesReader::regularDefinitions, RulesReader::rawRegularExpressions);
 
     InputReader inputReader;
-    inputReader.readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/input.txt)");
+    inputReader.readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/input2.txt)");
 
     fstream outfile;
-    outfile.open(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/output.txt)",ios::out);
+    outfile.open(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/output2.txt)",ios::out);
     for (const pair<string,string>& pair:inputReader.acceptedTokens) {
         outfile << pair.second << endl;
         cout << pair.first << " --> " << pair.second << endl;
@@ -28,7 +28,7 @@ int main() {
     vector<vector<SetStates*>> groups = minimizeDFA(finalDFA->remainingStates(), finalDFA->acceptingStates());
     DFA* minimizeDFA = generateMinDFA(groups);
     cout << "\nThe DFA has : " << finalDFA->stateIdToSetStatesMap.size() << " states.\n";
-    cout << "The minimized DFA has : " << minimizeDFA->stateIdToSetStatesMap.size() << " states.\n";
+    //cout << "The minimized DFA has : " << minimizeDFA->stateIdToSetStatesMap.size() << " states.\n";
     minimizeDFA->writeToFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/minimizedDFA.txt)");
     return 0 ;
 }

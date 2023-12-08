@@ -2,7 +2,7 @@
 #include <utility>
 #include "RulesReader.h"
 #include "State.h"
-#include "helper.h"
+#include "utility.h"
 #include "NFA.h"
 #include "NFA_Generator.h"
 #include "InputReader.h"

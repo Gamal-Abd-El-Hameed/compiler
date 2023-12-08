@@ -126,13 +126,13 @@
 		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/State.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/helper.h">
-			<Option target="compiler"/>
-		</Unit>
 		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/main.cpp">
 			<Option target="compiler"/>
 		</Unit>
 		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/minimize.h">
+			<Option target="compiler"/>
+		</Unit>
+		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h">
 			<Option target="compiler"/>
 		</Unit>
 		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/CMakeLists.txt">

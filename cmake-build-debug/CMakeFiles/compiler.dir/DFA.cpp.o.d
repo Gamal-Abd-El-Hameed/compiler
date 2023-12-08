@@ -280,4 +280,4 @@ CMakeFiles/compiler.dir/DFA.cpp.o: \
  /home/mahmoud/MyComputer/compiler-lastnight/compiler/SetStates.h \
  /home/mahmoud/MyComputer/compiler-lastnight/compiler/State.h \
  /home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA.h \
- /home/mahmoud/MyComputer/compiler-lastnight/compiler/helper.h
+ /home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h

@@ -8,7 +8,7 @@ include_directories(.)
 add_executable(compiler
         DFA.cpp
         DFA.h
-        helper.h
+        utility.h
         InputReader.cpp
         InputReader.h
         main.cpp
