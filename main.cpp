@@ -9,15 +9,15 @@
 #include "minimize.h"
 
 int main() {
-    RulesReader::readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/grammar.txt)");
+    RulesReader::readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/grammar.txt)");
     NFA_Generator NFAGenerator;
     NFAGenerator.generateNfAs(RulesReader::regularDefinitions, RulesReader::rawRegularExpressions);
 
     InputReader inputReader;
-    inputReader.readFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/input.txt)");
+    inputReader.readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/input.txt)");
 
     fstream outfile;
-    outfile.open(R"(/media/gamal/New Volume/semester/compilers/project/compiler/output.txt)",ios::out);
+    outfile.open(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/output.txt)",ios::out);
     for (const pair<string,string>& pair:inputReader.acceptedTokens) {
         outfile << pair.second << endl;
         cout << pair.first << " --> " << pair.second << endl;
@@ -29,6 +29,6 @@ int main() {
     DFA* minimizeDFA = generateMinDFA(groups);
     cout << "\nThe DFA has : " << finalDFA->stateIdToSetStatesMap.size() << " states.\n";
     cout << "The minimized DFA has : " << minimizeDFA->stateIdToSetStatesMap.size() << " states.\n";
-    minimizeDFA->writeToFile(R"(/media/gamal/New Volume/semester/compilers/project/compiler/minimizedDFA.txt)");
+    minimizeDFA->writeToFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/minimizedDFA.txt)");
     return 0 ;
 }

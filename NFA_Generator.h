@@ -11,6 +11,7 @@ public:
     static NFA* postfixEval(vector<string>tokens, map<string,vector<char>>rawRegularExpressions, string acceptedType);
     void combineNfAs();
     void generateNfAs(const vector<pair<string,string>>&regularDefinitions, const map<string,vector<char>>&rawRegularExpressions);
+    static vector<string> infixToPostfix(vector<string>RE_expression_tokens) ;
 };
 
 

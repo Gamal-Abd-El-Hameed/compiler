@@ -54,9 +54,9 @@ void RulesReader::parseExpression(const string& regularExpression) {
         rawRegularExpressions.insert({LHS, alphabet});
     }
     else {
-        vector<string> RHSTokens = split_on_spacial_chars(RHS);
+        vector<string> RHSTokens = separateOperatorsAndOperands(RHS);
         for (auto & RHSToken : RHSTokens) {
-            if (rawRegularExpressions.count(RHSToken) == 0 && !is_spacial_character(RHSToken)) {
+            if (rawRegularExpressions.count(RHSToken) == 0 && !is_tokenizing_symbol(RHSToken)) {
                 RHSToken = surround_parentheses(RHSToken);
             }
         }
@@ -71,7 +71,7 @@ void RulesReader::parseDefinition(const string& regularDefinition, int priority)
     int pos = static_cast<int>(regularDefinition.find(':'));
     string LHS = remove_spaces(regularDefinition.substr(0, pos));
     string RHS = regularDefinition.substr(pos + 1, regularDefinition.size());
-    vector<string> RHSTokens = split_on_spacial_chars(RHS);
+    vector<string> RHSTokens = separateOperatorsAndOperands(RHS);
     for (int i = 0; i < RHSTokens.size(); i++) {
         string RHSToken = RHSTokens.at(i);
         if (RHSToken == "\\") {
@@ -95,7 +95,7 @@ void RulesReader::parseDefinition(const string& regularDefinition, int priority)
 
 void RulesReader::keywordsPunctuationParsing(string keyword) {
     keyword = keyword.substr(1, keyword.length() - 2);
-    vector<string> keywordTokens = split_on_spacial_chars(keyword);
+    vector<string> keywordTokens = separateOperatorsAndOperands(keyword);
     for(int i = 0; i < keywordTokens.size(); i++) {
         string s = keywordTokens.at(i);
         if(s=="\\") {

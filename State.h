@@ -8,7 +8,7 @@ public:
     int id;
     bool isAccepted;
     map<char,vector<State*>> nextStates;
-    string tokenType;
+    string acceptedToken;
     State();
     void addNextState(State* next, const vector<char>& input);
 };

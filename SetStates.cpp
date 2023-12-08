@@ -24,9 +24,9 @@ void SetStates::epsilonClosure() {
             this->isAccepted = true;
             // if the token type is empty or the current token type has higher priority
             if (this->tokenType.empty() ||
-            (RulesReader::tokens[state->tokenType].first <
+            (RulesReader::tokens[state->acceptedToken].first <
              RulesReader::tokens[this->tokenType].first))
-                this->tokenType = state->tokenType ;
+                this->tokenType = state->acceptedToken ;
         }
     }
 
@@ -41,9 +41,9 @@ void SetStates::epsilonClosure() {
                 if (epsilonState->isAccepted) {
                     this->isAccepted = true;
                     if (this->tokenType.empty() ||
-                    (RulesReader::tokens[epsilonState->tokenType].first <
+                    (RulesReader::tokens[epsilonState->acceptedToken].first <
                      RulesReader::tokens[this->tokenType].first))
-                        this->tokenType = epsilonState->tokenType ;
+                        this->tokenType = epsilonState->acceptedToken ;
                 }
                 stateStack.push(epsilonState);
             }
@@ -93,9 +93,9 @@ void SetStates::insertState(State* state) {
     if (state->isAccepted) {
         this->isAccepted = true;
         if (this->tokenType.empty() ||
-        (RulesReader::tokens[state->tokenType].first <
+        (RulesReader::tokens[state->acceptedToken].first <
          RulesReader::tokens[this->tokenType].first))
-            this->tokenType = state->tokenType ;
+            this->tokenType = state->acceptedToken ;
     }
 }
 

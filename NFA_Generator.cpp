@@ -22,8 +22,8 @@ NFA* NFA_Generator::generateNfa(const pair<string,string>& regularDefinition,
                                 map<string,vector<char>> rawRegularExpressions) {
     string LHS = regularDefinition.first;
     string RHS = regularDefinition.second;
-    vector<string> tokens = split_on_spacial_chars(RHS);
-    vector<string> v = generate_infix(tokens);
+    vector<string> tokens = separateOperatorsAndOperands(RHS);
+    vector<string> v = AddConcatenations(tokens);
     v = infixToPostfix(v);
     return postfixEval(v, std::move(rawRegularExpressions), LHS);
 }
@@ -34,9 +34,10 @@ NFA* NFA_Generator::postfixEval(vector<string> tokens,
     stack<NFA*> NFAStack;
      for (int i = 0; i < tokens.size(); i++) {
          string token = tokens.at(i);
-         if ((!is_spacial_character(token) && token != "`" ) || (token == "\\")) {
+         if ((!is_tokenizing_symbol(token) && token != "`" ) || (token == "\\")) {
             auto *state = new State(), *end_state = new State();
             if (token == "\\") {
+                //Handling epsilon
                 if (tokens.at(++i) == "L") {
                     state->addNextState(end_state, vector<char>{'\0'});
                 }
@@ -57,14 +58,14 @@ NFA* NFA_Generator::postfixEval(vector<string> tokens,
              if (token == "*") {
                 NFAStack.top()->closureNFA();
              }
-             else if (token == "+") {
-                 NFAStack.top()->positiveClosureNfa();
-             }
-             else if (token == "|") {
+             if (token == "|") {
                  NFA* NFA1=NFAStack.top(); NFAStack.pop();
                  NFA* NFA2=NFAStack.top(); NFAStack.pop();
                  NFA1->ORNFA(NFA2);
                  NFAStack.push(NFA1);
+             }
+             else if (token == "+") {
+                 NFAStack.top()->positiveClosureNfa();
              }
              else if (token == "`") {
                  NFA* NFA1=NFAStack.top(); NFAStack.pop();
@@ -77,7 +78,7 @@ NFA* NFA_Generator::postfixEval(vector<string> tokens,
      NFA* accepted_NFA=NFAStack.top();
      auto* acceptingState=new State();
     acceptingState->isAccepted = true;
-    acceptingState->tokenType= std::move(acceptedType);
+    acceptingState->acceptedToken= std::move(acceptedType);
     accepted_NFA->combineEndStates(acceptingState);
      return accepted_NFA;
 }
@@ -89,4 +90,44 @@ void NFA_Generator::combineNfAs() {
         combinedNFA->stateIdToStateMap.insert(nfa->stateIdToStateMap.begin(), nfa->stateIdToStateMap.end());
         combinedNFA->endStates.push_back(nfa->endStates[0]);
     }
+}
+
+
+vector<string> NFA_Generator::infixToPostfix(vector<string> infixExpressionTokens) {
+    stack<string> operatorStack;
+    vector<string> postfixExpression;
+
+    for (int index = 0; index < infixExpressionTokens.size(); index++) {
+        string token = infixExpressionTokens.at(index);
+
+        if (token == "\\") {
+            postfixExpression.push_back(token);
+            index++;
+            postfixExpression.push_back(infixExpressionTokens.at(index));
+        } else if (!is_tokenizing_symbol(token) && token != "`") {
+            postfixExpression.push_back(token);
+        } else if (token == "(") {
+            operatorStack.push("(");
+        } else if (token == ")") {
+            while (operatorStack.top() != "(") {
+                postfixExpression.push_back(operatorStack.top());
+                operatorStack.pop();
+            }
+            operatorStack.pop();
+        } else {
+            while (!operatorStack.empty() && prec(infixExpressionTokens[index]) <= prec(operatorStack.top())) {
+                postfixExpression.push_back(operatorStack.top());
+                operatorStack.pop();
+            }
+            operatorStack.push(token);
+        }
+    }
+
+    // Pop all the remaining elements from the stack
+    while (!operatorStack.empty()) {
+        postfixExpression.push_back(operatorStack.top());
+        operatorStack.pop();
+    }
+
+    return postfixExpression;
 }

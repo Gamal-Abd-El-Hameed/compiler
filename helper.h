@@ -12,55 +12,63 @@ static string remove_spaces(string input) {
 }
 
 
-static vector<string> split_on_spacial_chars(const string& str) {
-    vector<string> result;
-    regex rgx(R"([+()*\|\-,:?\s\\]+)"); // {+, *, (, ), |, \, ?}
-    string currentString;
-    for(char currentChar:str) {
-        if(regex_match(string(1, currentChar), rgx)) {
-            if(!currentString.empty()) {
-                result.push_back(currentString);
+static vector<string> separateOperatorsAndOperands(const string& inputString) {
+    vector<string> outputVector;
+    regex regexPattern(R"([+()*\|\-,:?\s\\]+)"); // {+, *, (, ), |, \, ?}
+    string currentToken;
+
+    for (char currentChar : inputString) {
+        if (regex_match(string(1, currentChar), regexPattern)) {
+            if (!currentToken.empty()) {
+                outputVector.push_back(currentToken);
             }
-            if(currentChar != ' ') {
-                result.emplace_back(1, currentChar);
+            if (currentChar != ' ') {
+                outputVector.emplace_back(1, currentChar);
             }
-            currentString = "";
-        }
-        else {
-            currentString.append(string(1, currentChar));
+            currentToken = "";
+        } else {
+            currentToken.append(string(1, currentChar));
         }
     }
-    if(!currentString.empty())result.push_back(currentString);
-    return result;
+
+    if (!currentToken.empty()) {
+        outputVector.push_back(currentToken);
+    }
+
+    return outputVector;
 }
 
 
-static bool is_spacial_character(string c) {
+static bool is_tokenizing_symbol(string c) {
     regex rgx(R"([+()*\|\?\s\\]+)"); // {+, *, (, ), |, \, ?}
     return regex_match(c,rgx);
 }
 
 
-static vector<string> generate_infix(vector<string>RE_expression_tokens) {
-    for (int i = 1; i < RE_expression_tokens.size(); i++) {
-        if(RE_expression_tokens.at(i)=="\\"){
-            i++;
-        }
-        else if (RE_expression_tokens.at(i) == "(" && RE_expression_tokens.at(i-1)!="|" && RE_expression_tokens.at(i-1)!="(") {
-            RE_expression_tokens.insert(RE_expression_tokens.begin() + i, string(1,'`'));
-            i+=1;
-        } else if (!is_spacial_character(RE_expression_tokens.at(i)) &&
-                   (RE_expression_tokens.at(i - 1) == "*" || RE_expression_tokens.at(i - 1) == "+" || !is_spacial_character(RE_expression_tokens.at(i - 1)) || RE_expression_tokens.at(i - 1) == ")")) {
-            RE_expression_tokens.insert(RE_expression_tokens.begin() + i, string(1,'`'));
-            i+=1;
+static vector<string> AddConcatenations(vector<string> regexExpressionTokens) {
+    for (int index = 1; index < regexExpressionTokens.size(); index++) {
+        if (regexExpressionTokens.at(index) == "\\") {
+            index++;
+        } else if (regexExpressionTokens.at(index) == "(" &&
+                   regexExpressionTokens.at(index - 1) != "|" &&
+                   regexExpressionTokens.at(index - 1) != "(") {
+            regexExpressionTokens.insert(regexExpressionTokens.begin() + index, string(1, '`'));
+            index += 1;
+        } else if (!is_tokenizing_symbol(regexExpressionTokens.at(index)) &&
+                   (regexExpressionTokens.at(index - 1) == "*" ||
+                    regexExpressionTokens.at(index - 1) == "+" ||
+                    !is_tokenizing_symbol(regexExpressionTokens.at(index - 1)) ||
+                    regexExpressionTokens.at(index - 1) == ")")) {
+            regexExpressionTokens.insert(regexExpressionTokens.begin() + index, string(1, '`'));
+            index += 1;
         }
     }
-    return RE_expression_tokens;
+    return regexExpressionTokens;
 }
 
 
 static string surround_parentheses(string input){
-    if(is_spacial_character(input)) return input;
+    if(is_tokenizing_symbol(input)) return input;
     for(int i = 0; i < input.size(); i++) {
         input.insert(i, "(");
         input.insert(i + 2, ")");
@@ -95,7 +103,7 @@ static vector<string> infixToPostfix(vector<string>RE_expression_tokens) {
         }
         // If the scanned character is
         // an operand, add it to output string.
-       else if (!is_spacial_character(c) && c!="`")
+       else if (!is_tokenizing_symbol(c) && c != "`")
             postfix.push_back(c);
             // If the scanned character is an
             // ‘(‘, push it to the stack.

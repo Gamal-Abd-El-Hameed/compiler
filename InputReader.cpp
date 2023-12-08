@@ -32,10 +32,10 @@ int InputReader::readSingleToken(string input) {
         int accepted_priority = INT_MAX;
         for (State *comingState: comingStates) {
             if (comingState->isAccepted) {
-                if (accepted_priority > RulesReader::tokens.at(comingState->tokenType).first) {
-                    accepted_priority = RulesReader::tokens.at(comingState->tokenType).first;
+                if (accepted_priority > RulesReader::tokens.at(comingState->acceptedToken).first) {
+                    accepted_priority = RulesReader::tokens.at(comingState->acceptedToken).first;
                     accepted_index = i;
-                    accepted_token = comingState->tokenType;
+                    accepted_token = comingState->acceptedToken;
                     acceptedString = res;
                 }
             }
