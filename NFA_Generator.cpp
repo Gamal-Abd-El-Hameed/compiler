@@ -21,7 +21,7 @@ void NFA_Generator::generateNfAs(const vector<pair<string,string>>&regularDefini
 NFA* NFA_Generator::generateNfa(const pair<string,string>& regularDefinition,
                                 map<string,vector<char>> rawRegularExpressions) {
     string LHS = regularDefinition.first;
-    string RHS = regularDefinition.second;
+    string RHS  = regularDefinition.second;
     vector<string> tokens = separateOperatorsAndOperands(RHS);
     vector<string> v = AddConcatenations(tokens);
     v = infixToPostfix(v);

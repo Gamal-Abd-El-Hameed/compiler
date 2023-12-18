@@ -14,10 +14,10 @@ int main() {
     NFAGenerator.generateNfAs(RulesReader::regularDefinitions, RulesReader::rawRegularExpressions);
 
     InputReader inputReader;
-    inputReader.readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/input2.txt)");
+    inputReader.readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/input.txt)");
 
     fstream outfile;
-    outfile.open(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/output2.txt)",ios::out);
+    outfile.open(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/output.txt)",ios::out);
     for (const pair<string,string>& pair:inputReader.acceptedTokens) {
         outfile << pair.second << endl;
         cout << pair.first << " --> " << pair.second << endl;
