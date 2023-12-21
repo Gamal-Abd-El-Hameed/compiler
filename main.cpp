@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include "RulesReader.h"
 #include "State.h"
@@ -9,7 +10,7 @@
 #include "minimize.h"
 
 int main() {
-    RulesReader::readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/grammar.txt)");
+    RulesReader::readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/grammar2.txt)");
     NFA_Generator NFAGenerator;
     NFAGenerator.generateNfAs(RulesReader::regularDefinitions, RulesReader::rawRegularExpressions);
 
@@ -32,3 +33,4 @@ int main() {
     minimizeDFA->writeToFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/minimizedDFA.txt)");
     return 0 ;
 }
+*/

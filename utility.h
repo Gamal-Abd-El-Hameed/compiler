@@ -141,7 +141,6 @@ static vector<string> splitmyDelimeter(const string& input, char delimiter) {
     vector<string> result;
     stringstream ss(input);
     string token;
-
     while (getline(ss, token, delimiter)) {
         result.push_back(token);
     }

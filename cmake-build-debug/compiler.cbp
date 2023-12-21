@@ -96,6 +96,12 @@
 		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/InputReader.h">
 			<Option target="compiler"/>
 		</Unit>
+		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/LL1.cpp">
+			<Option target="compiler"/>
+		</Unit>
+		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/LL1.h">
+			<Option target="compiler"/>
+		</Unit>
 		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA.cpp">
 			<Option target="compiler"/>
 		</Unit>

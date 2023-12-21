@@ -177,6 +177,30 @@ InputReader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/InputReader.cpp.s
 .PHONY : InputReader.cpp.s
 
+LL1.o: LL1.cpp.o
+.PHONY : LL1.o
+
+# target to build an object file
+LL1.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/LL1.cpp.o
+.PHONY : LL1.cpp.o
+
+LL1.i: LL1.cpp.i
+.PHONY : LL1.i
+
+# target to preprocess a source file
+LL1.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/LL1.cpp.i
+.PHONY : LL1.cpp.i
+
+LL1.s: LL1.cpp.s
+.PHONY : LL1.s
+
+# target to generate assembly for a file
+LL1.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/LL1.cpp.s
+.PHONY : LL1.cpp.s
+
 NFA.o: NFA.cpp.o
 .PHONY : NFA.o
 
@@ -336,6 +360,9 @@ help:
 	@echo "... InputReader.o"
 	@echo "... InputReader.i"
 	@echo "... InputReader.s"
+	@echo "... LL1.o"
+	@echo "... LL1.i"
+	@echo "... LL1.s"
 	@echo "... NFA.o"
 	@echo "... NFA.i"
 	@echo "... NFA.s"

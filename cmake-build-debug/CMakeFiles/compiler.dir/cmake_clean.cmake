@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/compiler.dir/DFA.cpp.o.d"
   "CMakeFiles/compiler.dir/InputReader.cpp.o"
   "CMakeFiles/compiler.dir/InputReader.cpp.o.d"
+  "CMakeFiles/compiler.dir/LL1.cpp.o"
+  "CMakeFiles/compiler.dir/LL1.cpp.o.d"
   "CMakeFiles/compiler.dir/NFA.cpp.o"
   "CMakeFiles/compiler.dir/NFA.cpp.o.d"
   "CMakeFiles/compiler.dir/NFA_Generator.cpp.o"
