@@ -8,140 +8,140 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug"/>
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="compiler">
-				<Option output="/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/compiler" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug"/>
+				<Option output="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/compiler" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/mahmoud/MyComputer/compiler-lastnight/compiler/."/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/."/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 compiler"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 compiler"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="compiler/fast">
-				<Option output="/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/compiler" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug"/>
+				<Option output="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/compiler" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/mahmoud/MyComputer/compiler-lastnight/compiler/."/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/."/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 compiler/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 compiler/fast"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug"/>
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug"/>
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/DFA.cpp">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/DFA.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/DFA.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/DFA.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/InputReader.cpp">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/InputReader.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/InputReader.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/InputReader.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/LL1.cpp">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/LL1.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/LL1.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/LL1.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA.cpp">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/NFA.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/NFA.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA_Generator.cpp">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/NFA_Generator.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA_Generator.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/NFA_Generator.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/RulesReader.cpp">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/RulesReader.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/RulesReader.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/RulesReader.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/SetStates.cpp">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/SetStates.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/SetStates.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/SetStates.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/State.cpp">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/State.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/State.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/State.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/main.cpp">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/main.cpp">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/minimize.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/minimize.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/utility.h">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/utility.h">
 			<Option target="compiler"/>
 		</Unit>
-		<Unit filename="/home/mahmoud/MyComputer/compiler-lastnight/compiler/CMakeLists.txt">
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

@@ -1,4 +1,4 @@
-# Install script for directory: /home/mahmoud/MyComputer/compiler-lastnight/compiler
+# Install script for directory: /media/gamal/01D5257AA3420B70/semester/compilers/project/compiler
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

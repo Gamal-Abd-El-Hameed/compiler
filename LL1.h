@@ -8,9 +8,9 @@
 using namespace std;
 class LL1{
 public:
-    vector<string> terminals;
+    set<string> terminals;
     vector<string> grammar;
-    map<string, vector<string>> firstsets, followsets;
+    map<string, set<string>> firstsets, followsets;
     string left_factoring(string LHS, string RHS);
     vector<string> remove_left_recursion(string LHS, string RHS);
     void calc_first_set(vector<string> regular_definitions);

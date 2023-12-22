@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "compiler::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-compiler-Debug-8fda0f3cbcc78b24d690.json",
+					"jsonFile" : "target-compiler-Debug-b9fb15c087f7c4f34547.json",
 					"name" : "compiler",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/mahmoud/MyComputer/compiler-lastnight/compiler/cmake-build-debug",
-		"source" : "/home/mahmoud/MyComputer/compiler-lastnight/compiler"
+		"build" : "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug",
+		"source" : "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 5
+		"minor" : 6
 	}
 }

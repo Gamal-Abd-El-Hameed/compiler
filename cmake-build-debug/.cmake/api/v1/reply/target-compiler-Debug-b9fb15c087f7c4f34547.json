@@ -42,14 +42,14 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -fdiagnostics-color=always"
+					"fragment" : "-g -std=gnu++14 -fdiagnostics-color=always"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 2,
-					"path" : "/home/mahmoud/MyComputer/compiler-lastnight/compiler/."
+					"path" : "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/."
 				}
 			],
 			"language" : "CXX",

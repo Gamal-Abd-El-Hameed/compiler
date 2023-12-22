@@ -82,7 +82,7 @@ void LL1::calc_first_set(vector<std::string> regular_definitions) {
                 T = "\'" + T + "\'";
                 if(NT.find(T) == 0) {
                     starts_with_terminal = true;
-                    firstsets[LHS].push_back(T);
+                    firstsets[LHS].insert(T);
                 }
             }
             if(!starts_with_terminal){
@@ -100,9 +100,9 @@ void LL1::calc_first_set(vector<std::string> regular_definitions) {
                     internal_NT_id++;
                 }
                 if(internal_NT_id < internal_NTs.size()){
-                    firstsets[LHS].insert(firstsets[LHS].end(), firstsets[internal_NTs[internal_NT_id]].begin(), firstsets[internal_NTs[internal_NT_id]].end());
+                    firstsets[LHS].insert(firstsets[internal_NTs[internal_NT_id]].begin(), firstsets[internal_NTs[internal_NT_id]].end());
                 }else{
-                    firstsets[LHS].push_back("Epsilon");
+                    firstsets[LHS].insert("Epsilon");
                 }
             }
 
@@ -111,6 +111,70 @@ void LL1::calc_first_set(vector<std::string> regular_definitions) {
     }
 }
 
+void LL1::calc_follow_set(vector<std::string> regular_definitions) {
+    // insert '$' to the follow of the start symbol
+    followsets[regular_definitions[0].substr(0, regular_definitions[0].find('='))].insert("$");
+    for (const string &regularDefinition : regular_definitions) {
+        int pos = static_cast<int>(regularDefinition.find('='));
+        string LHS = remove_spaces(regularDefinition.substr(0, pos));
+        string RHS = regularDefinition.substr(pos + 1, regularDefinition.size());
+        vector<string> split_by_or = splitmyDelimeter(RHS, '|');
+
+        for (string NT : split_by_or) {
+            NT = remove_spaces(NT);
+            vector<string> internal_NTs;
+            string token;
+
+            // Extract non-terminals from the right-hand side
+            for (int j = 0; j < NT.length(); j++) {
+                token += NT[j];
+                if (terminals.find(token) == terminals.end() && token != "Epsilon") {
+                    internal_NTs.push_back(token);
+                    token = "";
+                }
+            }
+
+            // Process internal non-terminals
+            for (int j = 0; j < internal_NTs.size() - 1; j++) {
+                string NT1 = internal_NTs[j];
+                string NT2 = internal_NTs[j + 1];
+
+                // Check if NT2 is a terminal, then add it to the follow set of NT1
+                if (terminals.find(NT2) != terminals.end()) {
+                    followsets[NT1].insert(NT2);
+                }
+                else {
+                    // NT2 is a non-terminal, add
+                    followsets[NT1].insert(firstsets[NT2].begin(), firstsets[NT2].end());
+
+                    // If NT2 can derive epsilon, go to the next non-terminal and add its first set
+                    // keep this loop until you reach a non-terminal that cannot derive epsilon
+                    if (firstsets[NT2].count("Epsilon")) {
+                        int k = j + 2;
+                        while (k < internal_NTs.size() && firstsets[internal_NTs[k]].count("Epsilon")) {
+                            followsets[NT1].insert(firstsets[internal_NTs[k]].begin(), firstsets[internal_NTs[k]].end());
+                            k++;
+                        }
+                    }
+                }
+            }
+
+            // Process the last internal non-terminal
+            string NT1 = internal_NTs.back();
+            followsets[NT1].insert(followsets[LHS].begin(), followsets[LHS].end());
+            // backward loop to handle the case of multiple epsilon
+            int j = static_cast<int>(internal_NTs.size()) - 2;
+            while (j >= 0 && firstsets[internal_NTs[j + 1]].count("Epsilon")) {
+                followsets[internal_NTs[j]].insert(followsets[LHS].begin(), followsets[LHS].end());
+                j--;
+            }
+        }
+    }
+    // remove "Epsilon" from followsets if any
+    for (auto &followset : followsets) {
+        followset.second.erase("Epsilon");
+    }
+}
 
 int main(){
     LL1 ll1;
