@@ -176,6 +176,61 @@ void LL1::calc_follow_set(vector<std::string> regular_definitions) {
     }
 }
 
+/**
+ *  for each production rule A --> alpha of a grammar G
+    1– for each terminal a in FIRST(alpha)
+        add A --> alpha to M[A,a]
+    2– If epsilon in FIRST(alpha)
+        for each terminal a in FOLLOW(A) add A --> alpha to M[A,a]
+    3– If epsilon in FIRST(alpha) and $ in FOLLOW(A)
+        add A --> alpha to M[A,$]
+
+ * 4- synchronization part:
+ * for each terminal a in FOLLOW(A)
+ *    add "sync" to M[A,a] if M[A,a] is empty
+ */
+void LL1::create_parsing_table() {
+    for (const string &regularDefinition : grammar) {
+        int pos = static_cast<int>(regularDefinition.find('='));
+        string LHS = remove_spaces(regularDefinition.substr(0, pos));
+        string RHS = regularDefinition.substr(pos + 1, regularDefinition.size());
+        vector<string> split_by_or = splitmyDelimeter(RHS, '|');
+
+        for (const string &production : split_by_or) {
+            // Step 1: For each terminal a in FIRST(production), add the production to M[A, a]
+            set<string> first_of_production = firstsets[production];
+            for (const string &a : first_of_production) {
+                if (a != "Epsilon") {
+                    parsing_table[LHS][a] = production;
+                }
+            }
+
+            // Step 2: If epsilon is in FIRST(production), add the production to M[A, a] for each terminal a in FOLLOW(A)
+            if (first_of_production.count("Epsilon")) {
+                set<string> follow_A = followsets[LHS];
+                for (const string &a : follow_A) {
+                    if (a != "Epsilon") {
+                        parsing_table[LHS][a] = production;
+                    }
+                }
+            }
+
+            // Step 3: If epsilon is in FIRST(production) and $ is in FOLLOW(A), add the production to M[A, $]
+            if (first_of_production.count("Epsilon") && followsets[LHS].count("$")) {
+                parsing_table[LHS]["$"] = production;
+            }
+        }
+
+        // Step 4: Synchronization part
+        set<string> follow_A = followsets[LHS];
+        for (const string &a : follow_A) {
+            if (parsing_table[LHS].count(a) == 0) {
+                parsing_table[LHS][a] = "sync";
+            }
+        }
+    }
+}
+
 int main(){
     LL1 ll1;
     /*string LHS = "E";
