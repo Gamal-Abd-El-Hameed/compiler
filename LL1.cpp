@@ -144,14 +144,14 @@ void LL1::calc_follow_set(vector<std::string> regular_definitions) {
                     followsets[NT1].insert(NT2);
                 }
                 else {
-                    // NT2 is a non-terminal, add
+                    // NT2 is a non-terminal, add its first set to the follow set of NT1
                     followsets[NT1].insert(firstsets[NT2].begin(), firstsets[NT2].end());
 
                     // If NT2 can derive epsilon, go to the next non-terminal and add its first set
                     // keep this loop until you reach a non-terminal that cannot derive epsilon
                     if (firstsets[NT2].count("Epsilon")) {
                         int k = j + 2;
-                        while (k < internal_NTs.size() && firstsets[internal_NTs[k]].count("Epsilon")) {
+                        while (k < internal_NTs.size() && firstsets[internal_NTs[k - 1]].count("Epsilon")) {
                             followsets[NT1].insert(firstsets[internal_NTs[k]].begin(), firstsets[internal_NTs[k]].end());
                             k++;
                         }
