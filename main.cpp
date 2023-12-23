@@ -1,36 +1,28 @@
-/*
 #include <iostream>
 #include "RulesReader.h"
 #include "State.h"
 #include "utility.h"
 #include "NFA_Generator.h"
 #include "InputReader.h"
-#include "SetStates.h"
-#include "DFA.h"
 #include "minimize.h"
+#include "LL1.h"
+#include "Parser.h"
 
 int main() {
-    RulesReader::readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/grammar2.txt)");
+    RulesReader::readFile(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/grammar.txt)");
     NFA_Generator NFAGenerator;
     NFAGenerator.generateNfAs(RulesReader::regularDefinitions, RulesReader::rawRegularExpressions);
 
     InputReader inputReader;
-    inputReader.readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/input.txt)");
+    inputReader.readFile(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/input.txt)");
 
-    fstream outfile;
-    outfile.open(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/output.txt)",ios::out);
+    LL1 ll1;
+    ll1.read_grammar(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/grammar2.txt)");
+    vector<string> input(inputReader.acceptedTokens.size());
     for (const pair<string,string>& pair:inputReader.acceptedTokens) {
-        outfile << pair.second << endl;
-        cout << pair.first << " --> " << pair.second << endl;
+        input.emplace_back(pair.first);
     }
-
-    DFA* finalDFA = new DFA();
-    finalDFA->generateDFA(NFA_Generator::combinedNFA);
-    vector<vector<SetStates*>> groups = minimizeDFA(finalDFA->remainingStates(), finalDFA->acceptingStates());
-    DFA* minimizeDFA = generateMinDFA(groups);
-    cout << "\nThe DFA has : " << finalDFA->stateIdToSetStatesMap.size() << " states.\n";
-    //cout << "The minimized DFA has : " << minimizeDFA->stateIdToSetStatesMap.size() << " states.\n";
-    minimizeDFA->writeToFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/minimizedDFA.txt)");
+    Parser parser;
+    parser.Parse(input, &ll1);
     return 0 ;
 }
-*/

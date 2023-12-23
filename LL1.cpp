@@ -5,11 +5,32 @@ void LL1::read_grammar(const std::string &filepath) {
     ifstream inFile;
     inFile.open(filepath);
     string str;
-    int priority = 0;
     while(getline(inFile, str)) {
-        grammar.push_back(remove_spaces(str));
+        grammar.push_back(str);
     }
     inFile.close();
+    // left factoring & left recursion
+    for(int i=0; i<grammar.size(); i++){
+        int pos = static_cast<int>(grammar[i].find('='));
+        string LHS = grammar[i].substr(0, pos);
+        string RHS = grammar[i].substr(pos+1, grammar[i].size());
+        RHS = left_factoring(LHS, RHS);
+        vector<string> new_grammar = remove_left_recursion(LHS, RHS);
+        if(new_grammar.size() > 1){
+            grammar.erase(grammar.begin() + i);
+            grammar.insert(grammar.begin() + i, new_grammar.begin(), new_grammar.end());
+            i += new_grammar.size()-1;
+        }
+        else{
+            grammar[i] = LHS + "=" + RHS;
+        }
+    }
+    // calculate first set
+    calc_first_set(grammar);
+    // calculate follow set
+    calc_follow_set(grammar);
+    // create parsing table
+    create_parsing_table();
 }
 
 string LL1::left_factoring(string LHS, string RHS) {
@@ -190,6 +211,7 @@ void LL1::calc_follow_set(vector<std::string> regular_definitions) {
  *    add "sync" to M[A,a] if M[A,a] is empty
  */
 void LL1::create_parsing_table() {
+    start_symbol = grammar[0].substr(0, grammar[0].find('='));
     for (const string &regularDefinition : grammar) {
         int pos = static_cast<int>(regularDefinition.find('='));
         string LHS = remove_spaces(regularDefinition.substr(0, pos));

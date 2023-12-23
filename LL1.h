@@ -8,7 +8,8 @@
 using namespace std;
 class LL1{
 public:
-    set<string> terminals;
+    string start_symbol;
+    set<string> terminals{"num", "id", "int", "float", "if", "while", "else", "mulop", "relop", "+", "-", ";", "(", ")"};
     vector<string> grammar;
     map<string, set<string>> firstsets, followsets;
     map<string, map<string, string>> parsing_table;
