@@ -6,19 +6,31 @@
 #define LEXICALANALYZERGENERATOR_LL1_H
 #include <bits/stdc++.h>
 using namespace std;
-class LL1{
+class LL1 {
 public:
-    string start_symbol;
-    set<string> terminals{"num", "id", "int", "float", "if", "while", "else", "mulop", "relop", "+", "-", ";", "(", ")"};
-    vector<string> grammar;
-    map<string, set<string>> firstsets, followsets;
-    map<string, map<string, string>> parsing_table;
-    string left_factoring(string LHS, string RHS);
-    vector<string> remove_left_recursion(string LHS, string RHS);
-    void calc_first_set(vector<string> regular_definitions);
-    void calc_follow_set(vector<string> regular_definitions);
-    void read_grammar(const string& filepath);
-    void create_parsing_table();
+    vector<pair<string,string>>grammer_rules;
+    map<string,vector<string>> rules_map;
+    map<string,set<string>> first_sets;
+    map<string,map<string,string>> table;
+    map<string,set<string>> follow_sets;
+    void read_file(string filepath);
+    void removeLR();
+    void left_factor();
+    void get_parsing_table();
+    void substitute(int i,int j);
+    void eliminate_immediate_LR(int rule_index);
+    string get_match_substr(string group, string p);
+    vector <string> remove_substr(vector <string> vec, string str);
+    void get_first_sets();
+    void get_follow_sets();
+    void first_for_one_key(const string& basicString,stack <string>& stack1);
+    bool is_terminal(string str);
+    bool has_epsilon(vector<string> prods);
+    map<string,vector<string>> get_graph();
+    void get_follow_for_one_key(string str,map<string,vector<string>> right_most);
+    void create_table();
+
+    vector<string> LL1_parse(string input, stack<string>& s);
 };
 
 #endif //LEXICALANALYZERGENERATOR_LL1_H

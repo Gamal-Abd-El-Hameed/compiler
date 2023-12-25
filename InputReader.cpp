@@ -17,6 +17,65 @@ void InputReader::readFile(const string& filepath) {
     }
 }
 
+int InputReader::parsing_single_token(string input, LL1 * pg, stack<string> &tempStack) {
+    int accepted_index = -1;
+    string accepted_token;
+    string acceptedString;
+    string accu;
+    NFA *totalNFA = NFA_Generator::combinedNFA;
+    vector<State *> current_states = epsilonClosure(totalNFA->startState);
+    for (int i = 0; i < input.size(); i++) {
+        accu+=input[i];
+        if (current_states.empty())break;
+        vector<State *> comming_states = nextAndEpsilonClosures(current_states, input[i]);
+        int accepted_priority = INT16_MAX;
+        for (State *s: comming_states) {
+            if (s->isAccepted) {
+                if (accepted_priority > RulesReader::tokens.at(s->acceptedToken).first) {
+                    accepted_priority = RulesReader::tokens.at(s->acceptedToken).first;
+                    accepted_index = i;
+                    accepted_token = s->acceptedToken;
+                    acceptedString = accu;
+                }
+            }
+        }
+        current_states = comming_states;
+    }
+    if (accepted_index > -1) {
+        acceptedTokens.push_back(make_pair(acceptedString, accepted_token));
+        //send this token to the LL1 parse
+//        cout<<endl;
+//        cout<<"## send "+accepted_token+"--->"<<endl;
+//        cout<<endl;
+        vector<string> res = pg->LL1_parse(accepted_token, tempStack);
+        for (string str:res) {
+            cout << str << endl;
+        }
+    } else if(input[0]!=' '){
+        acceptedTokens.push_back(make_pair(to_string(input[0]), "Undefined"));
+    }
+    return accepted_index;
+}
+
+void InputReader::parse_string(string filepath, LL1* pg){
+    ifstream inFile;
+    inFile.open(filepath);
+    string input_line;
+    stack<string> tempStack = stack<string>();
+    tempStack.push("$");
+    tempStack.push(pg->grammer_rules[0].first);
+    while(getline(inFile, input_line)) {
+        while(!input_line.empty()){
+            int index=parsing_single_token(input_line,pg, tempStack);
+            input_line=index==-1?input_line.substr(1,input_line.size()):input_line.substr(index+1,input_line.size());
+        }
+    }
+    vector<string> res = pg->LL1_parse("$", tempStack);
+    for (string str:res) {
+        cout << str << endl;
+    }
+}
+
 
 int InputReader::readSingleToken(string input) {
     int accepted_index = -1;

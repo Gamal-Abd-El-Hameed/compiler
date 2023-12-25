@@ -3,15 +3,40 @@
 #define PHASE_1_HELPER_H
 
 
-static int id_generator=-1;
-
+static int id_generator=0;
+static string output_path=R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/result.txt)";
 
 static string remove_spaces(string input) {
     input.erase(remove(input.begin(), input.end(), ' '), input.end());
     return input;
 }
-
-
+static string remove_leading_spaces(string str){
+    int i;
+    for(i=0;i<str.size();i++){
+        if(str[i]!=' ') break;
+    }
+    return str.substr(i,str.size());
+}
+static vector<string> split_on_spacial_chars(const string &str,regex rgx=regex(R"([+()*\|\-,:?\s\\]+)")) {
+    vector<string> result;
+    string current_string;
+    for(char c:str){
+        if(regex_match(string(1,c),rgx)){
+            if(!current_string.empty()){
+                result.push_back(remove_leading_spaces(current_string));
+            }
+            if(c!=' '){
+                result.emplace_back(string(1, c));
+            }
+            current_string="";
+        }
+        else{
+            current_string.append(string(1,c));
+        }
+    }
+    if(!current_string.empty())result.push_back(remove_leading_spaces(current_string));
+    return result;
+}
 static vector<string> separateOperatorsAndOperands(const string& inputString) {
     vector<string> outputVector;
     regex regexPattern(R"([+()*\|\-,:?\s\\]+)"); // {+, *, (, ), |, \, ?}
@@ -39,7 +64,7 @@ static vector<string> separateOperatorsAndOperands(const string& inputString) {
 }
 
 
-static bool is_tokenizing_symbol(string c) {
+static bool is_tokenizing_symbol(string &c) {
     regex rgx(R"([+()*\|\?\s\\]+)"); // {+, *, (, ), |, \, ?}
     return regex_match(c,rgx);
 }
@@ -167,4 +192,114 @@ static vector<char> get_ranges(string range) {
     }
     return result;
 }
+static string accumlator(vector<string>input,string delimter){
+    string result="";
+    for(string s:input){
+        result.append(s+delimter);
+    }
+    return result.substr(0,result.size()-1);
+
+}
+static vector<string> subvector(vector<string>v, int m, int n) {
+    vector<string>result;
+    for(int i=m;i<n;i++){
+        result.emplace_back(v[i]);
+    }
+    return result;
+}
+static bool search_in_vector(vector<string>vec,string str){
+    return (find(vec.begin(), vec.end(), str) != vec.end());
+}
+// A recursive function used by topologicalSort
+static void topological_sortUtil(string v, map<string,bool>& visited,
+                                 stack<string>& Stack,map<string,vector<string>>graph)
+{
+    // Mark the current node as visited.
+    visited[v] = true;
+
+    // Recur for all the vertices
+    // adjacent to this vertex
+    vector<string>::iterator i;
+    for (i = graph[v].begin(); i != graph[v].end(); ++i)
+        if (!visited[*i])
+            topological_sortUtil(*i, visited, Stack,graph);
+
+    // Push current vertex to stack
+    // which stores result
+    Stack.push(v);
+}
+
+// The function to do Topological Sort.
+// It uses recursive topologicalSortUtil()
+static vector<string> topological_sort(map<string,vector<string>>graph )
+{
+    vector<string> result;
+    stack<string> Stack;
+    // Mark all the vertices as not visited
+    map<string,bool> visited;
+    for(auto const &[key, val]:graph){
+        visited.insert({key,false});
+    }
+
+    // Call the recursive helper function
+    // to store Topological
+    // Sort starting from all
+    // vertices one by one
+    for (auto const &[key, val]:graph)
+        if (!visited[key])
+            topological_sortUtil(key, visited, Stack,graph);
+
+    // Print contents of stack
+    while (!Stack.empty()) {
+//        cout << Stack.top() << " ";
+        result.push_back(Stack.top());
+        Stack.pop();
+    }
+    return result;
+
+}
+static string group_naming(string str){
+    vector<string>parts= split_on_spacial_chars(str,regex(R"([\s]+)"));
+    string result="";
+    for(int i=0;i<parts.size()-1;i++){
+        result+=parts[i]+"_";
+    }
+    result+=parts[parts.size()-1];
+    return result;
+}
+static string remove_extra_spaces(string str)
+{
+    str=str+" ";
+    int n = str.length();
+    int i = 0, j = -1;
+    bool spaceFound = false;
+    while (++j < n && str[j] == ' ');
+    while (j < n)
+    {
+        if (str[j] != ' ')
+        {
+            if ((str[j] == '.' || str[j] == ',' ||
+                 str[j] == '?') && i - 1 >= 0 &&
+                str[i - 1] == ' ')
+                str[i - 1] = str[j++];
+            else
+                str[i++] = str[j++];
+            spaceFound = false;
+        }
+        else if (str[j++] == ' ')
+        {
+            if (!spaceFound)
+            {
+                str[i++] = ' ';
+                spaceFound = true;
+            }
+        }
+    }
+    if (i <= 1)
+        str.erase(str.begin() + i, str.end());
+    else
+        str.erase(str.begin() + i - 1, str.end());
+    return str;
+}
+
 #endif //PHASE_1_HELPER_H

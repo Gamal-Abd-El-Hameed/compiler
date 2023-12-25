@@ -1,285 +1,353 @@
 #include "LL1.h"
 #include "utility.h"
 
-void LL1::read_grammar(const std::string &filepath) {
+void LL1::read_file(string filepath) {
     ifstream inFile;
     inFile.open(filepath);
     string str;
-    while(getline(inFile, str)) {
-        grammar.push_back(str);
-    }
-    inFile.close();
-    // left factoring & left recursion
-    for(int i=0; i<grammar.size(); i++){
-        int pos = static_cast<int>(grammar[i].find('='));
-        string LHS = grammar[i].substr(0, pos);
-        string RHS = grammar[i].substr(pos+1, grammar[i].size());
-        RHS = left_factoring(LHS, RHS);
-        vector<string> new_grammar = remove_left_recursion(LHS, RHS);
-        if(new_grammar.size() > 1){
-            grammar.erase(grammar.begin() + i);
-            grammar.insert(grammar.begin() + i, new_grammar.begin(), new_grammar.end());
-            i += new_grammar.size()-1;
+    regex new_rule(R"([\s]*[a-zA-z]*[\s]*=.*)");
+    string LHS;
+    while(getline(inFile, str)){
+        if(regex_match(str,new_rule)){
+            int pos=str.find('=');
+            LHS = remove_spaces(str.substr(0,pos));
+            string RHS=  str.substr(pos+1,str.size());
+            grammer_rules.emplace_back(make_pair(LHS,RHS));
         }
         else{
-            grammar[i] = LHS + "=" + RHS;
+            grammer_rules.back().second.append(str);
         }
     }
-    // calculate first set
-    calc_first_set(grammar);
-    // calculate follow set
-    calc_follow_set(grammar);
-    // create parsing table
-    create_parsing_table();
 }
 
-string LL1::left_factoring(string LHS, string RHS) {
-    vector<string> other, left_factor;
-    vector<string> split_by_or = splitmyDelimeter(RHS, '|');
-    for(string NT : split_by_or){
-        int i=0;
-        if(NT.length() >= LHS.length()) {
-            while (i < NT.length() && LHS[i] == NT[i])
-                i++;
+void LL1::removeLR() {
+    for(int i = 0; i<grammer_rules.size(); i++){
+        for(int j=0; j<i; j++){
+            substitute(i,j);
         }
-        if(i == LHS.length()){
-            left_factor.push_back(NT.substr(i));
-            left_factor.push_back("|");
+        eliminate_immediate_LR(i);
+    }
+}
+void  LL1::eliminate_immediate_LR(int rule_index){
+    pair<string,string> rule=grammer_rules[rule_index];
+    vector<string> productions = split_on_spacial_chars(rule.second, regex(R"([\|])"));
+    pair<string,string>dash= make_pair(rule.first+"_dashLR","");
+    string temp;
+    for(int i=0;i<productions.size();i++){
+        if(productions[i].find("|") != string::npos)continue;
+        vector<string> prod_parts = split_on_spacial_chars(productions[i],regex(R"([\s]+)"));
+        if(prod_parts[0]==rule.first){
+            string accu=accumlator(subvector(prod_parts,1,prod_parts.size()), " ");
+            dash.second.append(accu.append(" "+dash.first+" |"));
         }else{
-            other.push_back(NT);
-            other.push_back("|");
+            string accu=accumlator(prod_parts, " ");
+            temp.append(accu+" "+dash.first+" |");
         }
     }
-    string newRHS = "";
-    if(left_factor.size() > 0){
-        newRHS += LHS + "(" + accumulate(left_factor.begin(), left_factor.end()-1, string("")) + ")";
-        if(other.size() > 0)
-            newRHS += "|";
+    if(!dash.second.empty()){
+        grammer_rules.at(rule_index).second=temp.substr(0,temp.size()-1);
+        dash.second.append(" Epsilon");
+        grammer_rules.emplace_back(dash);
     }
-    if(other.size() > 0){
-        newRHS += "(" + accumulate(other.begin(), other.end()-1, string("")) + ")";
+}
+void LL1::substitute(int i, int j){
+    pair<string,string> rule_i=grammer_rules[i];
+    pair<string,string> rule_j=grammer_rules[j];
+    vector<string>rule_i_productions= split_on_spacial_chars(rule_i.second, regex(R"([\|])"));
+    for(int i=0; i < rule_i_productions.size(); i++){
+        string rule_i_prod=rule_i_productions[i];
+        vector<string> rule_i_prod_part= split_on_spacial_chars(rule_i_prod,regex(R"([\s]+)"));
+        if(rule_i_prod_part[0]==rule_j.first){
+            string accu=accumlator(subvector(rule_i_prod_part,1,rule_i_prod_part.size()), " ");
+            vector<string>rule_j_productions=split_on_spacial_chars(rule_j.second, regex(R"([\|])"));
+            for(int j=0;j<rule_j_productions.size();j++){
+                if(rule_j_productions[j]!="|")
+                    rule_j_productions[j].append(" "+accu);
+            }
+            string rule_j_substitution=accumlator(rule_j_productions, " ");
+            rule_i_productions[i]=rule_j_substitution;
+        }
     }
-    return newRHS;
+    string rule_i_prod_final=accumlator(rule_i_productions, " ");
+    grammer_rules.at(i).second=rule_i_prod_final;
 }
 
-vector<string> LL1::remove_left_recursion(std::string LHS, std::string RHS) {
-    //Assumption RHS here is RHS that was processed
-    //by LL1::left_factoring
-    vector<string> split_by_or = splitmyDelimeter(RHS, '|');
-    if(split_by_or[0].length() <= LHS.length())
-        return vector<string>{RHS};
-    string Match = split_by_or[0].substr(0, LHS.length());
-    if(LHS != Match)
-        return vector<string>{RHS};
-    string LHS2 = LHS + "'";
-    string RHS1 = split_by_or[1] + LHS2;
-    string RHS2 = split_by_or[0].substr(LHS.length()) + LHS2 + "|" + "Epsilon";
-    string definition1 = LHS + ":" + RHS1;
-    string defintion2 = LHS2 + ":" + RHS2;
-    return vector<string>{definition1, defintion2};
+
+void LL1::left_factor() {
+    for (int index = 0; index < grammer_rules.size(); index++) {
+        string RHS = grammer_rules[index].second;
+        vector <string> productions = split_on_spacial_chars(RHS, regex(R"([\|])"));
+        sort(productions.begin(), productions.end());
+        map <string, vector<string>> groups;
+        int group_index = -1;
+        string group = remove_extra_spaces(productions[0]);
+        int current = -1;
+        string refactored;
+        for (string p: productions) {
+            if (p.find("|") != string::npos)continue;
+            string substr = get_match_substr(group, p);
+            if (substr.size() == 0) {
+                if (group_index < current - 1) {
+                    vector <string> group_str = remove_substr(subvector(productions, group_index + 1, current + 1),group);
+                    groups.insert({group, group_str});
+                } else {
+                    refactored.append(group + " |");
+                }
+                group = p;
+                group_index = current;
+            } else {
+                group = substr;
+            }
+            current++;
+        }
+        if (group_index < current - 1) {
+            vector <string> group_str = remove_substr(subvector(productions, group_index + 1, current + 1), group);
+
+            groups.insert({group, group_str});
+        } else {
+            refactored.append(group + " |");
+        }
+        for (auto const&[key, val]: groups) {
+            string clean_key=key;
+            if(is_terminal(clean_key)){
+                clean_key=remove_spaces(clean_key);
+                clean_key.erase(remove(clean_key.begin(), clean_key.end(), '\''),clean_key.end());
+            }
+            clean_key= group_naming(clean_key);
+            refactored.append(key + " " + clean_key + "_dashLF " + "|");
+            grammer_rules.push_back({clean_key + "_dashLF", accumlator(val, "|")});
+        }
+        grammer_rules[index].second = refactored.substr(0, refactored.size() - 1);
+    }
 }
 
-void LL1::calc_first_set(vector<std::string> regular_definitions) {
-    set<string> contains_epsilon;
-    set<string> LHSs;
-    for(string regularDefinition : regular_definitions) {
-        int pos = static_cast<int>(regularDefinition.find('='));
-        string LHS = remove_spaces(regularDefinition.substr(0, pos));
-        string RHS = regularDefinition.substr(pos + 1, regularDefinition.size());
-        LHSs.insert(LHS);
-        if(RHS.find("Epsilon") >= 0 && RHS.find("Epsilon") < RHS.length())
-            contains_epsilon.insert(LHS);
+string LL1::get_match_substr(string group, string p){
+    vector<string>space_split_group= split_on_spacial_chars(group,regex(R"([\s]+)"));
+    vector<string>space_split_p= split_on_spacial_chars(p,regex(R"([\s]+)"));
+    for(int i=0;i<min(space_split_p.size(),space_split_group.size());i++){
+        if(space_split_group[i]!=space_split_p[i]){
+            return accumlator(subvector(space_split_p,0,i)," ");
+        }
     }
-    for(int i=regular_definitions.size()-1; i>=0; i--) {
-        string regularDefinition = regular_definitions[i];
-        int pos = static_cast<int>(regularDefinition.find('='));
-        string LHS = remove_spaces(regularDefinition.substr(0, pos));
-        string RHS = regularDefinition.substr(pos + 1, regularDefinition.size());
-        vector<string> split_by_or = splitmyDelimeter(RHS, '|');
-        for(string NT : split_by_or){
-            NT = remove_spaces(NT);
-            bool starts_with_terminal = false;
-            for(string T : terminals){
-                T = "\'" + T + "\'";
-                if(NT.find(T) == 0) {
-                    starts_with_terminal = true;
-                    firstsets[LHS].insert(T);
+    if(p.size()<group.size()) return p;
+    return group;
+}
+vector<string> LL1::remove_substr(vector<string>vec, string str){
+    vector<string>result;
+    for(int i=0;i<vec.size();i++){
+        result.emplace_back(vec[i].substr(str.size(),vec[i].size()));
+        if(remove_extra_spaces(result[i])==""){
+            result[i]="Epsilon";
+        }
+    }
+    return result;
+}
+
+void LL1::get_parsing_table() {
+    for(pair<string,string> p:grammer_rules){
+        rules_map.insert({p.first, split_on_spacial_chars(p.second,regex(R"([\|])"))});
+    }
+    get_first_sets();
+    get_follow_sets();
+    create_table();
+}
+
+void LL1::get_first_sets(){
+    stack<string> s;
+    for (auto const&[key, val]: rules_map) {
+        first_sets.insert({key,set<string>{}});
+    }
+    for (auto const&[key, val]: rules_map) {
+        s.push(key);
+        while(!s.empty()){
+            first_for_one_key(key,s);
+        }
+    }
+
+}
+void LL1::get_follow_sets(){
+    map<string,vector<string>> graph = get_graph();
+    follow_sets[grammer_rules[0].first].insert("$");
+    vector<string> order = topological_sort(graph);
+    for(string str:order){
+        get_follow_for_one_key(str,graph);
+    }
+}
+
+void LL1::create_table(){
+    for(auto const&[key, val]: rules_map) {
+        for(string production:val){
+            if (production.find("|") != string::npos)continue;
+            if(production.find("Epsilon") != string::npos) continue;
+            vector<string> prod_parts = split_on_spacial_chars(production,regex(R"([\s]+)"));
+            if(is_terminal(prod_parts[0])){
+                if(table[key].count(prod_parts[0])!=0)cout<<"Not LL(1)"<<endl;
+                table[key][prod_parts[0]]=remove_extra_spaces(production);
+            } else{
+                for(string terminal:first_sets[prod_parts[0]]){
+                    if(table[key].count(terminal)!=0)cout<<"Not LL(1)"<<endl;
+                    table[key][terminal]=remove_extra_spaces(production);
                 }
             }
-            if(!starts_with_terminal){
-                vector<string> internal_NTs;
-                string token = "";
-                for(int j=0; j<NT.length(); j++){
-                    token += NT[j];
-                    if(LHSs.count(token) > 0){
-                        internal_NTs.push_back(token);
-                        token = "";
-                    }
+        }
+        bool eps=has_epsilon(rules_map[key]);
+        for(string follow:follow_sets[key]){
+            if (table[key].count(follow)==0 || table[key][follow]=="Sync") {
+                table[key][follow] = eps ? "Epsilon" : "Sync";
+            }
+            else if(eps && table[key][follow]!="Epsilon"){
+                cout << "Not LL(1) : Non-terminal("+key+") under input ("+follow+") has production ("+ table[key][follow] +") Then neglect the coming production (Epsilon)"<< endl;
+            }
+        }
+    }
+}
+void LL1::first_for_one_key(const string& key, stack <string>& s) {
+    string current_key=s.top();
+    s.pop();
+    vector<string> productions = rules_map[current_key];
+    for(string p:productions){
+        if (p.find("|") != string::npos)continue;
+        vector<string> prod_parts = split_on_spacial_chars(p,regex(R"([\s]+)"));
+        if(is_terminal(prod_parts[0])){
+            if(prod_parts[0].find("Epsilon") != string::npos) {
+                if(has_epsilon(rules_map[key])) {
+                    first_sets.at(key).insert(prod_parts[0]);
                 }
-                int internal_NT_id = 0;
-                while(internal_NT_id < internal_NTs.size() && contains_epsilon.count(internal_NTs[internal_NT_id]) > 0){
-                    internal_NT_id++;
-                }
-                if(internal_NT_id < internal_NTs.size()){
-                    firstsets[LHS].insert(firstsets[internal_NTs[internal_NT_id]].begin(), firstsets[internal_NTs[internal_NT_id]].end());
+            }
+            else{
+                first_sets.at(key).insert(prod_parts[0]);
+            }
+        }else{
+            s.push(prod_parts[0]);
+            int i;
+            for(i=0;i<prod_parts.size();i++){
+                if(has_epsilon(rules_map[prod_parts[i]]) && (i+1)<prod_parts.size()){
+                    s.push(prod_parts[i+1]);
                 }else{
-                    firstsets[LHS].insert("Epsilon");
+                    break;
                 }
             }
-
-
+            if(i==prod_parts.size()-1 && has_epsilon(rules_map[prod_parts[i]])){
+                first_sets.at(key).insert("Epsilon");
+            }
         }
     }
 }
 
-void LL1::calc_follow_set(vector<std::string> regular_definitions) {
-    // insert '$' to the follow of the start symbol
-    followsets[regular_definitions[0].substr(0, regular_definitions[0].find('='))].insert("$");
-    for (const string &regularDefinition : regular_definitions) {
-        int pos = static_cast<int>(regularDefinition.find('='));
-        string LHS = remove_spaces(regularDefinition.substr(0, pos));
-        string RHS = regularDefinition.substr(pos + 1, regularDefinition.size());
-        vector<string> split_by_or = splitmyDelimeter(RHS, '|');
+bool LL1::is_terminal(string str) {
+    regex terminal(R"('.*')");
+    return regex_match(str,terminal)||str.find("Epsilon") != string::npos;
+}
 
-        for (string NT : split_by_or) {
-            NT = remove_spaces(NT);
-            vector<string> internal_NTs;
-            string token;
-
-            // Extract non-terminals from the right-hand side
-            for (int j = 0; j < NT.length(); j++) {
-                token += NT[j];
-                if (terminals.find(token) == terminals.end() && token != "Epsilon") {
-                    internal_NTs.push_back(token);
-                    token = "";
-                }
-            }
-
-            // Process internal non-terminals
-            for (int j = 0; j < internal_NTs.size() - 1; j++) {
-                string NT1 = internal_NTs[j];
-                string NT2 = internal_NTs[j + 1];
-
-                // Check if NT2 is a terminal, then add it to the follow set of NT1
-                if (terminals.find(NT2) != terminals.end()) {
-                    followsets[NT1].insert(NT2);
-                }
-                else {
-                    // NT2 is a non-terminal, add its first set to the follow set of NT1
-                    followsets[NT1].insert(firstsets[NT2].begin(), firstsets[NT2].end());
-
-                    // If NT2 can derive epsilon, go to the next non-terminal and add its first set
-                    // keep this loop until you reach a non-terminal that cannot derive epsilon
-                    if (firstsets[NT2].count("Epsilon")) {
-                        int k = j + 2;
-                        while (k < internal_NTs.size() && firstsets[internal_NTs[k - 1]].count("Epsilon")) {
-                            followsets[NT1].insert(firstsets[internal_NTs[k]].begin(), firstsets[internal_NTs[k]].end());
-                            k++;
-                        }
-                    }
-                }
-            }
-
-            // Process the last internal non-terminal
-            string NT1 = internal_NTs.back();
-            followsets[NT1].insert(followsets[LHS].begin(), followsets[LHS].end());
-            // backward loop to handle the case of multiple epsilon
-            int j = static_cast<int>(internal_NTs.size()) - 2;
-            while (j >= 0 && firstsets[internal_NTs[j + 1]].count("Epsilon")) {
-                followsets[internal_NTs[j]].insert(followsets[LHS].begin(), followsets[LHS].end());
-                j--;
-            }
-        }
+bool LL1::has_epsilon(vector<string> prods) {
+    for (string s:prods) {
+        s=remove_spaces(s);
+        if(s.find("Epsilon") != string::npos)return true;
     }
-    // remove "Epsilon" from followsets if any
-    for (auto &followset : followsets) {
-        followset.second.erase("Epsilon");
-    }
+    return false;
 }
 
 /**
- *  for each production rule A --> alpha of a grammar G
-    1– for each terminal a in FIRST(alpha)
-        add A --> alpha to M[A,a]
-    2– If epsilon in FIRST(alpha)
-        for each terminal a in FOLLOW(A) add A --> alpha to M[A,a]
-    3– If epsilon in FIRST(alpha) and $ in FOLLOW(A)
-        add A --> alpha to M[A,$]
-
- * 4- synchronization part:
- * for each terminal a in FOLLOW(A)
- *    add "sync" to M[A,a] if M[A,a] is empty
+ * @brief get the right most non-terminal for each non-terminal
+ * @return
  */
-void LL1::create_parsing_table() {
-    start_symbol = grammar[0].substr(0, grammar[0].find('='));
-    for (const string &regularDefinition : grammar) {
-        int pos = static_cast<int>(regularDefinition.find('='));
-        string LHS = remove_spaces(regularDefinition.substr(0, pos));
-        string RHS = regularDefinition.substr(pos + 1, regularDefinition.size());
-        vector<string> split_by_or = splitmyDelimeter(RHS, '|');
-
-        for (const string &production : split_by_or) {
-            // Step 1: For each terminal a in FIRST(production), add the production to M[A, a]
-            set<string> first_of_production = firstsets[production];
-            for (const string &a : first_of_production) {
-                if (a != "Epsilon") {
-                    parsing_table[LHS][a] = production;
+map<string,vector<string>> LL1::get_graph(){
+    map<string,vector<string>> right_most;
+    for(auto const&[key, val]:rules_map){
+        right_most.insert({key,vector<string>{}});
+        for(string prod:val){
+            vector<string> prod_parts = split_on_spacial_chars(prod,regex(R"([\s]+)"));
+            for(int j=prod_parts.size()-1;j>=0;j--){
+                if(prod_parts[j].find("Epsilon") != string::npos||prod_parts[j].find("|") != string::npos||is_terminal(prod_parts[j])) {
+                    break;
                 }
-            }
-
-            // Step 2: If epsilon is in FIRST(production), add the production to M[A, a] for each terminal a in FOLLOW(A)
-            if (first_of_production.count("Epsilon")) {
-                set<string> follow_A = followsets[LHS];
-                for (const string &a : follow_A) {
-                    if (a != "Epsilon") {
-                        parsing_table[LHS][a] = production;
-                    }
+                if(prod_parts[j]!=key) {
+                    right_most[key].push_back(prod_parts[j]);
                 }
-            }
-
-            // Step 3: If epsilon is in FIRST(production) and $ is in FOLLOW(A), add the production to M[A, $]
-            if (first_of_production.count("Epsilon") && followsets[LHS].count("$")) {
-                parsing_table[LHS]["$"] = production;
+                if (!has_epsilon(rules_map[prod_parts[j]]))
+                    break;
             }
         }
+    }
+    return right_most;
+}
 
-        // Step 4: Synchronization part
-        set<string> follow_A = followsets[LHS];
-        for (const string &a : follow_A) {
-            if (parsing_table[LHS].count(a) == 0) {
-                parsing_table[LHS][a] = "sync";
+void LL1::get_follow_for_one_key(string str, map<string,vector<string>> right_most) {
+    for (auto const &[key, val]: rules_map) {
+        for (string prod: val) {
+            if (prod.find("|") != string::npos)continue;
+            vector <string> prod_parts = split_on_spacial_chars(prod, regex(R"([\s]+)"));
+            for (int i = 1; i < prod_parts.size(); i++) {
+                if (prod_parts[i - 1] == str) {
+                    if (is_terminal(prod_parts[i])) {
+                        follow_sets[str].insert(prod_parts[i]);
+                    } else {
+                        follow_sets[str].insert(first_sets[prod_parts[i]].begin(), first_sets[prod_parts[i]].end());//
+                    }
+                    if(follow_sets[str].find("Epsilon")!=follow_sets[str].end())
+                        follow_sets[str].erase("Epsilon");
+                }
+            }
+
+            if(search_in_vector(right_most[key],str)){//
+                follow_sets[str].insert(follow_sets[key].begin(),follow_sets[key].end());//
             }
         }
     }
 }
 
-int main(){
-    LL1 ll1;
-    /*string LHS = "E";
-    string RHS = "E+T|T";
-    string newRHS = ll1.left_factoring(LHS, RHS);
-    auto new_grammar = ll1.remove_left_recursion(LHS, newRHS);*/
-    ll1.read_grammar("/home/mahmoud/MyComputer/compiler-lastnight/compiler/cfg_input.txt");
-    vector<string> regular_definitions;
-    ll1.terminals = {"num", "id", "int", "float", "if", "while", "else", "mulop", "relop", "+", "-", ";", "(", ")"};
-    regular_definitions.push_back("METHOD_BODY::=STATEMENT_LIST");
-    regular_definitions.push_back("STATEMENT_LIST::=STATEMENT | STATEMENT_LIST STATEMENT");
-    regular_definitions.push_back("STATEMENT::=DECLARATION \
-    | IF"
-                                  "| WHILE"
-                                  "| ASSIGNMENT");
-    regular_definitions.push_back("DECLARATION::=PRIMITIVE_TYPE \'id\' \';\'");
-    regular_definitions.push_back("PRIMITIVE_TYPE::=\'int\' | \'float\'");
-    regular_definitions.push_back("IF::=\'if\' \'(\' EXPRESSION \')\' \'{\' STATEMENT \'}\' \'else\' \'{\' STATEMENT \'}\'");
-    regular_definitions.push_back("WHILE::=\'while\' \'(\' EXPRESSION \')\' \'{\' STATEMENT \'}\'");
-    regular_definitions.push_back("ASSIGNMENT::=\'id\' \'::=\' EXPRESSION \';\'");
-    regular_definitions.push_back("EXPRESSION::=SIMPLE_EXPRESSION \
-                                  | SIMPLE_EXPRESSION \'relop\' SIMPLE_EXPRESSION");
-    regular_definitions.push_back("SIMPLE_EXPRESSION::=TERM | SIGN TERM | SIMPLE_EXPRESSION \'addop\' TERM");
-    regular_definitions.push_back("TERM::=FACTOR | TERM \'mulop\' FACTOR");
-    regular_definitions.push_back("FACTOR::=\'id\' | \'num\' | \'(\' EXPRESSION \')\'");
-    regular_definitions.push_back("SIGN::=\'+\' | \'-\'");
-
-    ll1.calc_first_set(ll1.grammar);
-    regular_definitions.push_back("SIGN::=\'+\' | \'-\'");
+vector<string> LL1::LL1_parse(string input, stack<string>& s) {
+    vector<string> result;
+    bool flag = true;
+    while(flag){
+        string top=s.top();
+        if(top=="$"){
+            if(input == "$"){
+                result.push_back("Token Accepted");
+                return result;
+            }else{
+                result.push_back("Token Rejected");
+                return result;
+            }
+        }
+        if(is_terminal(top)){
+            if(top[0]=='\''){
+                if(top.substr(1, input.size())==input){
+                    s.pop();
+                    flag = false;
+                }else{
+                    result.push_back("Error: missing "+ top + ", inserted");
+                    s.pop();
+                }
+            }else{
+                result.push_back("Rejected");
+                return result;
+            }
+        }else{
+            string terminal = "\'" + input + "\'";
+            if(terminal == "\'$\'") terminal="$";
+            if(table[top].count(terminal)==0){
+                result.push_back("Error:(illegal " + top + ")" +  " - " + "discarded " + terminal);
+                flag = false;
+                continue;
+            }
+            string production=table[top][terminal];
+            if(production=="Sync"){
+                result.push_back("Sync");
+                s.pop();
+            }
+            else if(production=="Epsilon"){
+                result.push_back(top+"->"+production);
+                s.pop();
+            }else{
+                s.pop();
+                vector<string> prod_parts = split_on_spacial_chars(production,regex(R"([\s]+)"));
+                result.push_back(top+"->"+production);
+                for(int j=prod_parts.size()-1;j>=0;j--){
+                    s.push(prod_parts[j]);
+                }
+            }
+        }
+    }
+    return result;
 }
