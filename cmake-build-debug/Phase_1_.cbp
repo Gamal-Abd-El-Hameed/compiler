@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Phase_1_"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Phase_1_">
+				<Option output="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Phase_1_" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 Phase_1_"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Phase_1_/fast">
+				<Option output="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Phase_1_" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 Phase_1_/fast"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/Identifier.cpp">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/Identifier.h">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/NFA.cpp">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/NFA.h">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/NFA_Generator.cpp">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/NFA_Generator.h">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/Parser.cpp">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/Parser.h">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/State.cpp">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/State.h">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/helper.h">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/main.cpp">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/parser_generator.cpp">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/parser_generator.h">
+			<Option target="Phase_1_"/>
+		</Unit>
+		<Unit filename="/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

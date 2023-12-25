@@ -1,20 +1,23 @@
-//
-// Created by mahmoud on 12/23/23.
-//
-
-#ifndef LEXICALANALYZERGENERATOR_PARSER_H
-#define LEXICALANALYZERGENERATOR_PARSER_H
 #include <bits/stdc++.h>
-#include "LL1.h"
-
 using namespace std;
+#ifndef PHASE_1__PARSER_H
+#define PHASE_1__PARSER_H
+#include "NFA.h"
 
-class Parser{
+class Parser {
 public:
-    vector<string> input;
-    stack<string> stack_;
-    map<string, map<string, string>> parsing_table;
-    void Parse(vector<string> in, LL1* ll1);
+    static map<string,vector<char>>raw_RE_definitions;
+    static map<string,string>RE_definitions;
+    static map<string,pair<int,NFA*>>tokens;
+    static vector<pair<string,string>>RE_expressions;
+
+    void parseFile(string filepath);
+    void parse_definition(string re_df);
+    void parse_expression(string re_ex,int priority);
+    void keywords_punctuation_parsing(string keyword_punctuation);
+    regex generateRegex(string str);
 
 };
-#endif //LEXICALANALYZERGENERATOR_PARSER_H
+
+
+#endif //PHASE_1__PARSER_H

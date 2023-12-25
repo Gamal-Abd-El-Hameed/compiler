@@ -1,2 +1,10 @@
-boolean x = 0
-boolean x = false 
+int x;
+x = 5;
+if (x > 2)
+{
+x = 0;
+}
+else
+{
+x = 1;
+}

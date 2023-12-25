@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/Phase_1_.dir/main.cpp.o CMakeFiles/Phase_1_.dir/Parser.cpp.o CMakeFiles/Phase_1_.dir/State.cpp.o CMakeFiles/Phase_1_.dir/NFA.cpp.o CMakeFiles/Phase_1_.dir/NFA_Generator.cpp.o CMakeFiles/Phase_1_.dir/Identifier.cpp.o CMakeFiles/Phase_1_.dir/parser_generator.cpp.o -o Phase_1_ 

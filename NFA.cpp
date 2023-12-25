@@ -1,90 +1,78 @@
 #include "NFA.h"
-
-NFA::NFA(State* state, const vector<State*>& endStates) {
-    this->startState = state;
-    this->endStates = endStates;
-    this->stateIdToStateMap.insert({state->id, state});
-    for(State* s :endStates) {
-        this->stateIdToStateMap.insert({s->id, s});
+NFA::NFA(State* s, vector<State*> v) {
+    this->start_state = s;
+    this->end_states = v;
+    this->transitions.insert({s->id,s});
+    for(State* s :v){
+        this->transitions.insert({s->id,s});
     }
 }
-
-
-void NFA::closureNFA() {
+void NFA::closureNFA(){
     // Combine all end states to only one state
-   auto* combined = new State();
-   this->stateIdToStateMap.insert({combined->id, combined});
-   for (State* endState:this->endStates) {
-       endState->addNextState(combined, vector<char>{'\0'});
+   State* combined = new State();
+   this->transitions.insert({combined->id,combined});
+   for(State* s:this->end_states){
+       s->addNextState(combined, vector<char>{'\0'});
    }
-   this->endStates.clear();
-   this->endStates.push_back(combined);
+   this->end_states.clear();
+   this->end_states.push_back(combined);
    // put new start state at the beginning
-   auto* newStartState = new State();
-   this->stateIdToStateMap.insert({newStartState->id, newStartState});
-   newStartState->addNextState(this->startState, vector<char>{'\0'});
+   State* new_start_state = new State();
+   this->transitions.insert({new_start_state->id,new_start_state});
+   new_start_state->addNextState(this->start_state,vector<char>{'\0'});
    // do closure
-   combined->addNextState(this->startState, vector<char>{'\0'});
-   this->startState = newStartState;
-   this->startState->addNextState(combined, vector<char>{'\0'});
+   combined->addNextState(this->start_state,vector<char>{'\0'});
+   this->start_state=new_start_state;
+   this->start_state->addNextState(combined,vector<char>{'\0'});
 }
-
-
-void NFA::positiveClosureNfa() {
+void NFA::positive_closureNFA(){
     // Combine all end states to only one state
-    auto* combined = new State();
-    this->stateIdToStateMap.insert({combined->id, combined});
-    for (State* endState:this->endStates) {
-        endState->addNextState(combined, vector<char>{'\0'});
+    State* combined = new State();
+    this->transitions.insert({combined->id,combined});
+    for(State* s:this->end_states){
+        s->addNextState(combined, vector<char>{'\0'});
     }
-    this->endStates.clear();
-    this->endStates.push_back(combined);
+    this->end_states.clear();
+    this->end_states.push_back(combined);
     // put new start state at the beginning
-    auto* newStartState = new State();
-    this->stateIdToStateMap.insert({newStartState->id, newStartState});
-    newStartState->addNextState(this->startState, vector<char>{'\0'});
+    State* new_start_state = new State();
+    this->transitions.insert({new_start_state->id,new_start_state});
+    new_start_state->addNextState(this->start_state,vector<char>{'\0'});
     // do closure
-    combined->addNextState(this->startState, vector<char>{'\0'});
-    this->startState = newStartState;
+    combined->addNextState(this->start_state,vector<char>{'\0'});
+    this->start_state=new_start_state;
 }
-
-
-void NFA::concatenateNFA(NFA* concatenatedNFA) {
-    for (State* endState:this->endStates) {
-        endState->addNextState(concatenatedNFA->startState, vector<char>{'\0'});
+void NFA::concatenateNFA(NFA* concatenatedNFA){
+    for(State* s:this->end_states){
+        s->addNextState(concatenatedNFA->start_state,vector<char>{'\0'});
     }
-    this->endStates.clear();
-    for (State* s:concatenatedNFA->endStates) {
-        this->endStates.push_back(s);
+    this->end_states.clear();
+    for(State* s:concatenatedNFA->end_states){
+        this->end_states.push_back(s);
     }
-    this->stateIdToStateMap.insert(concatenatedNFA->stateIdToStateMap.begin(), concatenatedNFA->stateIdToStateMap.end());
+    this->transitions.insert(concatenatedNFA->transitions.begin(), concatenatedNFA->transitions.end());
 }
-
-
 void NFA::ORNFA(NFA* paralleledNFA){
-    auto* newStartState = new State();
-    this->stateIdToStateMap.insert({newStartState->id, newStartState});
-    newStartState->addNextState(this->startState, vector<char>{'\0'});
-    newStartState->addNextState(paralleledNFA->startState, vector<char>{'\0'});
+    State* new_start_state = new State();
+    this->transitions.insert({new_start_state->id,new_start_state});
+    new_start_state->addNextState(this->start_state, vector<char>{'\0'});
+    new_start_state->addNextState(paralleledNFA->start_state, vector<char>{'\0'});
     vector<State*> newVector;
-    newVector.reserve(this->endStates.size() + paralleledNFA->endStates.size());
-    newVector.insert(newVector.end(), this->endStates.begin(), this->endStates.end() );
-    newVector.insert(newVector.end(), paralleledNFA->endStates.begin(), paralleledNFA->endStates.end());
-    this->endStates = newVector;
-    this->startState = newStartState;
-    this->stateIdToStateMap.insert(paralleledNFA->stateIdToStateMap.begin(), paralleledNFA->stateIdToStateMap.end());
+    newVector.reserve( this->end_states.size() + paralleledNFA->end_states.size() );
+    newVector.insert( newVector.end(), this->end_states.begin(), this->end_states.end() );
+    newVector.insert( newVector.end(), paralleledNFA->end_states.begin(), paralleledNFA->end_states.end());
+    this->end_states=newVector;
+    this->start_state=new_start_state;
+    this->transitions.insert(paralleledNFA->transitions.begin(), paralleledNFA->transitions.end());
 }
-
-
-/**
- * Combine all end states to only one state
- */
-void NFA::combineEndStates(State* combined_end_state) {
-    this->stateIdToStateMap.insert({combined_end_state->id, combined_end_state});
-    for(State* s:this->endStates){
+void NFA::combine_end_states(State* combined_end_state){
+    this->transitions.insert({combined_end_state->id,combined_end_state});
+    for(State* s:this->end_states){
         s->addNextState(combined_end_state, vector<char>{'\0'});
     }
-    this->endStates.clear();
-    this->endStates.push_back(combined_end_state);
+    this->end_states.clear();
+    this->end_states.push_back(combined_end_state);
 }
-NFA::NFA() = default;
+NFA::NFA() {
+}
+

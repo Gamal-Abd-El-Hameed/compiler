@@ -5,13 +5,12 @@
 
 class NFA_Generator {
 public:
-    static NFA* combinedNFA;
-    vector<NFA*> NFAs;
-    static NFA* generateNfa(const pair<string,string>& regularDefinition, map<string,vector<char>>rawRegularExpressions);
-    static NFA* postfixEval(vector<string>tokens, map<string,vector<char>>rawRegularExpressions, string acceptedType);
-    void combineNfAs();
-    void generateNfAs(const vector<pair<string,string>>&regularDefinitions, const map<string,vector<char>>&rawRegularExpressions);
-    static vector<string> infixToPostfix(vector<string>RE_expression_tokens) ;
+    static NFA* total_NFA;
+    vector<NFA*>NFAs;
+    NFA* generate_NFA(pair<string,string> RE_expression_pair,map<string,vector<char>>RE_definitions);
+    NFA* postfix_eval(vector<string>postfix,map<string,vector<char>>RE_definitions,string accepted_type);
+    void combine_NFAs();
+    void generate_all_NFAs(vector<pair<string,string>>RE_expression_pairs,map<string,vector<char>>RE_definition);
 };
 
 

@@ -1,3 +1,0 @@
-A = K | M | 0-9
-B = g | f
-C : CA | CB* | AB

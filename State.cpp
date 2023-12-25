@@ -1,14 +1,10 @@
 #include "State.h"
-#include "utility.h"
-
-
-State::State() {
-    this->id = id_generator++;
-    this->isAccepted = false;
+#include "helper.h"
+State::State(){
+    this->id=id_generator++;
+    this->accepted=false;
 }
-
-
-void State::addNextState(State* next, const vector<char>& input) {
+void State::addNextState(State* next, vector<char> input) {
     for(char i : input) {
         if (this->nextStates.count(i) != 0) {
             this->nextStates.at(i).push_back(next);

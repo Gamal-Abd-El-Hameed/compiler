@@ -1,69 +1,101 @@
-//
-// Created by gamal on 23/12/23.
-//
-
 #include "Parser.h"
-#include "utility.h"
 #include <bits/stdc++.h>
-
+#include "helper.h"
 using namespace std;
 
-/**
- * there are 5 cases for the parsing table:
- * 1- if the top of the stack is a terminal and equal to the input, then pop from stack and get next input (match)
- * 2- if the top of the stack is a terminal and not equal to the input: error
- * and then insert the top of the stack to the input (missing)
- * 3- if the top of the stack is a non-terminal, and the cell in the parsing table contains a rule:
- * then pop from stack and push the rule to the stack in reverse order (expand)
- * 4- if the cell contains "sync": error
- * and then pop from stack
- * 5- if the cell is empty: error and then get next input
- * @param in
- * @param ll1
- */
-void Parser::Parse(vector<string> in, LL1 *ll1) {
-    stack_.emplace("$");
-    stack_.emplace(ll1->start_symbol);
-    parsing_table = ll1->parsing_table;
-    input = std::move(in);
-    input.emplace_back("$");
-    int input_index = 0;
-    while (!stack_.empty()) {
-        string top = stack_.top();
-        stack_.pop();
-        // if the top of the stack is a terminal
-        if (ll1->terminals.find(top) != ll1->terminals.end()) {
-            // case 1: match
-            if (top == input[input_index]) {
-                cout << "match " << top << endl;
-                input_index++;
-            }
-            // case 2: missing
-            else {
-                cout << "error: missing " << top << endl;
+map<string,vector<char>>Parser::raw_RE_definitions=map<string ,vector<char>>{};
+map<string,string>Parser::RE_definitions=map<string,string>{};
+map<string,pair<int,NFA*>>Parser::tokens=map<string,pair<int,NFA*>>{};
+vector<pair<string,string>>Parser::RE_expressions=vector<pair<string,string>>{};
+void Parser::parseFile(string filepath){
+    ifstream inFile;
+    inFile.open(filepath);
+    string str;
+    int priority=0;
+    regex definition_matcher(R"([\s]*[a-zA-z]*[\s]*=[\s|a-zA-z0-9|\-|\+|\*|\(|\)|\|]*)");
+    regex expression_matcher(R"([\s]*[a-zA-z]*[\s]*:[\s|a-zA-z0-9|\-|\+|\*|\(|\)|\||\=|\<|>|\!\.|\/]*)");
+    regex keywords_matcher(R"(\{[\s]*([a-z]*[\s]*)*\})");
+    regex punctuation_matcher(R"(\[[\s]*([\W]*[\s]*)*\])");
+    while(getline(inFile, str)){
+        if(regex_match(str, definition_matcher)){
+            parse_definition(str);
+        }else if(regex_match(str, expression_matcher)){
+            parse_expression(str,priority++);
+        }else if(regex_match(str, keywords_matcher)){
+            keywords_punctuation_parsing(str);
+        }else if(regex_match(str, punctuation_matcher)){
+            keywords_punctuation_parsing(str);
+        }else{
+//            cout << "Parser says: "+ str + ": Invalid Rule (or empty line)" << endl;
+        }
+    }
+    inFile.close();
+    }
+void Parser::parse_definition(string re_df) {
+    int pos=re_df.find('=');
+    string LHS = remove_spaces(re_df.substr(0,pos));
+    string RHS=  re_df.substr(pos+1,re_df.size());
+    if(re_df.find('-')!=string::npos){
+        vector<char>alphabet= get_ranges(remove_spaces(RHS));
+        raw_RE_definitions.insert({LHS,alphabet});
+    }
+    else{
+        vector<string>RHS_tokens= split_on_spacial_chars(RHS);
+        for(int i=0;i<RHS_tokens.size();i++){
+            string s=RHS_tokens.at(i);
+            if(raw_RE_definitions.count(s)==0&& !is_spacial_character(s)){
+                while(RE_definitions.count(s)!=0){
+                    s=RE_definitions.at(s);
+                    RHS_tokens.at(i)=s;
+                }
+                if(raw_RE_definitions.count(s)==0){
+                    RHS_tokens.at(i)= surround_parentheses(s);
+                }
             }
         }
-        // case 4: sync
-        else if (parsing_table[top][input[input_index]] == "sync") {
-            cout << "error: unexpected " << input[input_index] << endl;
-            stack_.pop();
+        string a = accumulate(RHS_tokens.begin(),RHS_tokens.end(),string(""));
+        RE_definitions.insert({LHS,a});
+    }
+}
+
+void Parser::parse_expression(string re_ex,int priority){
+    int pos=re_ex.find(':');
+    string LHS = remove_spaces(re_ex.substr(0,pos));
+    string RHS= re_ex.substr(pos+1,re_ex.size());
+    vector<string>RHS_tokens= split_on_spacial_chars(RHS);
+    for(int i=0;i<RHS_tokens.size();i++) {
+        string s = RHS_tokens.at(i);
+        if(s=="\\"){
+            s = "("+s;
+            RHS_tokens.at(i)=s;
+            i++;
+            RHS_tokens.at(i)+=")";
         }
-        // case 5: empty
-        else if (parsing_table[top][input[input_index]].empty()) {
-            cout << "error: unexpected " << input[input_index] << endl;
-            input_index++;
+        else if(RE_definitions.count(s)!=0){
+            RHS_tokens.at(i)=RE_definitions.at(s);
         }
-        // case 3: expand
-        else {
-            vector<string> production = splitmyDelimeter(parsing_table[top][input[input_index]], ' ');
-            cout << top << " -> ";
-            for (const string &productionPart : production) {
-                cout << productionPart << " ";
-            }
-            reverse(production.begin(), production.end());
-            for (const string &productionPart : production) {
-                stack_.emplace(productionPart);
-            }
+        else if(raw_RE_definitions.count(s)==0){
+            RHS_tokens.at(i)=surround_parentheses(s);
+        }
+    }
+    string a = accumulate(RHS_tokens.begin(),RHS_tokens.end(),string(""));
+    RE_expressions.emplace_back(LHS,a);
+    tokens.insert({LHS,make_pair(priority,new NFA)});
+}
+void Parser::keywords_punctuation_parsing(string keyword) {
+    keyword = keyword.substr(1, keyword.length() - 2);
+    vector<string>keyword_tokens= split_on_spacial_chars(keyword);
+    for(int i=0;i<keyword_tokens.size();i++) {
+        string s = keyword_tokens.at(i);
+        if(s=="\\"){
+            string keyword_expression=keyword_tokens.at(i+1)+":"+s+keyword_tokens.at(i+1);
+            parse_expression(keyword_expression,-1);
+            i++;
+        }
+        else{
+        string keyword_expression=s+":"+s;
+        parse_expression(keyword_expression,-1);
         }
     }
 }
+

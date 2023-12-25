@@ -57,10 +57,10 @@ RM = /snap/clion/261/bin/cmake/linux/x64/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/gamal/01D5257AA3420B70/semester/compilers/project/compiler
+CMAKE_SOURCE_DIR = /media/gamal/01D5257AA3420B70/semester/compilers/project/ak
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug
+CMAKE_BINARY_DIR = /media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/CMakeFiles /media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/CMakeFiles /media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/gamal/01D5257AA3420B70/semester/compilers/project/ak/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,96 +117,48 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named compiler
+# Target rules for targets named Phase_1_
 
 # Build rule for target.
-compiler: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 compiler
-.PHONY : compiler
+Phase_1_: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Phase_1_
+.PHONY : Phase_1_
 
 # fast build rule for target.
-compiler/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/build
-.PHONY : compiler/fast
+Phase_1_/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/build
+.PHONY : Phase_1_/fast
 
-DFA.o: DFA.cpp.o
-.PHONY : DFA.o
-
-# target to build an object file
-DFA.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/DFA.cpp.o
-.PHONY : DFA.cpp.o
-
-DFA.i: DFA.cpp.i
-.PHONY : DFA.i
-
-# target to preprocess a source file
-DFA.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/DFA.cpp.i
-.PHONY : DFA.cpp.i
-
-DFA.s: DFA.cpp.s
-.PHONY : DFA.s
-
-# target to generate assembly for a file
-DFA.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/DFA.cpp.s
-.PHONY : DFA.cpp.s
-
-InputReader.o: InputReader.cpp.o
-.PHONY : InputReader.o
+Identifier.o: Identifier.cpp.o
+.PHONY : Identifier.o
 
 # target to build an object file
-InputReader.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/InputReader.cpp.o
-.PHONY : InputReader.cpp.o
+Identifier.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/Identifier.cpp.o
+.PHONY : Identifier.cpp.o
 
-InputReader.i: InputReader.cpp.i
-.PHONY : InputReader.i
-
-# target to preprocess a source file
-InputReader.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/InputReader.cpp.i
-.PHONY : InputReader.cpp.i
-
-InputReader.s: InputReader.cpp.s
-.PHONY : InputReader.s
-
-# target to generate assembly for a file
-InputReader.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/InputReader.cpp.s
-.PHONY : InputReader.cpp.s
-
-LL1.o: LL1.cpp.o
-.PHONY : LL1.o
-
-# target to build an object file
-LL1.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/LL1.cpp.o
-.PHONY : LL1.cpp.o
-
-LL1.i: LL1.cpp.i
-.PHONY : LL1.i
+Identifier.i: Identifier.cpp.i
+.PHONY : Identifier.i
 
 # target to preprocess a source file
-LL1.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/LL1.cpp.i
-.PHONY : LL1.cpp.i
+Identifier.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/Identifier.cpp.i
+.PHONY : Identifier.cpp.i
 
-LL1.s: LL1.cpp.s
-.PHONY : LL1.s
+Identifier.s: Identifier.cpp.s
+.PHONY : Identifier.s
 
 # target to generate assembly for a file
-LL1.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/LL1.cpp.s
-.PHONY : LL1.cpp.s
+Identifier.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/Identifier.cpp.s
+.PHONY : Identifier.cpp.s
 
 NFA.o: NFA.cpp.o
 .PHONY : NFA.o
 
 # target to build an object file
 NFA.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/NFA.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/NFA.cpp.o
 .PHONY : NFA.cpp.o
 
 NFA.i: NFA.cpp.i
@@ -214,7 +166,7 @@ NFA.i: NFA.cpp.i
 
 # target to preprocess a source file
 NFA.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/NFA.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/NFA.cpp.i
 .PHONY : NFA.cpp.i
 
 NFA.s: NFA.cpp.s
@@ -222,7 +174,7 @@ NFA.s: NFA.cpp.s
 
 # target to generate assembly for a file
 NFA.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/NFA.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/NFA.cpp.s
 .PHONY : NFA.cpp.s
 
 NFA_Generator.o: NFA_Generator.cpp.o
@@ -230,7 +182,7 @@ NFA_Generator.o: NFA_Generator.cpp.o
 
 # target to build an object file
 NFA_Generator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/NFA_Generator.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/NFA_Generator.cpp.o
 .PHONY : NFA_Generator.cpp.o
 
 NFA_Generator.i: NFA_Generator.cpp.i
@@ -238,7 +190,7 @@ NFA_Generator.i: NFA_Generator.cpp.i
 
 # target to preprocess a source file
 NFA_Generator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/NFA_Generator.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/NFA_Generator.cpp.i
 .PHONY : NFA_Generator.cpp.i
 
 NFA_Generator.s: NFA_Generator.cpp.s
@@ -246,63 +198,39 @@ NFA_Generator.s: NFA_Generator.cpp.s
 
 # target to generate assembly for a file
 NFA_Generator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/NFA_Generator.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/NFA_Generator.cpp.s
 .PHONY : NFA_Generator.cpp.s
 
-RulesReader.o: RulesReader.cpp.o
-.PHONY : RulesReader.o
+Parser.o: Parser.cpp.o
+.PHONY : Parser.o
 
 # target to build an object file
-RulesReader.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/RulesReader.cpp.o
-.PHONY : RulesReader.cpp.o
+Parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/Parser.cpp.o
+.PHONY : Parser.cpp.o
 
-RulesReader.i: RulesReader.cpp.i
-.PHONY : RulesReader.i
-
-# target to preprocess a source file
-RulesReader.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/RulesReader.cpp.i
-.PHONY : RulesReader.cpp.i
-
-RulesReader.s: RulesReader.cpp.s
-.PHONY : RulesReader.s
-
-# target to generate assembly for a file
-RulesReader.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/RulesReader.cpp.s
-.PHONY : RulesReader.cpp.s
-
-SetStates.o: SetStates.cpp.o
-.PHONY : SetStates.o
-
-# target to build an object file
-SetStates.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/SetStates.cpp.o
-.PHONY : SetStates.cpp.o
-
-SetStates.i: SetStates.cpp.i
-.PHONY : SetStates.i
+Parser.i: Parser.cpp.i
+.PHONY : Parser.i
 
 # target to preprocess a source file
-SetStates.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/SetStates.cpp.i
-.PHONY : SetStates.cpp.i
+Parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/Parser.cpp.i
+.PHONY : Parser.cpp.i
 
-SetStates.s: SetStates.cpp.s
-.PHONY : SetStates.s
+Parser.s: Parser.cpp.s
+.PHONY : Parser.s
 
 # target to generate assembly for a file
-SetStates.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/SetStates.cpp.s
-.PHONY : SetStates.cpp.s
+Parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/Parser.cpp.s
+.PHONY : Parser.cpp.s
 
 State.o: State.cpp.o
 .PHONY : State.o
 
 # target to build an object file
 State.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/State.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/State.cpp.o
 .PHONY : State.cpp.o
 
 State.i: State.cpp.i
@@ -310,7 +238,7 @@ State.i: State.cpp.i
 
 # target to preprocess a source file
 State.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/State.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/State.cpp.i
 .PHONY : State.cpp.i
 
 State.s: State.cpp.s
@@ -318,7 +246,7 @@ State.s: State.cpp.s
 
 # target to generate assembly for a file
 State.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/State.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/State.cpp.s
 .PHONY : State.cpp.s
 
 main.o: main.cpp.o
@@ -326,7 +254,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -334,7 +262,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -342,8 +270,32 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+parser_generator.o: parser_generator.cpp.o
+.PHONY : parser_generator.o
+
+# target to build an object file
+parser_generator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/parser_generator.cpp.o
+.PHONY : parser_generator.cpp.o
+
+parser_generator.i: parser_generator.cpp.i
+.PHONY : parser_generator.i
+
+# target to preprocess a source file
+parser_generator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/parser_generator.cpp.i
+.PHONY : parser_generator.cpp.i
+
+parser_generator.s: parser_generator.cpp.s
+.PHONY : parser_generator.s
+
+# target to generate assembly for a file
+parser_generator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Phase_1_.dir/build.make CMakeFiles/Phase_1_.dir/parser_generator.cpp.s
+.PHONY : parser_generator.cpp.s
 
 # Help Target
 help:
@@ -353,34 +305,28 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... compiler"
-	@echo "... DFA.o"
-	@echo "... DFA.i"
-	@echo "... DFA.s"
-	@echo "... InputReader.o"
-	@echo "... InputReader.i"
-	@echo "... InputReader.s"
-	@echo "... LL1.o"
-	@echo "... LL1.i"
-	@echo "... LL1.s"
+	@echo "... Phase_1_"
+	@echo "... Identifier.o"
+	@echo "... Identifier.i"
+	@echo "... Identifier.s"
 	@echo "... NFA.o"
 	@echo "... NFA.i"
 	@echo "... NFA.s"
 	@echo "... NFA_Generator.o"
 	@echo "... NFA_Generator.i"
 	@echo "... NFA_Generator.s"
-	@echo "... RulesReader.o"
-	@echo "... RulesReader.i"
-	@echo "... RulesReader.s"
-	@echo "... SetStates.o"
-	@echo "... SetStates.i"
-	@echo "... SetStates.s"
+	@echo "... Parser.o"
+	@echo "... Parser.i"
+	@echo "... Parser.s"
 	@echo "... State.o"
 	@echo "... State.i"
 	@echo "... State.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... parser_generator.o"
+	@echo "... parser_generator.i"
+	@echo "... parser_generator.s"
 .PHONY : help
 
 

@@ -1,28 +1,39 @@
 #include <iostream>
-#include "RulesReader.h"
-#include "State.h"
-#include "utility.h"
-#include "NFA_Generator.h"
-#include "InputReader.h"
-#include "minimize.h"
-#include "LL1.h"
 #include "Parser.h"
+#include "State.h"
+#include "helper.h"
+#include "NFA.h"
+#include "NFA_Generator.h"
+#include "Identifier.h"
+#include "parser_generator.h"
 
-int main() {
-    RulesReader::readFile(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/grammar.txt)");
-    NFA_Generator NFAGenerator;
-    NFAGenerator.generateNfAs(RulesReader::regularDefinitions, RulesReader::rawRegularExpressions);
+int main(){
+    Parser p;
+    p.parseFile(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/grammar.txt)");
+    NFA_Generator g;
+    g.generate_all_NFAs(Parser::RE_expressions,p.raw_RE_definitions);
+    Identifier i;
 
-    InputReader inputReader;
-    inputReader.readFile(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/input.txt)");
+    parser_generator pg;
+    pg.read_file(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/test.txt)");
+    pg.removeLR();
+    pg.left_factor();
+    pg.get_parsing_table();
+    // start writing to output_path
 
-    LL1 ll1;
-    ll1.read_grammar(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/grammar2.txt)");
-    vector<string> input(inputReader.acceptedTokens.size());
-    for (const pair<string,string>& pair:inputReader.acceptedTokens) {
-        input.emplace_back(pair.first);
+//    cout<<"___________________________________________Left derivation_________________________________________"<<endl;
+    i.parse_string(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/ak/input.txt)",&pg);
+        for(pair<string,string> pair:i.acceptedTokens){
+//        cout<<pair.first<<":"<<pair.second<<endl;
     }
-    Parser parser;
-    parser.Parse(input, &ll1);
-    return 0 ;
+
+//    for(auto it = pg.table.cbegin(); it != pg.table.cend(); ++it){
+//        std::cout << it->first << " " << ">>>>>> ";
+//        for (auto it2 = it->second.cbegin(); it2 != it->second.cend(); ++it2){
+//            std::cout << it2->first << " " << it2->second;
+//        }
+//        std::cout << "\n";
+//    }
+
+
 }

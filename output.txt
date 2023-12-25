@@ -1,8 +1,0 @@
-boolean
-id
-assign
-num
-boolean
-id
-assign
-id
