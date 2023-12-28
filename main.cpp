@@ -8,15 +8,15 @@
 #include "LL1.h"
 
 int main() {
-    RulesReader::readFile(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/grammar.txt)");
+    RulesReader::readFile(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/grammar.txt)");
     NFA_Generator NFAGenerator;
     NFAGenerator.generateNfAs(RulesReader::regularDefinitions, RulesReader::rawRegularExpressions);
 
     LL1 pg;
-    pg.read_file(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/test.txt)");
-    pg.removeLR();
-    pg.left_factor();
-    pg.get_parsing_table();
+    pg.readFile(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/test.txt)");
+    pg.eliminateLeftRecursion();
+    pg.leftFactor();
+    pg.getParsingTable();
     InputReader inputReader;
-    inputReader.parse_string(R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/input.txt)",&pg);
+    inputReader.parse_string(R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/input.txt)",&pg);
 }

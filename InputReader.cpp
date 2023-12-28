@@ -63,7 +63,7 @@ void InputReader::parse_string(string filepath, LL1* pg){
     string input_line;
     stack<string> tempStack = stack<string>();
     tempStack.push("$");
-    tempStack.push(pg->grammer_rules[0].first);
+    tempStack.push(pg->Grammar_rules[0].first);
     while(getline(inFile, input_line)) {
         while(!input_line.empty()){
             int index=parsing_single_token(input_line,pg, tempStack);

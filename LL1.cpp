@@ -1,254 +1,305 @@
 #include "LL1.h"
 #include "utility.h"
 
-void LL1::read_file(string filepath) {
-    ifstream inFile;
-    inFile.open(filepath);
+void LL1::readFile(const string& filepath) {
+    ifstream inFile(filepath);
     string str;
-    regex new_rule(R"([\s]*[a-zA-z]*[\s]*=.*)");
-    string LHS;
-    while(getline(inFile, str)){
-        if(regex_match(str,new_rule)){
-            int pos=str.find('=');
-            LHS = remove_spaces(str.substr(0,pos));
-            string RHS=  str.substr(pos+1,str.size());
-            grammer_rules.emplace_back(make_pair(LHS,RHS));
-        }
-        else{
-            grammer_rules.back().second.append(str);
-        }
-    }
-}
 
-void LL1::removeLR() {
-    for(int i = 0; i<grammer_rules.size(); i++){
-        for(int j=0; j<i; j++){
-            substitute(i,j);
-        }
-        eliminate_immediate_LR(i);
-    }
-    cout<<"\nAfter eliminate Left Recursion:"<<endl;
-    cout<<"_______________________________\n"<<endl;
-    print_grammer_rules();
-    write_grammer_rules("After eliminate Left Recursion:");
-}
-void  LL1::eliminate_immediate_LR(int rule_index){
-    pair<string,string> rule=grammer_rules[rule_index];
-    vector<string> productions = split_on_spacial_chars(rule.second, regex(R"([\|])"));
-    pair<string,string>dash= make_pair(rule.first+"_dashLR","");
-    string temp;
-    for(int i=0;i<productions.size();i++){
-        if(productions[i].find("|") != string::npos)continue;
-        vector<string> prod_parts = split_on_spacial_chars(productions[i],regex(R"([\s]+)"));
-        if(prod_parts[0]==rule.first){
-            string accu=accumlator(subvector(prod_parts,1,prod_parts.size()), " ");
-            dash.second.append(accu.append(" "+dash.first+" |"));
-        }else{
-            string accu=accumlator(prod_parts, " ");
-            temp.append(accu+" "+dash.first+" |");
-        }
-    }
-    if(!dash.second.empty()){
-        grammer_rules.at(rule_index).second=temp.substr(0,temp.size()-1);
-        dash.second.append(" Epsilon");
-        grammer_rules.emplace_back(dash);
-    }
-}
-void LL1::substitute(int i, int j){
-    pair<string,string> rule_i=grammer_rules[i];
-    pair<string,string> rule_j=grammer_rules[j];
-    vector<string>rule_i_productions= split_on_spacial_chars(rule_i.second, regex(R"([\|])"));
-    for(int i=0; i < rule_i_productions.size(); i++){
-        string rule_i_prod=rule_i_productions[i];
-        vector<string> rule_i_prod_part= split_on_spacial_chars(rule_i_prod,regex(R"([\s]+)"));
-        if(rule_i_prod_part[0]==rule_j.first){
-            string accu=accumlator(subvector(rule_i_prod_part,1,rule_i_prod_part.size()), " ");
-            vector<string>rule_j_productions=split_on_spacial_chars(rule_j.second, regex(R"([\|])"));
-            for(int j=0;j<rule_j_productions.size();j++){
-                if(rule_j_productions[j]!="|")
-                    rule_j_productions[j].append(" "+accu);
-            }
-            string rule_j_substitution=accumlator(rule_j_productions, " ");
-            rule_i_productions[i]=rule_j_substitution;
-        }
-    }
-    string rule_i_prod_final=accumlator(rule_i_productions, " ");
-    grammer_rules.at(i).second=rule_i_prod_final;
-}
-
-
-void LL1::left_factor() {
-    for (int index = 0; index < grammer_rules.size(); index++) {
-        string RHS = grammer_rules[index].second;
-        vector <string> productions = split_on_spacial_chars(RHS, regex(R"([\|])"));
-        sort(productions.begin(), productions.end());
-        map <string, vector<string>> groups;
-        int group_index = -1;
-        string group = remove_extra_spaces(productions[0]);
-        int current = -1;
-        string refactored;
-        for (string p: productions) {
-            if (p.find("|") != string::npos)continue;
-            string substr = get_match_substr(group, p);
-            if (substr.size() == 0) {
-                if (group_index < current - 1) {
-                    vector <string> group_str = remove_substr(subvector(productions, group_index + 1, current + 1),group);
-                    groups.insert({group, group_str});
-                } else {
-                    refactored.append(group + " |");
-                }
-                group = p;
-                group_index = current;
-            } else {
-                group = substr;
-            }
-            current++;
-        }
-        if (group_index < current - 1) {
-            vector <string> group_str = remove_substr(subvector(productions, group_index + 1, current + 1), group);
-
-            groups.insert({group, group_str});
+    const regex newRule(R"([\s]*[a-zA-z]*[\s]*=.*)");
+    while (getline(inFile, str)) {
+        if (regex_match(str, newRule)) {
+            size_t pos = str.find('=');
+            string LHS = remove_spaces(str.substr(0, pos));
+            string RHS = str.substr(pos + 1);
+            Grammar_rules.emplace_back(LHS, RHS);
         } else {
-            refactored.append(group + " |");
+            Grammar_rules.back().second += str;
         }
-        for (auto const&[key, val]: groups) {
-            string clean_key=key;
-            if(is_terminal(clean_key)){
-                clean_key=remove_spaces(clean_key);
-                clean_key.erase(remove(clean_key.begin(), clean_key.end(), '\''),clean_key.end());
-            }
-            clean_key= group_naming(clean_key);
-            refactored.append(key + " " + clean_key + "_dashLF " + "|");
-            grammer_rules.push_back({clean_key + "_dashLF", accumlator(val, "|")});
-        }
-        grammer_rules[index].second = refactored.substr(0, refactored.size() - 1);
     }
-    cout<<"\nAfter Left Factoring:"<<endl;
-    cout<<"_____________________\n"<<endl;
-    print_grammer_rules();
-    write_grammer_rules("After Left Factoring:");
 }
 
-string LL1::get_match_substr(string group, string p){
-    vector<string>space_split_group= split_on_spacial_chars(group,regex(R"([\s]+)"));
-    vector<string>space_split_p= split_on_spacial_chars(p,regex(R"([\s]+)"));
-    for(int i=0;i<min(space_split_p.size(),space_split_group.size());i++){
-        if(space_split_group[i]!=space_split_p[i]){
-            return accumlator(subvector(space_split_p,0,i)," ");
+void LL1::eliminateLeftRecursion() {
+    for (int i = 0; i < Grammar_rules.size(); i++) {
+        for (int j = 0; j < i; j++) {
+            substituteProductions(i, j);
+        }
+        eliminateImmediateLeftRecursion(i);
+    }
+
+    cout << "\nAfter eliminating Left Recursion:" << endl;
+    cout << "_________________________________\n" << endl;
+
+    printGrammarRules();
+    writeGrammarRules("After eliminating Left Recursion:");
+}
+
+void LL1::eliminateImmediateLeftRecursion(int rule_index) {
+    const auto& rule = Grammar_rules[rule_index];
+    const auto& productions = split_on_spacial_chars(rule.second, regex(R"([\|])"));
+    pair<string, string> dash{rule.first + "_dashLR", ""};
+    string temp;
+
+    for (const auto& production : productions) {
+        if (production.find("|") != string::npos) continue;
+        const auto& prod_parts = split_on_spacial_chars(production, regex(R"([\s]+)"));
+
+        if (prod_parts[0] == rule.first) {
+            const auto& accumulated = accumlator(subvector(prod_parts, 1, prod_parts.size()), " ");
+            dash.second.append(accumulated + " " + dash.first + " |");
+        } else {
+            const auto& accumulated = accumlator(prod_parts, " ");
+            temp.append(accumulated + " " + dash.first + " |");
         }
     }
-    if(p.size()<group.size()) return p;
+
+    if (!dash.second.empty()) {
+        Grammar_rules.at(rule_index).second = temp.substr(0, temp.size() - 1);
+        dash.second.append(" Epsilon");
+        Grammar_rules.emplace_back(dash);
+    }
+}
+
+void LL1::substituteProductions(int ruleIndex1, int ruleIndex2) {
+    pair<string, string> rule1 = Grammar_rules[ruleIndex1];
+    pair<string, string> rule2 = Grammar_rules[ruleIndex2];
+    vector<string> rule1Productions = split_on_spacial_chars(rule1.second, regex(R"([\|])"));
+
+    for (string& rule1Production : rule1Productions) {
+        vector<string> rule1ProductionParts = split_on_spacial_chars(rule1Production, regex(R"([\s]+)"));
+
+        if (rule1ProductionParts[0] == rule2.first) {
+            string accumulator = accumlator(subvector(rule1ProductionParts, 1, rule1ProductionParts.size()), " ");
+            vector<string> rule2Productions = split_on_spacial_chars(rule2.second, regex(R"([\|])"));
+
+            for (string& rule2Production : rule2Productions) {
+                if (rule2Production != "|") {
+                    rule2Production.append(" " + accumulator);
+                }
+            }
+
+            string rule2Substitution = accumlator(rule2Productions, " ");
+            rule1Production = rule2Substitution;
+        }
+    }
+
+    string rule1ProductionsFinal = accumlator(rule1Productions, " ");
+    Grammar_rules.at(ruleIndex1).second = rule1ProductionsFinal;
+}
+
+void LL1::leftFactor() {
+    for (int index = 0; index < Grammar_rules.size(); index++) {
+        string RHS = Grammar_rules[index].second;
+        vector<string> productions = split_on_spacial_chars(RHS, regex(R"([\|])"));
+        sort(productions.begin(), productions.end());
+
+        map<string, vector<string>> groups;
+        int groupIndex = -1;
+        string currentGroup = remove_extra_spaces(productions[0]);
+        int currentIndex = -1;
+        string refactored;
+
+        for (string &production : productions) {
+            if (production.find("|") != string::npos) continue;
+
+            string substr = getMatchSubstr(currentGroup, production);
+
+            if (substr.empty()) {
+                if (groupIndex < currentIndex - 1) {
+                    vector<string> groupStrings = removeSubstr(subvector(productions, groupIndex + 1, currentIndex + 1), currentGroup);
+                    groups.insert(make_pair(currentGroup, groupStrings));
+                } else {
+                    refactored.append(currentGroup + " |");
+                }
+
+                currentGroup = production;
+                groupIndex = currentIndex;
+            } else {
+                currentGroup = substr;
+            }
+
+            currentIndex++;
+        }
+
+        if (groupIndex < currentIndex - 1) {
+            vector<string> groupStrings = removeSubstr(subvector(productions, groupIndex + 1, currentIndex + 1), currentGroup);
+            groups.insert(make_pair(currentGroup, groupStrings));
+        } else {
+            refactored.append(currentGroup + " |");
+        }
+
+        for (auto it = groups.begin(); it != groups.end(); ++it) {
+            const auto& key = it->first;
+            const auto& val = it->second;
+
+            string cleanKey = key;
+            if (isTerminal(cleanKey)) {
+                cleanKey = remove_spaces(cleanKey);
+                cleanKey.erase(remove(cleanKey.begin(), cleanKey.end(), '\''), cleanKey.end());
+            }
+
+            cleanKey = group_naming(cleanKey);
+            refactored.append(key + " " + cleanKey + "_dashLF " + "|");
+            Grammar_rules.push_back({cleanKey + "_dashLF", accumlator(val, "|")});
+        }
+
+        Grammar_rules[index].second = refactored.substr(0, refactored.size() - 1);
+    }
+
+    cout << "\nAfter Left Factoring:" << endl;
+    cout << "_____________________\n" << endl;
+    printGrammarRules();
+    writeGrammarRules("After Left Factoring:");
+}
+
+string LL1::getMatchSubstr(const string& group, const string& p) {
+    vector<string> spaceSplitGroup = split_on_spacial_chars(group, regex(R"([\s]+)"));
+    vector<string> spaceSplitP = split_on_spacial_chars(p, regex(R"([\s]+)"));
+
+    int minSize = min(spaceSplitP.size(), spaceSplitGroup.size());
+
+    for (int i = 0; i < minSize; i++) {
+        if (spaceSplitGroup[i] != spaceSplitP[i]) {
+            return accumlator(subvector(spaceSplitP, 0, i), " ");
+        }
+    }
+
+    if (p.size() < group.size()) {
+        return p;
+    }
+
     return group;
 }
-vector<string> LL1::remove_substr(vector<string>vec, string str){
-    vector<string>result;
-    for(int i=0;i<vec.size();i++){
-        result.emplace_back(vec[i].substr(str.size(),vec[i].size()));
-        if(remove_extra_spaces(result[i])==""){
-            result[i]="Epsilon";
-        }
+
+vector<string> LL1::removeSubstr(const vector<string>& vec, const string& str) {
+    vector<string> result;
+
+    for (const auto& s : vec) {
+        string substrResult = s.substr(str.size());
+        result.emplace_back(remove_extra_spaces(substrResult.empty() ? "Epsilon" : substrResult));
     }
+
     return result;
 }
 
-void LL1::get_parsing_table() {
-    for(pair<string,string> p:grammer_rules){
-        rules_map.insert({p.first, split_on_spacial_chars(p.second,regex(R"([\|])"))});
+void LL1::getParsingTable() {
+    for (const auto& p : Grammar_rules) {
+        rules_map.insert({p.first, split_on_spacial_chars(p.second, regex(R"([\|])"))});
     }
-    get_first_sets();
-    get_follow_sets();
-    create_table();
-    write_table_results();
+
+    getFirstSets();
+    getFollowSets();
+    createTable();
+    writeTableResults();
 }
 
-void LL1::get_first_sets(){
+void LL1::getFirstSets() {
     stack<string> s;
-    for (auto const&[key, val]: rules_map) {
-        first_sets.insert({key,set<string>{}});
+
+    for (auto it = rules_map.begin(); it != rules_map.end(); ++it) {
+        const auto& key = it->first;
+        const auto& val = it->second;
+        first_sets.insert({key, set<string>{}});
     }
-    for (auto const&[key, val]: rules_map) {
+
+    for (auto it = rules_map.begin(); it != rules_map.end(); ++it) {
+        const auto& key = it->first;
+        const auto& val = it->second;
         s.push(key);
-        while(!s.empty()){
-            first_for_one_key(key,s);
+        while (!s.empty()) {
+            firstForOneKey(key, s);
         }
     }
-
 }
-void LL1::get_follow_sets(){
-    map<string,vector<string>> graph = get_graph();
-    follow_sets[grammer_rules[0].first].insert("$");
+
+void LL1::getFollowSets() {
+    map<string, vector<string>> graph = getGraph();
+    follow_sets[Grammar_rules[0].first].insert("$");
     vector<string> order = topological_sort(graph);
-    for(string str:order){
-        get_follow_for_one_key(str,graph);
+
+    for (auto it = order.begin(); it != order.end(); ++it) {
+        const auto& str = *it;
+        getFollowForOneKey(str, graph);
     }
 }
 
-void LL1::create_table(){
-    for(auto const&[key, val]: rules_map) {
-        for(string production:val){
-            if (production.find("|") != string::npos)continue;
-            if(production.find("Epsilon") != string::npos) continue;
-            vector<string> prod_parts = split_on_spacial_chars(production,regex(R"([\s]+)"));
-            if(is_terminal(prod_parts[0])){
-                if(table[key].count(prod_parts[0])!=0)cout<<"Not LL(1)"<<endl;
-                table[key][prod_parts[0]]=remove_extra_spaces(production);
-            } else{
-                for(string terminal:first_sets[prod_parts[0]]){
-                    if(table[key].count(terminal)!=0)cout<<"Not LL(1)"<<endl;
-                    table[key][terminal]=remove_extra_spaces(production);
+void LL1::createTable() {
+    for (auto it = rules_map.begin(); it != rules_map.end(); ++it) {
+        const auto& key = it->first;
+        const auto& val = it->second;
+
+        for (auto itProd = val.begin(); itProd != val.end(); ++itProd) {
+            const auto& production = *itProd;
+            if (production.find("|") != string::npos) continue;
+            if (production.find("Epsilon") != string::npos) continue;
+            vector<string> prod_parts = split_on_spacial_chars(production, regex(R"([\s]+)"));
+
+            if (isTerminal(prod_parts[0])) {
+                if (table[key].count(prod_parts[0]) != 0) cout << "Not LL(1)" << endl;
+                table[key][prod_parts[0]] = remove_extra_spaces(production);
+            } else {
+                for (const string &terminal : first_sets[prod_parts[0]]) {
+                    if (table[key].count(terminal) != 0) cout << "Not LL(1)" << endl;
+                    table[key][terminal] = remove_extra_spaces(production);
                 }
             }
         }
-        bool eps=has_epsilon(rules_map[key]);
-        for(string follow:follow_sets[key]){
-            if (table[key].count(follow)==0 || table[key][follow]=="Sync") {
+
+        bool eps = hasEpsilon(val);
+        for (const string &follow : follow_sets[key]) {
+            if (table[key].count(follow) == 0 || table[key][follow] == "Sync") {
                 table[key][follow] = eps ? "Epsilon" : "Sync";
-            }
-            else if(eps && table[key][follow]!="Epsilon"){
-                cout << "Not LL(1) : Non-terminal("+key+") under input ("+follow+") has production ("+ table[key][follow] +") Then neglect the coming production (Epsilon)"<< endl;
+            } else if (eps && table[key][follow] != "Epsilon") {
+                cout << "Not LL(1) : Non-terminal(" + key + ") under input (" + follow + ") has production (" +
+                        table[key][follow] + ") Then neglect the coming production (Epsilon)" << endl;
             }
         }
     }
 }
-void LL1::first_for_one_key(const string& key, stack <string>& s) {
-    string current_key=s.top();
+
+void LL1::firstForOneKey(const string& key, stack<string>& s) {
+    string current_key = s.top();
     s.pop();
-    vector<string> productions = rules_map[current_key];
-    for(string p:productions){
-        if (p.find("|") != string::npos)continue;
-        vector<string> prod_parts = split_on_spacial_chars(p,regex(R"([\s]+)"));
-        if(is_terminal(prod_parts[0])){
-            if(prod_parts[0].find("Epsilon") != string::npos) {
-                if(has_epsilon(rules_map[key])) {
-                    first_sets.at(key).insert(prod_parts[0]);
+    const vector<string>& productions = rules_map[current_key];
+
+    for (const string& p : productions) {
+        if (p.find("|") != string::npos) continue;
+
+        vector<string> prod_parts = split_on_spacial_chars(p, regex(R"([\s]+)"));
+        const string& firstSymbol = prod_parts[0];
+
+        if (isTerminal(firstSymbol)) {
+            if (firstSymbol.find("Epsilon") != string::npos) {
+                if (hasEpsilon(rules_map[key])) {
+                    first_sets[key].insert(firstSymbol);
                 }
+            } else {
+                first_sets[key].insert(firstSymbol);
             }
-            else{
-                first_sets.at(key).insert(prod_parts[0]);
-            }
-        }else{
-            s.push(prod_parts[0]);
-            int i;
-            for(i=0;i<prod_parts.size();i++){
-                if(has_epsilon(rules_map[prod_parts[i]]) && (i+1)<prod_parts.size()){
-                    s.push(prod_parts[i+1]);
-                }else{
+        } else {
+            s.push(firstSymbol);
+            int i = 0;
+            while (i < prod_parts.size() && hasEpsilon(rules_map[prod_parts[i]])) {
+                if ((i + 1) < prod_parts.size()) {
+                    s.push(prod_parts[i + 1]);
+                    ++i;
+                } else {
                     break;
                 }
             }
-            if(i==prod_parts.size()-1 && has_epsilon(rules_map[prod_parts[i]])){
-                first_sets.at(key).insert("Epsilon");
+
+            if (i == prod_parts.size() - 1 && hasEpsilon(rules_map[prod_parts[i]])) {
+                first_sets[key].insert("Epsilon");
             }
         }
     }
 }
 
-bool LL1::is_terminal(string str) {
+bool LL1::isTerminal(string str) {
     regex terminal(R"('.*')");
     return regex_match(str,terminal)||str.find("Epsilon") != string::npos;
 }
 
-bool LL1::has_epsilon(vector<string> prods) {
+bool LL1::hasEpsilon(vector<string> prods) {
     for (string s:prods) {
         s=remove_spaces(s);
         if(s.find("Epsilon") != string::npos)return true;
@@ -260,46 +311,68 @@ bool LL1::has_epsilon(vector<string> prods) {
  * @brief get the right most non-terminal for each non-terminal
  * @return
  */
-map<string,vector<string>> LL1::get_graph(){
-    map<string,vector<string>> right_most;
-    for(auto const&[key, val]:rules_map){
-        right_most.insert({key,vector<string>{}});
-        for(string prod:val){
-            vector<string> prod_parts = split_on_spacial_chars(prod,regex(R"([\s]+)"));
-            for(int j=prod_parts.size()-1;j>=0;j--){
-                if(prod_parts[j].find("Epsilon") != string::npos||prod_parts[j].find("|") != string::npos||is_terminal(prod_parts[j])) {
+map<string, vector<string>> LL1::getGraph() {
+    map<string, vector<string>> right_most;
+
+    for (auto it = rules_map.begin(); it != rules_map.end(); ++it) {
+        const string& key = it->first;
+        const vector<string>& val = it->second;
+
+        right_most[key] = {};
+
+        for (auto prod_it = val.begin(); prod_it != val.end(); ++prod_it) {
+            const string& prod = *prod_it;
+            vector<string> prod_parts = split_on_spacial_chars(prod, regex(R"([\s]+)"));
+
+            for (int j = prod_parts.size() - 1; j >= 0; --j) {
+                if (prod_parts[j].find("Epsilon") != string::npos || prod_parts[j].find("|") != string::npos || isTerminal(prod_parts[j])) {
                     break;
                 }
-                if(prod_parts[j]!=key) {
+
+                if (prod_parts[j] != key) {
                     right_most[key].push_back(prod_parts[j]);
                 }
-                if (!has_epsilon(rules_map[prod_parts[j]]))
+
+                if (!hasEpsilon(rules_map[prod_parts[j]])) {
                     break;
+                }
             }
         }
     }
+
     return right_most;
 }
 
-void LL1::get_follow_for_one_key(string str, map<string,vector<string>> right_most) {
-    for (auto const &[key, val]: rules_map) {
-        for (string prod: val) {
-            if (prod.find("|") != string::npos)continue;
-            vector <string> prod_parts = split_on_spacial_chars(prod, regex(R"([\s]+)"));
+void LL1::getFollowForOneKey(string str, map<string, vector<string>> right_most) {
+    for (auto it = rules_map.begin(); it != rules_map.end(); ++it) {
+        const string& key = it->first;
+        const vector<string>& val = it->second;
+
+        for (auto prod_it = val.begin(); prod_it != val.end(); ++prod_it) {
+            const string& prod = *prod_it;
+
+            if (prod.find("|") != string::npos) {
+                continue;
+            }
+
+            vector<string> prod_parts = split_on_spacial_chars(prod, regex(R"([\s]+)"));
+
             for (int i = 1; i < prod_parts.size(); i++) {
                 if (prod_parts[i - 1] == str) {
-                    if (is_terminal(prod_parts[i])) {
+                    if (isTerminal(prod_parts[i])) {
                         follow_sets[str].insert(prod_parts[i]);
                     } else {
-                        follow_sets[str].insert(first_sets[prod_parts[i]].begin(), first_sets[prod_parts[i]].end());//
+                        follow_sets[str].insert(first_sets[prod_parts[i]].begin(), first_sets[prod_parts[i]].end());
                     }
-                    if(follow_sets[str].find("Epsilon")!=follow_sets[str].end())
+
+                    if (follow_sets[str].find("Epsilon") != follow_sets[str].end()) {
                         follow_sets[str].erase("Epsilon");
+                    }
                 }
             }
 
-            if(search_in_vector(right_most[key],str)){//
-                follow_sets[str].insert(follow_sets[key].begin(),follow_sets[key].end());//
+            if (search_in_vector(right_most[key], str)) {
+                follow_sets[str].insert(follow_sets[key].begin(), follow_sets[key].end());
             }
         }
     }
@@ -319,7 +392,7 @@ vector<string> LL1::LL1_parse(string input, stack<string>& s) {
                 return result;
             }
         }
-        if(is_terminal(top)){
+        if(isTerminal(top)){
             if(top[0]=='\''){
                 if(top.substr(1, input.size())==input){
                     s.pop();
@@ -362,56 +435,56 @@ vector<string> LL1::LL1_parse(string input, stack<string>& s) {
     return result;
 }
 
-void LL1::print_grammer_rules(){
-    for(pair<string,string>p:grammer_rules){
+void LL1::printGrammarRules(){
+    for(pair<string,string>p:Grammar_rules){
         cout<<p.first+" = "+p.second<<endl;
     }
 
 }
-void LL1::write_grammer_rules(string title){
-    fstream fout;
-    fout.open(output_path,ios::out | ios::app);
-    fout<<"\n"+title<<"\n";
-    for(pair<string,string>p:grammer_rules){
-        fout<<p.first+","+p.second<<"\n";
+
+void LL1::writeGrammarRules(const string& title) {
+    fstream outFile(output_path, ios::out | ios::app);
+    outFile << "\n" + title << "\n";
+
+    for (const auto& rule : Grammar_rules) {
+        outFile << rule.first << "," << rule.second << "\n";
     }
-    fout<<"\n";
-    fout.flush();
-    fout.close();
+
+    outFile << "\n";
+    outFile.flush();
+    outFile.close();
 }
-void LL1::write_table_results(){
-    fstream fout;
-    fout.open(output_path,ios::out | ios::app);
-    fout<<"\nFirst_sets"<<"\n";
 
-    for(pair<string,set<string>>p:first_sets){
-        fout<<p.first+",";
-        for(string s:p.second){
-            fout<<s+" ";
+void LL1::writeTableResults() {
+    fstream outFile(output_path, ios::out | ios::app);
+
+    outFile << "\nFirst_sets\n";
+    for (auto it = first_sets.begin(); it != first_sets.end(); ++it) {
+        outFile << it->first << ",";
+        for (auto setIt = it->second.begin(); setIt != it->second.end(); ++setIt) {
+            outFile << *setIt + " ";
         }
-        fout<<"\n";
+        outFile << "\n";
     }
-    fout<<"\nFollow_sets:"<<"\n";
 
-    for(pair<string,set<string>>p:follow_sets){
-        fout<<p.first+",";
-        for(string s:p.second){
-            fout<<s+" ";
+    outFile << "\nFollow_sets:\n";
+    for (auto it = follow_sets.begin(); it != follow_sets.end(); ++it) {
+        outFile << it->first << ",";
+        for (auto setIt = it->second.begin(); setIt != it->second.end(); ++setIt) {
+            outFile << *setIt + " ";
         }
-        fout<<"\n";
+        outFile << "\n";
     }
-    fout<<"\nParsing table:"<<"\n";
 
-
-    for(auto const&[key, val]:table){
-        fout<<key+"\n";
-        for(auto const&[key_2, val_2]:val){
-            fout<<" ,"+key_2+","+val_2+"\n";
+    outFile << "\nParsing table:\n";
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        outFile << it->first << "\n";
+        for (auto prodIt = it->second.begin(); prodIt != it->second.end(); ++prodIt) {
+            outFile << " ," + prodIt->first + "," + prodIt->second + "\n";
         }
     }
-    fout<<"\n";
 
-    fout.flush();
-    fout.close();
-
+    outFile << "\n";
+    outFile.flush();
+    outFile.close();
 }

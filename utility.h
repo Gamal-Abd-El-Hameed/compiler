@@ -4,7 +4,7 @@
 
 
 static int id_generator=0;
-static string output_path=R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/result.txt)";
+static string output_path=R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/result.txt)";
 
 static string remove_spaces(string input) {
     input.erase(remove(input.begin(), input.end(), ' '), input.end());
@@ -237,17 +237,19 @@ static vector<string> topological_sort(map<string,vector<string>>graph )
     stack<string> Stack;
     // Mark all the vertices as not visited
     map<string,bool> visited;
-    for(auto const &[key, val]:graph){
-        visited.insert({key,false});
+    for(auto it = graph.begin(); it != graph.end(); it++) {
+        visited.insert({it->first, false});
     }
 
     // Call the recursive helper function
     // to store Topological
     // Sort starting from all
     // vertices one by one
-    for (auto const &[key, val]:graph)
+    for (auto it = graph.begin(); it != graph.end(); it++) {
+        string key = it->first;
         if (!visited[key])
             topological_sortUtil(key, visited, Stack,graph);
+    }
 
     // Print contents of stack
     while (!Stack.empty()) {

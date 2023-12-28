@@ -8,15 +8,15 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mahmoud/MyComputer/compiler-lastnight/compiler/DFA.cpp" "CMakeFiles/compiler.dir/DFA.cpp.o" "gcc" "CMakeFiles/compiler.dir/DFA.cpp.o.d"
-  "/home/mahmoud/MyComputer/compiler-lastnight/compiler/InputReader.cpp" "CMakeFiles/compiler.dir/InputReader.cpp.o" "gcc" "CMakeFiles/compiler.dir/InputReader.cpp.o.d"
-  "/home/mahmoud/MyComputer/compiler-lastnight/compiler/LL1.cpp" "CMakeFiles/compiler.dir/LL1.cpp.o" "gcc" "CMakeFiles/compiler.dir/LL1.cpp.o.d"
-  "/home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA.cpp" "CMakeFiles/compiler.dir/NFA.cpp.o" "gcc" "CMakeFiles/compiler.dir/NFA.cpp.o.d"
-  "/home/mahmoud/MyComputer/compiler-lastnight/compiler/NFA_Generator.cpp" "CMakeFiles/compiler.dir/NFA_Generator.cpp.o" "gcc" "CMakeFiles/compiler.dir/NFA_Generator.cpp.o.d"
-  "/home/mahmoud/MyComputer/compiler-lastnight/compiler/RulesReader.cpp" "CMakeFiles/compiler.dir/RulesReader.cpp.o" "gcc" "CMakeFiles/compiler.dir/RulesReader.cpp.o.d"
-  "/home/mahmoud/MyComputer/compiler-lastnight/compiler/SetStates.cpp" "CMakeFiles/compiler.dir/SetStates.cpp.o" "gcc" "CMakeFiles/compiler.dir/SetStates.cpp.o.d"
-  "/home/mahmoud/MyComputer/compiler-lastnight/compiler/State.cpp" "CMakeFiles/compiler.dir/State.cpp.o" "gcc" "CMakeFiles/compiler.dir/State.cpp.o.d"
-  "/home/mahmoud/MyComputer/compiler-lastnight/compiler/main.cpp" "CMakeFiles/compiler.dir/main.cpp.o" "gcc" "CMakeFiles/compiler.dir/main.cpp.o.d"
+  "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/DFA.cpp" "CMakeFiles/compiler.dir/DFA.cpp.o" "gcc" "CMakeFiles/compiler.dir/DFA.cpp.o.d"
+  "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/InputReader.cpp" "CMakeFiles/compiler.dir/InputReader.cpp.o" "gcc" "CMakeFiles/compiler.dir/InputReader.cpp.o.d"
+  "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/LL1.cpp" "CMakeFiles/compiler.dir/LL1.cpp.o" "gcc" "CMakeFiles/compiler.dir/LL1.cpp.o.d"
+  "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/NFA.cpp" "CMakeFiles/compiler.dir/NFA.cpp.o" "gcc" "CMakeFiles/compiler.dir/NFA.cpp.o.d"
+  "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/NFA_Generator.cpp" "CMakeFiles/compiler.dir/NFA_Generator.cpp.o" "gcc" "CMakeFiles/compiler.dir/NFA_Generator.cpp.o.d"
+  "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/RulesReader.cpp" "CMakeFiles/compiler.dir/RulesReader.cpp.o" "gcc" "CMakeFiles/compiler.dir/RulesReader.cpp.o.d"
+  "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/SetStates.cpp" "CMakeFiles/compiler.dir/SetStates.cpp.o" "gcc" "CMakeFiles/compiler.dir/SetStates.cpp.o.d"
+  "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/State.cpp" "CMakeFiles/compiler.dir/State.cpp.o" "gcc" "CMakeFiles/compiler.dir/State.cpp.o.d"
+  "/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/main.cpp" "CMakeFiles/compiler.dir/main.cpp.o" "gcc" "CMakeFiles/compiler.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
