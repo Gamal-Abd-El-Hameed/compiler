@@ -4,7 +4,7 @@
 
 
 static int id_generator=0;
-static string output_path=R"(/media/gamal/01D5257AA3420B70/semester/compilers/project/compiler/result.txt)";
+static string output_path=R"(/home/mahmoud/MyComputer/compiler-lastnight/compiler/result.txt)";
 
 static string remove_spaces(string input) {
     input.erase(remove(input.begin(), input.end(), ' '), input.end());

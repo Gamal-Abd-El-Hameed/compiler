@@ -29,6 +29,9 @@ public:
     map<string,vector<string>> get_graph();
     void get_follow_for_one_key(string str,map<string,vector<string>> right_most);
     void create_table();
+    void write_grammer_rules(string title);
+    void print_grammer_rules();
+    void write_table_results();
 
     vector<string> LL1_parse(string input, stack<string>& s);
 };

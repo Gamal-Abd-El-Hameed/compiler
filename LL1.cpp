@@ -27,6 +27,10 @@ void LL1::removeLR() {
         }
         eliminate_immediate_LR(i);
     }
+    cout<<"\nAfter eliminate Left Recursion:"<<endl;
+    cout<<"_______________________________\n"<<endl;
+    print_grammer_rules();
+    write_grammer_rules("After eliminate Left Recursion:");
 }
 void  LL1::eliminate_immediate_LR(int rule_index){
     pair<string,string> rule=grammer_rules[rule_index];
@@ -119,6 +123,10 @@ void LL1::left_factor() {
         }
         grammer_rules[index].second = refactored.substr(0, refactored.size() - 1);
     }
+    cout<<"\nAfter Left Factoring:"<<endl;
+    cout<<"_____________________\n"<<endl;
+    print_grammer_rules();
+    write_grammer_rules("After Left Factoring:");
 }
 
 string LL1::get_match_substr(string group, string p){
@@ -150,6 +158,7 @@ void LL1::get_parsing_table() {
     get_first_sets();
     get_follow_sets();
     create_table();
+    write_table_results();
 }
 
 void LL1::get_first_sets(){
@@ -314,6 +323,7 @@ vector<string> LL1::LL1_parse(string input, stack<string>& s) {
             if(top[0]=='\''){
                 if(top.substr(1, input.size())==input){
                     s.pop();
+                    result.push_back("Matched "+top);
                     flag = false;
                 }else{
                     result.push_back("Error: missing "+ top + ", inserted");
@@ -350,4 +360,58 @@ vector<string> LL1::LL1_parse(string input, stack<string>& s) {
         }
     }
     return result;
+}
+
+void LL1::print_grammer_rules(){
+    for(pair<string,string>p:grammer_rules){
+        cout<<p.first+" = "+p.second<<endl;
+    }
+
+}
+void LL1::write_grammer_rules(string title){
+    fstream fout;
+    fout.open(output_path,ios::out | ios::app);
+    fout<<"\n"+title<<"\n";
+    for(pair<string,string>p:grammer_rules){
+        fout<<p.first+","+p.second<<"\n";
+    }
+    fout<<"\n";
+    fout.flush();
+    fout.close();
+}
+void LL1::write_table_results(){
+    fstream fout;
+    fout.open(output_path,ios::out | ios::app);
+    fout<<"\nFirst_sets"<<"\n";
+
+    for(pair<string,set<string>>p:first_sets){
+        fout<<p.first+",";
+        for(string s:p.second){
+            fout<<s+" ";
+        }
+        fout<<"\n";
+    }
+    fout<<"\nFollow_sets:"<<"\n";
+
+    for(pair<string,set<string>>p:follow_sets){
+        fout<<p.first+",";
+        for(string s:p.second){
+            fout<<s+" ";
+        }
+        fout<<"\n";
+    }
+    fout<<"\nParsing table:"<<"\n";
+
+
+    for(auto const&[key, val]:table){
+        fout<<key+"\n";
+        for(auto const&[key_2, val_2]:val){
+            fout<<" ,"+key_2+","+val_2+"\n";
+        }
+    }
+    fout<<"\n";
+
+    fout.flush();
+    fout.close();
+
 }
