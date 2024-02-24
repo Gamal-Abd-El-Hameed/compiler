@@ -1,6 +1,7 @@
 #include "LL1.h"
 #include "utility.h"
 
+bool debug = true;
 void LL1::readFile(const string& filepath) {
     ifstream inFile(filepath);
     string str;
@@ -31,6 +32,7 @@ void LL1::eliminateLeftRecursion() {
 
     printGrammarRules();
     writeGrammarRules("After eliminating Left Recursion:");
+    cout << "_________________________________\n" << endl;
 }
 
 void LL1::eliminateImmediateLeftRecursion(int rule_index) {
@@ -149,6 +151,7 @@ void LL1::leftFactor() {
     cout << "_____________________\n" << endl;
     printGrammarRules();
     writeGrammarRules("After Left Factoring:");
+    cout << "_________________________________\n" << endl;
 }
 
 string LL1::getMatchSubstr(const string& group, const string& p) {
@@ -396,7 +399,8 @@ vector<string> LL1::LL1_parse(string input, stack<string>& s) {
             if(top[0]=='\''){
                 if(top.substr(1, input.size())==input){
                     s.pop();
-                    result.push_back("Matched "+top);
+                    if (debug)
+                        result.push_back("Matched "+top);
                     flag = false;
                 }else{
                     result.push_back("Error: missing "+ top + ", inserted");
@@ -416,7 +420,8 @@ vector<string> LL1::LL1_parse(string input, stack<string>& s) {
             }
             string production=table[top][terminal];
             if(production=="Sync"){
-                result.push_back("Sync");
+                if (debug)
+                    result.push_back("Sync");
                 s.pop();
             }
             else if(production=="Epsilon"){

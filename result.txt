@@ -1,0 +1,200 @@
+
+After eliminating Left Recursion:
+METHOD_BODY, STATEMENT_LIST
+STATEMENT_LIST,STATEMENT STATEMENT_LIST_dashLR 
+STATEMENT,DECLARATION   | IF   | WHILE   | ASSIGNMENT
+DECLARATION,PRIMITIVE_TYPE 'id' ';'
+PRIMITIVE_TYPE,'int'     | 'float'
+IF,'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}'
+WHILE,'while' '(' EXPRESSION ')' '{' STATEMENT '}'
+ASSIGNMENT,'id' 'assign' EXPRESSION ';'
+EXPRESSION,SIMPLE_EXPRESSION         | SIMPLE_EXPRESSION 'relop' SIMPLE_EXPRESSION
+SIMPLE_EXPRESSION,TERM SIMPLE_EXPRESSION_dashLR |SIGN TERM SIMPLE_EXPRESSION_dashLR 
+TERM,FACTOR TERM_dashLR 
+FACTOR,'id'            | 'num'            | '(' EXPRESSION ')'
+SIGN,'+'             | '-'
+STATEMENT_LIST_dashLR,'int'      'id' ';' STATEMENT_LIST_dashLR         | 'float' 'id' ';' STATEMENT_LIST_dashLR         | 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST_dashLR        | 'while' '(' EXPRESSION ')' '{' STATEMENT '}' STATEMENT_LIST_dashLR       | 'id' 'assign' EXPRESSION ';' STATEMENT_LIST_dashLR      | Epsilon
+SIMPLE_EXPRESSION_dashLR,'addop' TERM SIMPLE_EXPRESSION_dashLR               | Epsilon
+TERM_dashLR,'mulop' FACTOR TERM_dashLR                | Epsilon
+
+
+After Left Factoring:
+METHOD_BODY,STATEMENT_LIST 
+STATEMENT_LIST,STATEMENT STATEMENT_LIST_dashLR 
+STATEMENT,ASSIGNMENT |DECLARATION    |IF    |WHILE    
+DECLARATION,PRIMITIVE_TYPE 'id' ';' 
+PRIMITIVE_TYPE,'float' |'int'      
+IF,'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' 
+WHILE,'while' '(' EXPRESSION ')' '{' STATEMENT '}' 
+ASSIGNMENT,'id' 'assign' EXPRESSION ';' 
+EXPRESSION,SIMPLE_EXPRESSION SIMPLE_EXPRESSION_dashLF 
+SIMPLE_EXPRESSION,SIGN TERM SIMPLE_EXPRESSION_dashLR |TERM SIMPLE_EXPRESSION_dashLR  
+TERM,FACTOR TERM_dashLR 
+FACTOR,'(' EXPRESSION ')' |'id'             |'num'             
+SIGN,'+' |'-' 
+STATEMENT_LIST_dashLR,'float' 'id' ';' STATEMENT_LIST_dashLR |'id' 'assign' EXPRESSION ';' STATEMENT_LIST_dashLR       |'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST_dashLR         |'int'      'id' ';' STATEMENT_LIST_dashLR          |'while' '(' EXPRESSION ')' '{' STATEMENT '}' STATEMENT_LIST_dashLR        |Epsilon 
+SIMPLE_EXPRESSION_dashLR,'addop' TERM SIMPLE_EXPRESSION_dashLR |Epsilon 
+TERM_dashLR,'mulop' FACTOR TERM_dashLR |Epsilon 
+SIMPLE_EXPRESSION_dashLF,'relop' SIMPLE_EXPRESSION 
+
+
+First_sets
+ASSIGNMENT,'id' 
+DECLARATION,'float' 'int' 
+EXPRESSION,'(' '+' '-' 'id' 'num' 
+FACTOR,'(' 'id' 'num' 
+IF,'if' 
+METHOD_BODY,'float' 'id' 'if' 'int' 'while' 
+PRIMITIVE_TYPE,'float' 'int' 
+SIGN,'+' '-' 
+SIMPLE_EXPRESSION,'(' '+' '-' 'id' 'num' 
+SIMPLE_EXPRESSION_dashLF,'relop' 
+SIMPLE_EXPRESSION_dashLR,'addop' Epsilon 
+STATEMENT,'float' 'id' 'if' 'int' 'while' 
+STATEMENT_LIST,'float' 'id' 'if' 'int' 'while' 
+STATEMENT_LIST_dashLR,'float' 'id' 'if' 'int' 'while' Epsilon 
+TERM,'(' 'id' 'num' 
+TERM_dashLR,'mulop' Epsilon 
+WHILE,'while' 
+
+Follow_sets:
+ASSIGNMENT,$ 'float' 'id' 'if' 'int' 'while' '}' 
+DECLARATION,$ 'float' 'id' 'if' 'int' 'while' '}' 
+EXPRESSION,')' ';' 
+FACTOR,')' ';' 'addop' 'mulop' 'relop' 
+IF,$ 'float' 'id' 'if' 'int' 'while' '}' 
+METHOD_BODY,$ 
+PRIMITIVE_TYPE,'id' 
+SIGN,'(' 'id' 'num' 
+SIMPLE_EXPRESSION,')' ';' 'relop' 
+SIMPLE_EXPRESSION_dashLF,')' ';' 
+SIMPLE_EXPRESSION_dashLR,')' ';' 'relop' 
+STATEMENT,$ 'float' 'id' 'if' 'int' 'while' '}' 
+STATEMENT_LIST,$ 
+STATEMENT_LIST_dashLR,$ 
+TERM,')' ';' 'addop' 'relop' 
+TERM_dashLR,')' ';' 'addop' 'relop' 
+WHILE,$ 'float' 'id' 'if' 'int' 'while' '}' 
+
+Parsing table:
+ASSIGNMENT
+ ,$,Sync
+ ,'float',Sync
+ ,'id','id' 'assign' EXPRESSION ';'
+ ,'if',Sync
+ ,'int',Sync
+ ,'while',Sync
+ ,'}',Sync
+DECLARATION
+ ,$,Sync
+ ,'float',PRIMITIVE_TYPE 'id' ';'
+ ,'id',Sync
+ ,'if',Sync
+ ,'int',PRIMITIVE_TYPE 'id' ';'
+ ,'while',Sync
+ ,'}',Sync
+EXPRESSION
+ ,'(',SIMPLE_EXPRESSION SIMPLE_EXPRESSION_dashLF
+ ,')',Sync
+ ,'+',SIMPLE_EXPRESSION SIMPLE_EXPRESSION_dashLF
+ ,'-',SIMPLE_EXPRESSION SIMPLE_EXPRESSION_dashLF
+ ,';',Sync
+ ,'id',SIMPLE_EXPRESSION SIMPLE_EXPRESSION_dashLF
+ ,'num',SIMPLE_EXPRESSION SIMPLE_EXPRESSION_dashLF
+FACTOR
+ ,'(','(' EXPRESSION ')'
+ ,')',Sync
+ ,';',Sync
+ ,'addop',Sync
+ ,'id','id'
+ ,'mulop',Sync
+ ,'num','num'
+ ,'relop',Sync
+IF
+ ,$,Sync
+ ,'float',Sync
+ ,'id',Sync
+ ,'if','if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}'
+ ,'int',Sync
+ ,'while',Sync
+ ,'}',Sync
+METHOD_BODY
+ ,$,Sync
+ ,'float',STATEMENT_LIST
+ ,'id',STATEMENT_LIST
+ ,'if',STATEMENT_LIST
+ ,'int',STATEMENT_LIST
+ ,'while',STATEMENT_LIST
+PRIMITIVE_TYPE
+ ,'float','float'
+ ,'id',Sync
+ ,'int','int'
+SIGN
+ ,'(',Sync
+ ,'+','+'
+ ,'-','-'
+ ,'id',Sync
+ ,'num',Sync
+SIMPLE_EXPRESSION
+ ,'(',TERM SIMPLE_EXPRESSION_dashLR
+ ,')',Sync
+ ,'+',SIGN TERM SIMPLE_EXPRESSION_dashLR
+ ,'-',SIGN TERM SIMPLE_EXPRESSION_dashLR
+ ,';',Sync
+ ,'id',TERM SIMPLE_EXPRESSION_dashLR
+ ,'num',TERM SIMPLE_EXPRESSION_dashLR
+ ,'relop',Sync
+SIMPLE_EXPRESSION_dashLF
+ ,')',Sync
+ ,';',Sync
+ ,'relop','relop' SIMPLE_EXPRESSION
+SIMPLE_EXPRESSION_dashLR
+ ,')',Epsilon
+ ,';',Epsilon
+ ,'addop','addop' TERM SIMPLE_EXPRESSION_dashLR
+ ,'relop',Epsilon
+STATEMENT
+ ,$,Sync
+ ,'float',DECLARATION
+ ,'id',ASSIGNMENT
+ ,'if',IF
+ ,'int',DECLARATION
+ ,'while',WHILE
+ ,'}',Sync
+STATEMENT_LIST
+ ,$,Sync
+ ,'float',STATEMENT STATEMENT_LIST_dashLR
+ ,'id',STATEMENT STATEMENT_LIST_dashLR
+ ,'if',STATEMENT STATEMENT_LIST_dashLR
+ ,'int',STATEMENT STATEMENT_LIST_dashLR
+ ,'while',STATEMENT STATEMENT_LIST_dashLR
+STATEMENT_LIST_dashLR
+ ,$,Epsilon
+ ,'float','float' 'id' ';' STATEMENT_LIST_dashLR
+ ,'id','id' 'assign' EXPRESSION ';' STATEMENT_LIST_dashLR
+ ,'if','if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST_dashLR
+ ,'int','int' 'id' ';' STATEMENT_LIST_dashLR
+ ,'while','while' '(' EXPRESSION ')' '{' STATEMENT '}' STATEMENT_LIST_dashLR
+TERM
+ ,'(',FACTOR TERM_dashLR
+ ,')',Sync
+ ,';',Sync
+ ,'addop',Sync
+ ,'id',FACTOR TERM_dashLR
+ ,'num',FACTOR TERM_dashLR
+ ,'relop',Sync
+TERM_dashLR
+ ,')',Epsilon
+ ,';',Epsilon
+ ,'addop',Epsilon
+ ,'mulop','mulop' FACTOR TERM_dashLR
+ ,'relop',Epsilon
+WHILE
+ ,$,Sync
+ ,'float',Sync
+ ,'id',Sync
+ ,'if',Sync
+ ,'int',Sync
+ ,'while','while' '(' EXPRESSION ')' '{' STATEMENT '}'
+ ,'}',Sync
+
